@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="122" height="122" viewBox="0 0 122 122">
+    <defs>
+        <clipPath id="clip-path">
+            <path id="사각형_3332" data-name="사각형 3332" style="fill:#c5e0fb" d="M0 0h122v122H0z"/>
+        </clipPath>
+        <style>
+            .cls-4,.cls-5{fill:#007fff}.cls-4{stroke:#fff;stroke-linecap:round;stroke-linejoin:round;stroke-width:5px}
+        </style>
+    </defs>
+    <g id="icon" style="opacity:.205;clip-path:url(#clip-path)">
+        <circle id="타원_645" data-name="타원 645" cx="59.082" cy="59.082" r="59.082" transform="translate(1.885 1.884)" style="stroke-width:6px;stroke:#fff;stroke-linecap:round;stroke-linejoin:round;fill:#007fff"/>
+        <path id="패스_7650" data-name="패스 7650" class="cls-4" d="M32.461 135.128a39.948 39.948 0 0 1 26.855-22.637" transform="translate(-7.993 -27.698)"/>
+        <path id="패스_7651" data-name="패스 7651" class="cls-4" d="M93.944 112.559a39.951 39.951 0 0 1 26.528 22.308" transform="translate(-23.131 -27.715)"/>
+        <path id="패스_7652" data-name="패스 7652" class="cls-4" d="M72.615 93.534h0a26.059 26.059 0 0 1-25.983-25.983V53.6a25.983 25.983 0 1 1 51.965 0v13.951a26.059 26.059 0 0 1-25.982 25.983z" transform="translate(-11.482 -6.801)"/>
+        <path id="패스_7653" data-name="패스 7653" class="cls-5" d="M100.522 47.24c0-.063.01-.124.01-.187h-.014a28.849 28.849 0 0 0-57.686 0h-.014c0 .063.008.124.009.187 0 .126-.009.25-.009.376h.029a15.3 15.3 0 0 0 28.828 6.579 15.3 15.3 0 0 0 28.825-6.579h.029c0-.126-.008-.25-.01-.376" transform="translate(-10.543 -4.626)"/>
+        <path id="패스_7654" data-name="패스 7654" class="cls-4" d="M100.522 47.24c0-.063.01-.124.01-.187h-.014a28.849 28.849 0 0 0-57.686 0h-.014c0 .063.008.124.009.187 0 .126-.009.25-.009.376h.029a15.3 15.3 0 0 0 28.828 6.579 15.3 15.3 0 0 0 28.825-6.579h.029c.003-.126-.005-.25-.007-.376z" transform="translate(-10.543 -4.626)"/>
+        <path id="패스_7655" data-name="패스 7655" class="cls-5" d="M69.507 86.919a3.519 3.519 0 1 1-3.518-3.519 3.519 3.519 0 0 1 3.519 3.519" transform="translate(-15.382 -20.535)"/>
+        <path id="패스_7656" data-name="패스 7656" class="cls-5" d="M96.56 86.919a3.519 3.519 0 1 1-3.518-3.519 3.519 3.519 0 0 1 3.519 3.519" transform="translate(-22.043 -20.535)"/>
+        <path id="패스_7657" data-name="패스 7657" class="cls-4" d="M43.391 87.134a8.573 8.573 0 1 1 0-17.145" transform="translate(-8.573 -17.233)"/>
+        <path id="패스_7658" data-name="패스 7658" class="cls-4" d="M115.571 69.989a8.573 8.573 0 1 1 0 17.145" transform="translate(-28.457 -17.233)"/>
+        <path id="패스_7659" data-name="패스 7659" class="cls-4" d="M84.9 96.6a5.647 5.647 0 0 1-11.293 0" transform="translate(-18.125 -23.785)"/>
+        <path id="패스_7660" data-name="패스 7660" class="cls-4" d="M86.7 116.039a8.645 8.645 0 0 1-17.289 0" transform="translate(-17.091 -28.572)"/>
+    </g>
+</svg>
