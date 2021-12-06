@@ -1,4 +1,5 @@
 import React, { useCallback, useState } from "react";
+import { useDispatch } from "react-redux";
 import styled, { css } from "styled-components";
 var re =
   /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
@@ -82,6 +83,7 @@ const Wrapper = styled.section`
 `;
 
 function Email() {
+  const dispatch = useDispatch();
   const [isClear, setIsClear] = useState(false);
   const __check = useCallback((email) => {
     if (re.test(email)) {
@@ -90,6 +92,12 @@ function Email() {
       setIsClear(false);
     }
   }, []);
+  const __sendEmail = useCallback(() => {
+    dispatch({
+      type: "POPUP/POS",
+      payload: true,
+    });
+  }, [dispatch]);
   return (
     <Wrapper isClear={isClear}>
       <div className="title">이메일 인증 후 다운로드</div>
@@ -124,7 +132,7 @@ function Email() {
           }}
         />
       </div>
-      <button>
+      <button onClick={__sendEmail}>
         <div className="title">인증메일 요청</div>
         <figure>
           <img src="/assets/main/arrow.svg" alt="" />

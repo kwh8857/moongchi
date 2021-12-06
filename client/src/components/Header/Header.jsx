@@ -5,7 +5,7 @@ import styled from "styled-components";
 const arr = [
   { title: "미리보기", to: "/look" },
   { title: "고객문의", to: "/ask" },
-  { title: "공지사항", to: "/" },
+  { title: "공지사항", to: "/notice" },
   { title: "블로그", to: "/" },
 ];
 

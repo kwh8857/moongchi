@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useCallback } from "react";
 import styled from "styled-components";
-
+import { useNavigate } from "react-router-dom";
 const Wrapper = styled.section`
   & > .container {
     display: flex;
@@ -47,12 +47,24 @@ const Wrapper = styled.section`
 `;
 
 function Search({ type }) {
+  const navigate = useNavigate();
+  const navAsk = useCallback(() => {
+    navigate("/write");
+  }, [navigate]);
   return (
     <Wrapper>
       <div className="container">
         <div className="left">
-          <div className="title">{type === "ask" ? "고객문의" : "뭐임"}</div>
-          {type === "ask" ? <button>문의글 작성</button> : undefined}
+          <div className="title">
+            {type === "ask"
+              ? "고객문의"
+              : type === "notice"
+              ? "공지사항"
+              : "뭐임"}
+          </div>
+          {type === "ask" ? (
+            <button onClick={navAsk}>문의글 작성</button>
+          ) : undefined}
         </div>
         <div className="right">
           <input type="text" placeholder="검색어를 입력해주세요" />

@@ -7,6 +7,8 @@ import Footer from "./Footer/Footer";
 import Look from "./Look/Look";
 import Ask from "./Ask/Ask";
 import Posdown from "./Posdown/Posdown";
+import WriteAsk from "./WriteAsk/WriteAsk";
+import Notice from "./Notice/Notice";
 function App() {
   return (
     <Router>
@@ -16,6 +18,8 @@ function App() {
         <Route path="/look" exact element={<Look />} />
         <Route path="/ask" exact element={<Ask />} />
         <Route path="/down" exact element={<Posdown />} />
+        <Route path="/write" exact element={<WriteAsk />} />
+        <Route path="/notice" exact element={<Notice />} />
       </Routes>
       <Footer />
     </Router>

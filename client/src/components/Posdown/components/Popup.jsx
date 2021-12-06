@@ -1,7 +1,18 @@
-import React from "react";
+import React, { useCallback } from "react";
 import styled from "styled-components";
-
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 const Wrapper = styled.section`
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
   position: absolute;
   width: 100%;
   height: 100%;
@@ -10,6 +21,7 @@ const Wrapper = styled.section`
   display: flex;
   align-items: center;
   justify-content: center;
+
   & > .back {
     width: 100%;
     height: 100%;
@@ -19,6 +31,7 @@ const Wrapper = styled.section`
     top: 0;
   }
   & > .box {
+    animation: fadeIn 0.4s;
     position: relative;
     z-index: 200;
     width: 502px;
@@ -60,6 +73,7 @@ const Wrapper = styled.section`
       color: #191f28;
     }
     & > .send {
+      cursor: pointer;
       width: 249px;
       height: 54px;
       border-radius: 57px;
@@ -67,15 +81,35 @@ const Wrapper = styled.section`
       display: flex;
       align-items: center;
       color: white;
+      padding: 0 20px 0 25px;
+      box-sizing: border-box;
+      justify-content: space-between;
+      font-size: 18px;
+      font-weight: bold;
+      margin-top: 33px;
     }
   }
 `;
 function Popup() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const __navMain = useCallback(() => {
+    navigate("/");
+  }, [navigate]);
+
   return (
     <Wrapper>
       <div className="back" />
       <div className="box">
-        <button className="cancel">
+        <button
+          className="cancel"
+          onClick={() => {
+            dispatch({
+              type: "POPUP/POS",
+              payload: false,
+            });
+          }}
+        >
           <figure>
             <img src="/assets/down/cancel.svg" alt="" />
           </figure>
@@ -88,7 +122,7 @@ function Popup() {
           입력해주신 이메일로 인증메일을 전송했습니다. <br /> 확인 후 다운로드
           링크로 접속해주세요
         </div>
-        <button className="send">
+        <button className="send" onClick={__navMain}>
           <div>메인으로</div>
           <figure>
             <img src="/assets/main/arrow.svg" alt="" />

@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Email from "./components/Email";
 import Popup from "./components/Popup";
-
+import { useSelector } from "react-redux";
 const Wrapper = styled.main`
   width: 100%;
   height: 100%;
@@ -47,6 +47,7 @@ const Wrapper = styled.main`
   }
 `;
 function Posdown() {
+  const isPopup = useSelector((state) => state.config.popup.ispos);
   return (
     <Wrapper>
       <div className="container">
@@ -72,7 +73,7 @@ function Posdown() {
         </div>
         <Email />
       </div>
-      <Popup />
+      {isPopup ? <Popup /> : undefined}
     </Wrapper>
   );
 }

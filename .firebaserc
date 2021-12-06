@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "moogchi"
+  },
+  "targets": {
+    "moogchi": {
+      "hosting": {
+        "client": [
+          "moogchi-client"
+        ]
+      }
+    }
+  }
+}
