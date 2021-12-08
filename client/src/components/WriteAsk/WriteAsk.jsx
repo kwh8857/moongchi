@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
+import Editor from "../Editor/Editor";
 import Infoinsert from "./components/Infoinsert";
+import Template from "./components/Template";
 
 const arr = [
   {
@@ -79,6 +81,7 @@ function WriteAsk() {
             );
           })}
         </div>
+        <Template />
       </div>
     </Wrapper>
   );

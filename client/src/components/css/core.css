@@ -20,6 +20,19 @@ a {
   -ms-overflow-style: none;
 }
 
+* [contenteditable=true]:empty:before {
+  content: attr(placeholder);
+  color: #bfbfbf;
+}
+
+* [placeholder]:empty:focus::before {
+  content: "";
+}
+
+u {
+  text-decoration: underline;
+}
+
 html,
 body {
   width: 100%;

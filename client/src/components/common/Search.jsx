@@ -60,7 +60,7 @@ function Search({ type }) {
               ? "고객문의"
               : type === "notice"
               ? "공지사항"
-              : "뭐임"}
+              : "블로그"}
           </div>
           {type === "ask" ? (
             <button onClick={navAsk}>문의글 작성</button>
