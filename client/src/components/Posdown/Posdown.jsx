@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Email from "./components/Email";
-import Popup from "./components/Popup";
+import Popup from "../common/Popup";
 import { useSelector } from "react-redux";
 const Wrapper = styled.main`
   width: 100%;
