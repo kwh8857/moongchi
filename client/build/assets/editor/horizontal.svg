@@ -1,0 +1,19 @@
+<svg id="image_temp1" data-name="image temp1" xmlns="http://www.w3.org/2000/svg" width="89" height="33">
+    <defs>
+        <style>
+            .cls-3{fill:none;stroke:#dbdbdb;stroke-linecap:round}
+        </style>
+    </defs>
+    <g id="사각형_869" data-name="사각형 869" style="stroke:#dbdbdb;fill:none">
+        <rect width="89" height="33" rx="5" style="stroke:none"/>
+        <rect x=".5" y=".5" width="88" height="32" rx="4.5" style="fill:none"/>
+    </g>
+    <g id="그룹_947" data-name="그룹 947" transform="translate(10 10)">
+        <path id="사각형_870" data-name="사각형 870" style="fill:#dbdbdb" d="M0 0h14v13H0z"/>
+        <path id="선_75" data-name="선 75" class="cls-3" transform="translate(16.5 .5)" d="M0 0h9.588"/>
+        <path id="선_76" data-name="선 76" class="cls-3" transform="translate(16.5 4.577)" d="M0 0h9.588"/>
+        <path id="선_77" data-name="선 77" class="cls-3" transform="translate(16.5 8.654)" d="M0 0h9.588"/>
+        <path id="선_79" data-name="선 79" class="cls-3" transform="translate(16.5 12.5)" d="M0 0h9.588"/>
+    </g>
+    <text id="좌우형" transform="translate(45 7)" style="fill:#898989;font-size:12px;font-family:NotoSansCJKkr-Regular,Noto Sans CJK KR"><tspan x="0" y="14">좌우형</tspan></text>
+</svg>

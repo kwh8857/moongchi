@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
@@ -63,6 +63,10 @@ const Wrapper = styled.header`
 function Header() {
   const location = useLocation();
   const navigate = useNavigate();
+  useEffect(() => {
+    document.getElementById("root").scrollTo(0, 0);
+    return () => {};
+  }, [location]);
   return (
     <Wrapper>
       <figure
