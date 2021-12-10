@@ -15,8 +15,9 @@ const Wrapper = styled.div`
   display: flex;
   border-bottom: solid 1px #dbdbdb;
   align-items: center;
-  position: absolute;
+  position: sticky;
   z-index: 3000;
+
   button {
     background-color: unset;
   }

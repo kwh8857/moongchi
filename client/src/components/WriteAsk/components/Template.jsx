@@ -11,6 +11,7 @@ const Wrapper = styled.section`
   margin-top: 44.3px;
   position: relative;
   overflow: hidden;
+  overflow-y: scroll;
 `;
 function Template() {
   return (

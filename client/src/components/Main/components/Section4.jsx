@@ -11,7 +11,7 @@ const Wrapper = styled.section`
     display: flex;
     align-items: center;
     & > .left {
-      margin-right: 158px;
+      margin-right: 14px;
       & > figure {
         width: 112px;
         height: 112px;
@@ -57,8 +57,8 @@ const Wrapper = styled.section`
     }
     & > .right {
       & > img {
-        width: 482.4px;
-        height: 507px;
+        width: 667px;
+        height: 523.6px;
       }
     }
   }
@@ -86,8 +86,8 @@ function Section4() {
         </div>
         <figure className="right">
           <img
-            src="/assets/main/section3/phone.png"
-            srcSet="/assets/main/section3/phone@2x.png 2x , /assets/main/section3/phone@3x.png 3x"
+            src="/assets/main/section4/pos.png"
+            srcSet="/assets/main/section4/pos@2x.png 2x , /assets/main/section4/pos@3x.png 3x"
             alt=""
           />
         </figure>

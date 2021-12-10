@@ -2,40 +2,11 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Resizer from "react-image-file-resizer";
 import { __UPDATE_LOADING__ } from "../../../common/actionTypes";
-import firebaseApp from "../../../config/firebaseApp";
 
-const Fstorage = firebaseApp.storage();
-const Fdatabase = firebaseApp.database();
 function Insert({ temKey, category, state, uid, urlList, agent }) {
   const dispatch = useDispatch();
   const template = useSelector((state) => state.database.editor);
   const [dummy, setdummy] = useState([]);
-  const __imageUpload = useCallback(
-    (data64, name, resize) => {
-      return new Promise((resolve, reject) => {
-        const data = data64.split(",")[1];
-        const redata = resize.split(",")[1];
-        Fstorage.ref(`${category}/${temKey}/${name}.jpeg`)
-          .putString(data, "base64", {
-            contentType: "image/jpeg",
-          })
-          .then((result) => {
-            result.ref.getDownloadURL().then((downloadUrl) => {
-              Fstorage.ref(`${category}/${temKey}/${name}-resize.jpeg`)
-                .putString(redata, "base64", {
-                  contentType: "image/jpeg",
-                })
-                .then((result) => {
-                  result.ref.getDownloadURL().then((resizeUrl) => {
-                    resolve({ url: downloadUrl, resize: resizeUrl });
-                  });
-                });
-            });
-          });
-      });
-    },
-    [temKey, category]
-  );
   const __fileReader = useCallback((file) => {
     return new Promise((resolve, reject) => {
       var reader = new FileReader();
@@ -85,34 +56,23 @@ function Insert({ temKey, category, state, uid, urlList, agent }) {
       base64.then((result) => {
         Promise.all(
           result.map(({ url, name, resize, width, height }) => {
-            const po = __imageUpload(url, name, resize).then((result) => {
-              return {
-                type: "image",
-                content: result,
-                width,
-                height,
-                id: `image-${
-                  new Date().getTime() -
-                  Math.floor(Math.random() * (100 - 1 + 1)) +
-                  1
-                }`,
-              };
-            });
-            return po;
+            return {
+              type: "image",
+              content: {
+                url,
+                resize,
+              },
+              width,
+              height,
+              id: `image-${
+                new Date().getTime() -
+                Math.floor(Math.random() * (100 - 1 + 1)) +
+                1
+              }`,
+            };
           })
         ).then((result) => {
           const arr = template.slice();
-          // if (state === "new") {
-          //   Fdatabase.ref(`users/${uid}/save/${category}`).update({
-          //     templates: [...arr, ...result],
-          //   });
-          // } else {
-          //   const urlArr = result.map((item) => item.content);
-          //   Fdatabase.ref(`users/${uid}/urlList`).update([
-          //     ...urlList,
-          //     ...urlArr,
-          //   ]);
-          // }
           const res = [...arr, ...result];
           dispatch({
             type: "@layouts/CHANGE_EDITOR",
@@ -125,16 +85,7 @@ function Insert({ temKey, category, state, uid, urlList, agent }) {
         });
       });
     },
-    [
-      __imageUpload,
-      __fileReader,
-      template,
-      dispatch,
-      category,
-      state,
-      uid,
-      urlList,
-    ]
+    [__fileReader, template, dispatch, category, state, uid, urlList]
   );
   useEffect(() => {
     if (agent !== "mobile") {

@@ -21,6 +21,7 @@ const Wrapper = styled.header`
   align-items: center;
   padding: 0 74px;
   box-sizing: border-box;
+  z-index: 9000;
   & > figure {
     cursor: pointer;
     width: 158.6px;

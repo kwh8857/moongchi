@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import Editor from "../Editor/Editor";
 import Infoinsert from "./components/Infoinsert";
+import InitBtn from "./components/InitBtn";
 import Template from "./components/Template";
 
 const arr = [
@@ -9,21 +9,25 @@ const arr = [
     title: "게시글 제목",
     type: "title",
     placeholder: "제목을 입력해주세요",
+    patcher: "@layouts/ASK_TITLE",
   },
   {
     title: "이름",
     type: "name",
     placeholder: "",
+    patcher: "@layouts/ASK_NAME",
   },
   {
     title: "비밀번호",
     type: "password",
     placeholder: "4자리 숫자 입력",
+    patcher: "@layouts/ASK_PASSWORD",
   },
   {
     title: "연락처",
     type: "tel",
     placeholder: "숫자만 입력",
+    patcher: "@layouts/ASK_TIMESTAMP",
   },
 ];
 
@@ -67,16 +71,17 @@ function WriteAsk() {
       <div className="container">
         <div className="title-wrapper">
           <div className="title">문의하기</div>
-          <button>등록</button>
+          <InitBtn />
         </div>
         <div className="info-wrapper">
-          {arr.map(({ type, title, placeholder }, idx) => {
+          {arr.map(({ type, title, placeholder, patcher }, idx) => {
             return (
               <Infoinsert
                 key={idx}
                 type={type}
                 title={title}
                 placeholder={placeholder}
+                patcher={patcher}
               />
             );
           })}

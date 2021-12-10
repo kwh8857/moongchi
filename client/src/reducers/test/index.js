@@ -1,10 +1,4 @@
 const initialState = {
-  tempo: [
-    {
-      type: "CONTENT",
-      content: "",
-    },
-  ],
   editor: {
     bold: false,
     color: undefined,
@@ -86,38 +80,6 @@ const test = (state = initialState, { type, payload, index }) => {
           ...state.editor,
           bold: payload,
         },
-      };
-    }
-    case "@test/ADD_CONTENT": {
-      // const arr = [...state.tempo]
-      // arr.splice(index, 0, payload)
-      return {
-        ...state,
-        tempo: payload,
-      };
-    }
-    case "@test/UPDATE_CONTENT": {
-      let arr = [...state.tempo];
-      arr[index].content = payload;
-      return {
-        ...state,
-        tempo: [...arr],
-      };
-    }
-    case "@test/ADD_REF": {
-      let arr = [...state.tempo];
-      arr[index].ref = payload;
-      return {
-        ...state,
-        tempo: [...arr],
-      };
-    }
-    case "@test/DELETE_CONTENT": {
-      let arr = [...state.tempo];
-      arr.splice(index, 1);
-      return {
-        ...state,
-        tempo: [...arr],
       };
     }
     case "@test/TESTING": {

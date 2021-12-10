@@ -1,10 +1,7 @@
-import firebaseApp from "firebase/app";
-import "firebase/auth";
-import "firebase/database";
-import "firebase/storage";
-import "firebase/analytics";
-import "firebase/performance";
-
+import firebaseApp from "firebase/compat/app";
+import "firebase/compat/auth";
+import "firebase/compat/firestore";
+import "firebase/compat/storage";
 const firebaseConfig = {
   apiKey: "AIzaSyCcbHL2jYrslvb-c0FlD-Q_G3_wHQQZ-fw",
   authDomain: "moogchi.firebaseapp.com",
@@ -16,8 +13,6 @@ const firebaseConfig = {
 };
 // Initialize Firebase
 firebaseApp.initializeApp(firebaseConfig);
-firebaseApp.analytics();
-firebaseApp.performance();
 
 // var firebaseConfig = {
 //   apiKey: "AIzaSyAJm2AUpe4PfgGbt722fYsmPJicbz0_5JE",

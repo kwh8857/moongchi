@@ -13,6 +13,7 @@ const Wrapper = styled.section`
     & > .container {
       display: flex;
       align-items: center;
+      justify-content: space-between;
       & > .left {
         & > .title {
           font-size: 46px;
@@ -30,6 +31,12 @@ const Wrapper = styled.section`
           font-weight: 500;
           line-height: 1.61;
           color: #191f28;
+        }
+      }
+      & > .right {
+        & > figure {
+          width: 444px;
+          height: 462px;
         }
       }
     }
@@ -95,6 +102,13 @@ function Section6() {
               있습니다.
             </div>
           </div>
+          <figure className="right">
+            <img
+              src="/assets/main/section6/stamp.png"
+              srcSet="/assets/main/section6/stamp@2x.png 2x,/assets/main/section6/stamp@3x.png 3x"
+              alt=""
+            />
+          </figure>
         </div>
       </div>
       <div className="bottom">

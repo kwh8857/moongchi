@@ -17,8 +17,8 @@ const Wrapper = styled.div`
   text-align: left;
   width: 100%;
   height: 100%;
+  padding: 80px 20px 0 20px;
   box-sizing: border-box;
-  padding-top: 80px;
   #text-line {
     width: 100%;
     min-height: 30px;
@@ -181,30 +181,27 @@ function Screen({
     (idx, resize, url) => {
       const arr = template.slice();
       arr.splice(idx, 1);
-      if (state === "new") {
-        Fstorage.refFromURL(resize).delete();
-        Fstorage.refFromURL(url).delete();
-        Fdatabase.ref(`users/${uid}/save/${category}`).update({
-          templates: arr,
-        });
-      } else {
-        const List = urlList
-          .slice()
-          .filter((item) => item !== url || item !== resize);
-        if (List.length === urlList.length) {
-          dispatch({
-            type: "@layouts/INIT_DELETELIST",
-            payload: {
-              url,
-              resize,
-            },
-          });
-        } else {
-          Fstorage.refFromURL(resize).delete();
-          Fstorage.refFromURL(url).delete();
-          Fdatabase.ref(`users/${uid}/urlList`).set(List);
-        }
-      }
+      // if (state === "new") {
+      //   Fstorage.refFromURL(resize).delete();
+      //   Fstorage.refFromURL(url).delete();
+      // } else {
+      //   const List = urlList
+      //     .slice()
+      //     .filter((item) => item !== url || item !== resize);
+      //   if (List.length === urlList.length) {
+      //     dispatch({
+      //       type: "@layouts/INIT_DELETELIST",
+      //       payload: {
+      //         url,
+      //         resize,
+      //       },
+      //     });
+      //   } else {
+      //     Fstorage.refFromURL(resize).delete();
+      //     Fstorage.refFromURL(url).delete();
+      //     Fdatabase.ref(`users/${uid}/urlList`).set(List);
+      //   }
+      // }
       dispatch({
         type: "@layouts/CHANGE_EDITOR",
         payload: arr,
@@ -223,20 +220,6 @@ function Screen({
             const { resize, url } = nowTemplate.content;
             __deleteImage(foucsIdx, resize, url);
           }
-          // if (nowTemplate.type === 'video') {
-          //   Fstorage.refFromURL(nowTemplate.content).delete();
-          // }
-          // if (nowTemplate.type === 'SUMMARY') {
-          //   nowTemplate.content.images.forEach(({ resize, img }) => {
-          //     Fstorage.refFromURL(resize).delete();
-          //     Fstorage.refFromURL(img).delete();
-          //   });
-          // }
-
-          dispatch({
-            type: "@layouts/CHANGE_EDITOR",
-            payload: arr,
-          });
         } else {
           arr.splice(foucsIdx, 1);
           if (
