@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useCallback } from "react";
+import { useDispatch } from "react-redux";
 import styled, { css } from "styled-components";
 
 const Card = styled.div`
@@ -63,8 +64,25 @@ function AskCard({
   data: { status, title, name, password, tel, timestamp, templates },
   index,
 }) {
+  const dispatch = useDispatch();
+  const __openPassword = useCallback(() => {
+    dispatch({
+      type: "POPUP",
+      payload: {
+        ispos: true,
+        type: "password",
+        id: Date.now(),
+      },
+    });
+  }, []);
+
   return (
-    <Card status={status}>
+    <Card
+      status={status}
+      onClick={() => {
+        __openPassword();
+      }}
+    >
       <div className="left">
         <div className="number">{index}</div>
         <div className="status">{status ? "답변완료" : "미답변"}</div>

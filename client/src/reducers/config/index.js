@@ -7,6 +7,8 @@ const initialState = {
   isLoading: false,
   popup: {
     ispos: false,
+    type: "",
+    id: "",
   },
 };
 
@@ -27,13 +29,10 @@ const config = (state = initialState, action) => {
         ...state,
         error: action.error,
       };
-    case "POPUP/POS":
+    case "POPUP":
       return {
         ...state,
-        popup: {
-          ...state.popup,
-          ispos: action.payload,
-        },
+        popup: action.payload,
       };
     default:
       return state;

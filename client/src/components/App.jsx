@@ -11,6 +11,7 @@ import WriteAsk from "./WriteAsk/WriteAsk";
 import Notice from "./Notice/Notice";
 import Blog from "./Blog/Blog";
 import Detail from "./Detail/Detail";
+import Popup from "./common/Popup";
 function App() {
   return (
     <Router>
@@ -25,6 +26,7 @@ function App() {
         <Route path="/blog" exact element={<Blog />} />
         <Route path="/detail/:id" exact element={<Detail />} />
       </Routes>
+      <Popup />
       <Footer />
     </Router>
   );

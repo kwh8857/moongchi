@@ -94,8 +94,11 @@ function Email() {
   }, []);
   const __sendEmail = useCallback(() => {
     dispatch({
-      type: "POPUP/POS",
-      payload: true,
+      type: "POPUP",
+      payload: {
+        ispos: true,
+        type: "pos",
+      },
     });
   }, [dispatch]);
   return (
