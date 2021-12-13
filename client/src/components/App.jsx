@@ -24,7 +24,7 @@ function App() {
         <Route path="/write" exact element={<WriteAsk />} />
         <Route path="/notice" exact element={<Notice />} />
         <Route path="/blog" exact element={<Blog />} />
-        <Route path="/detail/:id" exact element={<Detail />} />
+        <Route path="/detail/:type/:id" exact element={<Detail />} />
       </Routes>
       <Popup />
       <Footer />

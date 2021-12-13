@@ -1,4 +1,5 @@
 import React from "react";
+import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 
 const Wrapper = styled.main`
@@ -7,7 +8,8 @@ const Wrapper = styled.main`
 `;
 
 function Detail() {
-  return <Wrapper></Wrapper>;
+  const location = useLocation();
+  return <Wrapper>메인</Wrapper>;
 }
 
 export default Detail;

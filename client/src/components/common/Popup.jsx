@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import PosPopup from "../Posdown/components/PosPopup";
+import AskPopup from "../Ask/components/AskPopup";
 const Wrapper = styled.section`
   @keyframes fadeIn {
     from {
@@ -14,6 +15,7 @@ const Wrapper = styled.section`
       transform: translateY(0);
     }
   }
+  z-index: 9500;
   position: absolute;
   width: 100%;
   height: 100%;
@@ -70,7 +72,11 @@ function Popup() {
   return ispos ? (
     <Wrapper>
       <div className="back" />
-      {type === "pos" ? <PosPopup __navMain={__navMain} /> : undefined}
+      {type === "pos" ? (
+        <PosPopup __navMain={__navMain} />
+      ) : (
+        <AskPopup id={id} />
+      )}
     </Wrapper>
   ) : (
     <></>
