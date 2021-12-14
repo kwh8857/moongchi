@@ -1,109 +1,8 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import List from "../common/List";
 import Search from "../common/Search";
-
-const arr = [
-  {
-    status: true,
-    title: "프로그램 사용법 문의드립니다",
-    name: "후뚜루",
-    password: 1234,
-    tel: "010-2567-3040",
-    timestamp: Date.now(),
-    templates: [],
-  },
-  {
-    status: true,
-    title: "프로그램 사용법 문의드립니다",
-    name: "후뚜루",
-    password: 1234,
-    tel: "010-2567-3040",
-    timestamp: Date.now(),
-    templates: [],
-  },
-  {
-    status: false,
-    title: "프로그램 사용법 문의드립니다",
-    name: "후뚜루",
-    password: 1234,
-    tel: "010-2567-3040",
-    timestamp: Date.now(),
-    templates: [],
-  },
-  {
-    status: false,
-    title: "프로그램 사용법 문의드립니다",
-    name: "후뚜루",
-    password: 1234,
-    tel: "010-2567-3040",
-    timestamp: Date.now(),
-    templates: [],
-  },
-  {
-    status: false,
-    title: "프로그램 사용법 문의드립니다",
-    name: "후뚜루",
-    password: 1234,
-    tel: "010-2567-3040",
-    timestamp: Date.now(),
-    templates: [],
-  },
-  {
-    status: false,
-    title: "프로그램 사용법 문의드립니다",
-    name: "후뚜루",
-    password: 1234,
-    tel: "010-2567-3040",
-    timestamp: Date.now(),
-    templates: [],
-  },
-  {
-    status: false,
-    title: "프로그램 사용법 문의드립니다",
-    name: "후뚜루",
-    password: 1234,
-    tel: "010-2567-3040",
-    timestamp: Date.now(),
-    templates: [],
-  },
-  {
-    status: false,
-    title: "프로그램 사용법 문의드립니다",
-    name: "후뚜루",
-    password: 1234,
-    tel: "010-2567-3040",
-    timestamp: Date.now(),
-    templates: [],
-  },
-  {
-    status: false,
-    title: "프로그램 사용법 문의드립니다",
-    name: "후뚜루",
-    password: 1234,
-    tel: "010-2567-3040",
-    timestamp: Date.now(),
-    templates: [],
-  },
-  {
-    status: false,
-    title: "프로그램 사용법 문의드립니다",
-    name: "후뚜루",
-    password: 1234,
-    tel: "010-2567-3040",
-    timestamp: Date.now(),
-    templates: [],
-  },
-  {
-    status: false,
-    title: "프로그램 사용법 문의드립니다",
-    name: "후뚜루",
-    password: 1234,
-    tel: "010-2567-3040",
-    timestamp: Date.now(),
-    templates: [],
-  },
-];
+import firebaseApp from "../config/firebaseApp";
 
 const Wrapper = styled.main`
   width: 100%;
@@ -154,8 +53,12 @@ const Wrapper = styled.main`
   }}
 `;
 
+const Fstore = firebaseApp.firestore();
+
 function Ask() {
-  const length = parseFloat(String(arr.length / 10));
+  const [original, setOriginal] = useState(undefined);
+  const [askList, setaskList] = useState([]);
+  const length = parseFloat(String(askList.length / 10));
   const [now, setNow] = useState(1);
   const __changePage = useCallback(
     (type) => {
@@ -167,13 +70,34 @@ function Ask() {
     },
     [now]
   );
+  useEffect(() => {
+    Fstore.collection("ask")
+      .get()
+      .then((res) => {
+        if (res) {
+          let arr = [];
+          res.forEach((item) => {
+            arr.push(
+              Object.assign(item.data(), { index: arr.length, key: item.id })
+            );
+          });
+          setOriginal(arr);
+          setaskList(arr);
+        }
+      });
+    return () => {};
+  }, []);
   return (
     <Wrapper
-      isNext={(length !== 0 && now < length) || now > length ? true : false}
+      isNext={
+        (length !== 0 && now < length) || (now > length && length > 1)
+          ? true
+          : false
+      }
     >
       <Search type="ask" />
       <div className="container">
-        <List type="ask" data={arr.slice(now - 1, 10)} />
+        <List type="ask" data={askList.slice(now - 1, 10)} />
         <div className="pager-wrapper">
           <figure
             onClick={() => {
@@ -183,7 +107,7 @@ function Ask() {
             <img src="/assets/common/left-arrow.svg" alt="" />
           </figure>
           <div className="pages">
-            {now > length ? (
+            {now > length && length > 1 ? (
               <div
                 className="next"
                 onClick={() => {

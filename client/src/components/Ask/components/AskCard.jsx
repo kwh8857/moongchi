@@ -60,10 +60,7 @@ const Card = styled.div`
     `;
   }}
 `;
-function AskCard({
-  data: { status, title, name, password, tel, timestamp, templates },
-  index,
-}) {
+function AskCard({ data: { status, title, password, key }, index }) {
   const dispatch = useDispatch();
   const __openPassword = useCallback(() => {
     dispatch({
@@ -71,10 +68,11 @@ function AskCard({
       payload: {
         ispos: true,
         type: "password",
-        id: Date.now(),
+        id: key,
+        password: password,
       },
     });
-  }, []);
+  }, [password, key]);
 
   return (
     <Card

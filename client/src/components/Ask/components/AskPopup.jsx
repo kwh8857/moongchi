@@ -43,24 +43,29 @@ const Init = styled.button`
   }}
 `;
 
-function AskPopup({ id }) {
+function AskPopup({ id, confirm }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [password, setPassword] = useState("");
 
   const __navDetail = useCallback(() => {
-    if (password.length === 4) {
-      navigate(`/detail/ask/${id}`);
+    if (parseInt(password) === confirm) {
+      navigate(`/detail/ask/${id}`, {
+        state: {
+          password,
+        },
+      });
       dispatch({
         type: "POPUP",
         payload: {
           ispos: false,
           type: "",
           id: "",
+          password: "",
         },
       });
     }
-  }, [password, id]);
+  }, [password, id, confirm]);
   return (
     <Box className="box">
       <button
@@ -72,6 +77,7 @@ function AskPopup({ id }) {
               ispos: false,
               type: "",
               id: "",
+              password: "",
             },
           });
         }}
@@ -94,7 +100,10 @@ function AskPopup({ id }) {
           setPassword(number);
         }}
       />
-      <Init isOn={password.length === 4 ? true : false} onClick={__navDetail}>
+      <Init
+        isOn={parseInt(password) === confirm ? true : false}
+        onClick={__navDetail}
+      >
         확인
       </Init>
     </Box>

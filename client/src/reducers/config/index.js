@@ -9,25 +9,16 @@ const initialState = {
     ispos: false,
     type: "",
     id: "",
+    password: "",
   },
 };
 
 const config = (state = initialState, action) => {
   switch (action.type) {
-    case actions.SEARCH:
+    case "LOADING":
       return {
         ...state,
-        payload: action.payload,
-      };
-    case actions.SEARCH_SUCCESS:
-      return {
-        ...state,
-        status: action.data,
-      };
-    case actions.SEARCH_FAIL:
-      return {
-        ...state,
-        error: action.error,
+        isLoading: action.payload,
       };
     case "POPUP":
       return {

@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import Email from "./components/Email";
-import Popup from "../common/Popup";
 const Wrapper = styled.main`
   width: 100%;
   height: 100%;

@@ -15,8 +15,6 @@ const initialState = {
     name: "",
     password: 0,
     tel: "",
-    status: false,
-    timestamp: 0,
   },
   focusIdx: 0,
   videolist: [],
@@ -25,6 +23,12 @@ const initialState = {
 };
 const database = (state = initialState, { type, payload, idx, index }) => {
   switch (type) {
+    case "@layouts/ASK_RESET": {
+      return {
+        ...state,
+        ask: initialState.ask,
+      };
+    }
     case "@layouts/ASK_TITLE": {
       return {
         ...state,
@@ -52,12 +56,12 @@ const database = (state = initialState, { type, payload, idx, index }) => {
         },
       };
     }
-    case "@layouts/ASK_TIMESTAMP": {
+    case "@layouts/ASK_TEL": {
       return {
         ...state,
         ask: {
           ...state.ask,
-          timestamp: payload,
+          tel: payload,
         },
       };
     }

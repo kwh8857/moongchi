@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import Loading from "../common/Loading";
 import Infoinsert from "./components/Infoinsert";
 import InitBtn from "./components/InitBtn";
 import Template from "./components/Template";
@@ -27,7 +28,7 @@ const arr = [
     title: "연락처",
     type: "tel",
     placeholder: "숫자만 입력",
-    patcher: "@layouts/ASK_TIMESTAMP",
+    patcher: "@layouts/ASK_TEL",
   },
 ];
 
@@ -42,19 +43,6 @@ const Wrapper = styled.main`
       align-items: center;
       & > .title {
         font-size: 40px;
-        font-weight: bold;
-      }
-      & > button {
-        cursor: pointer;
-        width: 148px;
-        height: 50px;
-        border-radius: 50px;
-        background-color: #dbdbdb;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        color: white;
-        font-size: 19px;
         font-weight: bold;
       }
     }
@@ -88,6 +76,7 @@ function WriteAsk() {
         </div>
         <Template />
       </div>
+      <Loading />
     </Wrapper>
   );
 }

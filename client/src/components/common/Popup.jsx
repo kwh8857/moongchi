@@ -64,7 +64,9 @@ const Wrapper = styled.section`
 function Popup() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { ispos, id, type } = useSelector((state) => state.config.popup);
+  const { ispos, id, type, password } = useSelector(
+    (state) => state.config.popup
+  );
   const __navMain = useCallback(() => {
     navigate("/");
   }, [navigate]);
@@ -75,7 +77,7 @@ function Popup() {
       {type === "pos" ? (
         <PosPopup __navMain={__navMain} />
       ) : (
-        <AskPopup id={id} />
+        <AskPopup id={id} confirm={password} />
       )}
     </Wrapper>
   ) : (
