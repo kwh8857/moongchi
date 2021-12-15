@@ -12,9 +12,34 @@ const initialState = {
   focusIdx: 0,
   videolist: [],
   deletelist: [],
+  answer: {
+    image: {
+      url: "",
+      name: "",
+    },
+    content: "",
+  },
 };
 const database = (state = initialState, { type, idx, payload, index }) => {
   switch (type) {
+    case "@database/ANSWER_IMAGE": {
+      return {
+        ...state,
+        answer: {
+          ...state.answer,
+          image: payload,
+        },
+      };
+    }
+    case "@database/ANSWER_CONTENT": {
+      return {
+        ...state,
+        answer: {
+          ...state.answer,
+          content: payload,
+        },
+      };
+    }
     case "@layouts/INIT_KEY": {
       return {
         ...state,
