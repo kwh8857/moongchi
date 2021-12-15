@@ -17,9 +17,9 @@ function List({ type, data }) {
     <Wrapper type={type}>
       {data.map((item, idx) => {
         return type === "ask" ? (
-          <AskCard key={idx} data={item} index={data.length - idx} />
+          <AskCard key={idx} data={item} />
         ) : (
-          <NoticeCard key={idx} data={item} index={data.length - idx} />
+          <NoticeCard key={idx} data={item} />
         );
       })}
     </Wrapper>

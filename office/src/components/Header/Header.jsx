@@ -52,7 +52,7 @@ function Header() {
       {location.pathname !== "/" ? (
         <div className="right">
           <Link to="/download">다운로드관리</Link>
-          <Link to="/main">고객문의관리</Link>
+          <Link to="/question">고객문의관리</Link>
           <Link to="/look">미리보기관리</Link>
           <Link to="/notice">공지사항관리</Link>
           <Link to="/notice">블로그 관리</Link>

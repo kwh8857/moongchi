@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 const Wrapper = styled.section`
   display: flex;
@@ -12,7 +12,24 @@ const Wrapper = styled.section`
   & > .right {
     transform: translateY(10px);
     display: flex;
-
+    & > .filter {
+      margin-right: 27px;
+      display: flex;
+      align-items: center;
+      & > button {
+        cursor: pointer;
+        width: 25px;
+        height: 25px;
+        border: solid 1px #dbdbdb;
+        background-color: white;
+        border-radius: 25px;
+        margin-right: 8px;
+      }
+      & > div {
+        font-size: 15px;
+        font-weight: bold;
+      }
+    }
     & > .btn-wrapper {
       display: grid;
       grid-template-columns: repeat(2, 153px);
@@ -63,13 +80,34 @@ const Wrapper = styled.section`
       }
     }
   }
+  ${(props) => {
+    return css`
+      & > .right {
+        & > .filter {
+          & > div {
+            color: ${props.isfilter ? "#007fff" : "#434343"};
+          }
+        }
+      }
+    `;
+  }}
 `;
 
-function Search({ title, type, placeholder, searching }) {
+function Search({ title, type, placeholder, searching, change, isfilter }) {
   return (
-    <Wrapper>
+    <Wrapper isfilter={isfilter}>
       <div className="title">{title}</div>{" "}
       <div className="right">
+        {type === "question" ? (
+          <div className="filter">
+            <button onClick={change}>
+              {isfilter ? (
+                <img src="/assets/question/blue-check.svg" alt="" />
+              ) : undefined}
+            </button>
+            <div>미답변 모아보기</div>
+          </div>
+        ) : undefined}
         {type === "look" ? (
           <div className="btn-wrapper">
             <button className="first">미리보기</button>

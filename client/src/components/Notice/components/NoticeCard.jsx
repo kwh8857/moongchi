@@ -42,11 +42,11 @@ const Card = styled.div`
     `;
   }}
 `;
-function NoticeCard({ data: { title, timestamp, isPin, isFile }, index }) {
+function NoticeCard({ data: { title, timestamp, isPin, isFile, index } }) {
   return (
     <Card isPin={isPin}>
       <div className="left">
-        <div className="number">{index}</div>
+        <div className="number">{index + 1}</div>
         <div className="title">{title}</div>
         <div className="icon">
           {isFile ? (

@@ -70,6 +70,18 @@ function Ask() {
     },
     [now]
   );
+  const __seaching = useCallback(
+    (e) => {
+      if (e.target.value) {
+        const arr = original.slice();
+        const filt = arr.filter(({ title }) => title.includes(e.target.value));
+        setaskList(filt);
+      } else {
+        setaskList(original);
+      }
+    },
+    [original]
+  );
   useEffect(() => {
     Fstore.collection("ask")
       .get()
@@ -81,6 +93,7 @@ function Ask() {
               Object.assign(item.data(), { index: arr.length, key: item.id })
             );
           });
+          arr.reverse();
           setOriginal(arr);
           setaskList(arr);
         }
@@ -95,7 +108,7 @@ function Ask() {
           : false
       }
     >
-      <Search type="ask" />
+      <Search type="ask" searching={__seaching} />
       <div className="container">
         <List type="ask" data={askList.slice(now - 1, 10)} />
         <div className="pager-wrapper">

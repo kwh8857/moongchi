@@ -60,7 +60,7 @@ const Card = styled.div`
     `;
   }}
 `;
-function AskCard({ data: { status, title, password, key }, index }) {
+function AskCard({ data: { status, title, password, key, index } }) {
   const dispatch = useDispatch();
   const __openPassword = useCallback(() => {
     dispatch({
@@ -82,7 +82,7 @@ function AskCard({ data: { status, title, password, key }, index }) {
       }}
     >
       <div className="left">
-        <div className="number">{index}</div>
+        <div className="number">{index + 1}</div>
         <div className="status">{status ? "답변완료" : "미답변"}</div>
         <div className="title">{title}</div>
         <figure>

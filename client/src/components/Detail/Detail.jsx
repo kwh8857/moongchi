@@ -7,7 +7,7 @@ import TitleSection from "./components/TitleSection";
 
 const Wrapper = styled.main`
   width: 100%;
-  height: 100%;
+  height: fit-content;
   padding-top: 140px;
 `;
 

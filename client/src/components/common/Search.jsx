@@ -46,7 +46,7 @@ const Wrapper = styled.section`
   }
 `;
 
-function Search({ type }) {
+function Search({ type, searching }) {
   const navigate = useNavigate();
   const navAsk = useCallback(() => {
     navigate("/write");
@@ -67,7 +67,11 @@ function Search({ type }) {
           ) : undefined}
         </div>
         <div className="right">
-          <input type="text" placeholder="검색어를 입력해주세요" />
+          <input
+            type="text"
+            placeholder="검색어를 입력해주세요"
+            onChange={searching}
+          />
           <figure>
             <img src="/assets/common/search.svg" alt="검색" />
           </figure>
