@@ -56,7 +56,7 @@ function Header() {
           <Link to="/look">미리보기관리</Link>
           <Link to="/notice">공지사항관리</Link>
           <Link to="/notice">블로그 관리</Link>
-          <Link to="/notice">팝업 관리</Link>
+          <Link to="/popup">팝업 관리</Link>
         </div>
       ) : undefined}
     </Wrapper>

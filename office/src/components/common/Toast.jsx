@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled, { css } from "styled-components";
 
 const Wrapper = styled.div`
@@ -27,18 +27,19 @@ const Wrapper = styled.div`
 `;
 
 function Toast() {
-  const msg = useSelector((state) => state.config.toast);
-  const [isOn, setIsOn] = useState(false);
+  const dispatch = useDispatch();
+  const { isactive, msg } = useSelector((state) => state.config.toast);
   useEffect(() => {
-    if (msg) {
-      setIsOn(true);
+    if (isactive) {
       setTimeout(() => {
-        setIsOn(false);
+        dispatch({
+          type: "@config/TOAST-OFF",
+        });
       }, 1500);
     }
     return () => {};
-  }, [msg]);
-  return <Wrapper isOn={isOn}>{msg}</Wrapper>;
+  }, [isactive, dispatch]);
+  return <Wrapper isOn={isactive}>{msg}</Wrapper>;
 }
 
 export default Toast;

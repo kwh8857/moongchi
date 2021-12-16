@@ -166,7 +166,10 @@ function AnswerBox({ id, status, answer }) {
         .then(() => {
           dispatch({
             type: "@config/TOAST",
-            payload: "답변이 등록되었습니다",
+            payload: {
+              isactive: true,
+              msg: "답변이 등록되었습니다",
+            },
           });
           dispatch({
             type: "@config/isLoading",

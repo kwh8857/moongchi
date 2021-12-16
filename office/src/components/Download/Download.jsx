@@ -37,6 +37,7 @@ function Download() {
   useEffect(() => {
     firestore
       .collection("download")
+      .orderBy("timestamp", "desc")
       .get()
       .then((res) => {
         if (res) {
@@ -44,6 +45,7 @@ function Download() {
           res.forEach((item) => {
             arr.push(Object.assign(item.data(), { index: arr.length }));
           });
+
           setOriginal(arr);
           setList(arr);
         }

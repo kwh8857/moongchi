@@ -3,7 +3,10 @@ const initialState = {
     version: "0.0.1",
     state: "test",
   },
-  toast: "",
+  toast: {
+    isactive: false,
+    msg: "",
+  },
   isLoading: false,
 };
 const config = (state = initialState, { type, payload }) => {
@@ -12,6 +15,15 @@ const config = (state = initialState, { type, payload }) => {
       return {
         ...state,
         isLoading: payload,
+      };
+    }
+    case "@config/TOAST-OFF": {
+      return {
+        ...state,
+        toast: {
+          ...state.toast,
+          isactive: false,
+        },
       };
     }
     case "@config/TOAST": {
