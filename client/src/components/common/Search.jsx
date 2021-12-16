@@ -68,6 +68,7 @@ function Search({ type, searching }) {
         </div>
         <div className="right">
           <input
+            autoComplete="off"
             type="text"
             placeholder="검색어를 입력해주세요"
             onChange={searching}

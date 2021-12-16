@@ -12,6 +12,7 @@ const myStore = createStore(
 );
 
 const persistor = persistStore(myStore);
+persistor.purge();
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={myStore}>

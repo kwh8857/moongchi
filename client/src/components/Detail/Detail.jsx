@@ -9,6 +9,7 @@ const Wrapper = styled.main`
   width: 100%;
   height: fit-content;
   padding-top: 140px;
+  padding-bottom: 166px;
 `;
 
 const Fstore = firebaseApp.firestore();
@@ -42,7 +43,7 @@ function Detail() {
             type={type}
             timestamp={data.timestamp}
           />
-          <TemplateView data={data.template} />
+          <TemplateView data={data.template} type={type} answer={data.answer} />
         </div>
       ) : undefined}
     </Wrapper>

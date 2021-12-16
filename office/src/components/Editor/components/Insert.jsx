@@ -3,12 +3,12 @@ import { useSelector, useDispatch } from "react-redux";
 import Resizer from "react-image-file-resizer";
 import firebaseApp from "../../config/firebaseApp";
 const dummy = [
-  { img: "summary", type: "SUMMARY" },
+  // { img: "summary", type: "SUMMARY" },
   { img: "temp", type: "IMAGE" },
   { img: "video", type: "VIDEO" },
   // { img: "youtube", type: "YOUTUBE" },
-  // { img: "link", type: "LINK" },
-  // { img: "file", type: "FILE" },
+  { img: "link", type: "LINK" },
+  { img: "file", type: "FILE" },
 ];
 
 const Fstorage = firebaseApp.storage();

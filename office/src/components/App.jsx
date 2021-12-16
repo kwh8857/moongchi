@@ -10,6 +10,8 @@ import Header from "./Header/Header";
 import Look from "./Look/Look";
 import Question from "./Question/Question";
 import Answer from "./Answer/Answer";
+import Loading from "./Editor/components/Loading";
+import Toast from "./common/Toast";
 function Navigation() {
   return (
     <Router>
@@ -24,6 +26,8 @@ function Navigation() {
         <Route path="/notice" exact component={Notice} />
         <Route path="/editor" exact component={Editor} />
       </Switch>
+      <Toast />
+      <Loading />
     </Router>
   );
 }

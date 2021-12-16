@@ -16,6 +16,8 @@ const initialState = {
     image: {
       url: "",
       name: "",
+      resize: "",
+      key: "",
     },
     content: "",
   },
@@ -31,13 +33,10 @@ const database = (state = initialState, { type, idx, payload, index }) => {
         },
       };
     }
-    case "@database/ANSWER_CONTENT": {
+    case "@database/ANSWER_RESET": {
       return {
         ...state,
-        answer: {
-          ...state.answer,
-          content: payload,
-        },
+        answer: initialState.answer,
       };
     }
     case "@layouts/INIT_KEY": {

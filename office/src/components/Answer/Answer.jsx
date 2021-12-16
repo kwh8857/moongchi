@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import AnswerBox from "./components/AnswerBox";
 import TemplateView from "./components/TemplateView";
@@ -14,10 +15,18 @@ const Wrapper = styled.main`
 function Answer({
   location: {
     state: {
-      data: { title, timestamp, name, tel, template },
+      data: { title, timestamp, name, tel, template, key, status, answer },
     },
   },
 }) {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    return () => {
+      dispatch({
+        type: "@database/ANSWER_RESET",
+      });
+    };
+  }, []);
   return (
     <Wrapper>
       <div className="container">
@@ -27,8 +36,8 @@ function Answer({
           name={name}
           tel={tel}
         />
-        <TemplateView data={template} />
-        <AnswerBox />
+        <TemplateView data={template} status={status} />
+        <AnswerBox id={key} answer={answer} />
       </div>
     </Wrapper>
   );

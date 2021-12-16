@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import styled from "styled-components";
 const Wrapper = styled.div`
   position: fixed;
-  z-index: 6000;
+  z-index: 9000;
   width: 100%;
   height: 100%;
   top: 0;

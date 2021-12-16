@@ -4,14 +4,16 @@ import { useNavigate } from "react-router-dom";
 import styled, { css } from "styled-components";
 
 const Box = styled.div`
-  & > input {
-    width: 310px;
-    height: 50px;
-    border-radius: 5px;
-    border: solid 1px #dbdbdb;
-    font-size: 16px;
-    padding: 0 17px;
-    box-sizing: border-box;
+  & > form {
+    & > input {
+      width: 310px;
+      height: 50px;
+      border-radius: 5px;
+      border: solid 1px #dbdbdb;
+      font-size: 16px;
+      padding: 0 17px;
+      box-sizing: border-box;
+    }
   }
   & > figure {
     width: 50px;
@@ -90,16 +92,19 @@ function AskPopup({ id, confirm }) {
         <img src="/assets/ask/blue-lock.svg" alt="" />
       </figure>
       <div className="title">게시글 암호 임력</div>
-      <input
-        type="password"
-        placeholder="암호 4자리 입력"
-        maxLength={4}
-        value={password}
-        onChange={(e) => {
-          const number = e.target.value.replace(/[^0-9-]/gi, "");
-          setPassword(number);
-        }}
-      />
+      <form autoComplete="off">
+        <input
+          type="password"
+          placeholder="암호 4자리 입력"
+          maxLength={4}
+          autoComplete="new-password"
+          value={password}
+          onChange={(e) => {
+            const number = e.target.value.replace(/[^0-9-]/gi, "");
+            setPassword(number);
+          }}
+        />
+      </form>
       <Init
         isOn={parseInt(password) === confirm ? true : false}
         onClick={__navDetail}

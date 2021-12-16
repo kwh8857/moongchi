@@ -9,16 +9,13 @@ import {
 import TemplateImage from "./Template/TemplateImage";
 import TemplateEmty from "./Template/TemplateEmty";
 import TemplateTitle from "./Template/TemplateTitle";
-// import TemplateLink from "./Template/TemplateLink";
+import TemplateLink from "./Template/TemplateLink";
 import TemplateVideo from "./Template/TemplateVideo";
-// import TemplateYoutube from "./Template/TemplateYoutube";
-import Summary from "./Template/Summary";
 resetServerContext();
 
 function Screen({ temKey, Fstore, Fstorage }) {
   const dispatch = useDispatch();
   const template = useSelector((state) => state.database.editor);
-  console.log(template);
   const [foucsIdx, setFoucsIdx] = useState(0);
   const handleOnDragEnd = useCallback(
     (result) => {
@@ -67,12 +64,6 @@ function Screen({ temKey, Fstore, Fstorage }) {
           }
           if (nowTemplate.type === "VIDEO") {
             Fstorage.refFromURL(nowTemplate.content).delete();
-          }
-          if (nowTemplate.type === "SUMMARY") {
-            nowTemplate.content.images.forEach(({ resize, img }) => {
-              Fstorage.refFromURL(resize).delete();
-              Fstorage.refFromURL(img).delete();
-            });
           }
           arr.splice(foucsIdx, 1);
           Fstore.collection("editor").doc(temKey).update({ template: arr });
@@ -139,20 +130,18 @@ function Screen({ temKey, Fstore, Fstorage }) {
                             __delete={__deleteTemplate}
                           />
                         );
-                      }
-                      //  else if (type === 'LINK' || type === 'FILE') {
-                      //   return (
-                      //     <TemplateLink
-                      //       key={idx}
-                      //       data={content}
-                      //       provided={provided}
-                      //       idx={idx}
-                      //       type={type}
-                      //       template={template}
-                      //     />
-                      //   );
-                      // }
-                      else if (type === "VIDEO") {
+                      } else if (type === "LINK" || type === "FILE") {
+                        return (
+                          <TemplateLink
+                            key={idx}
+                            data={content}
+                            provided={provided}
+                            idx={idx}
+                            type={type}
+                            template={template}
+                          />
+                        );
+                      } else if (type === "VIDEO") {
                         return (
                           <TemplateVideo
                             key={idx}
@@ -163,33 +152,7 @@ function Screen({ temKey, Fstore, Fstorage }) {
                             template={template}
                           />
                         );
-                      } else if (type === "SUMMARY") {
-                        return (
-                          <Summary
-                            key={idx}
-                            data={content}
-                            setFocus={setFoucsIdx}
-                            provided={provided}
-                            idx={idx}
-                            template={template}
-                            focusIdx={foucsIdx}
-                            id={id}
-                            temKey={temKey}
-                          />
-                        );
                       }
-                      // else if (type === 'YOUTUBE') {
-                      //   return (
-                      //     <TemplateYoutube
-                      //       key={idx}
-                      //       data={content}
-                      //       setFocus={setFoucsIdx}
-                      //       provided={provided}
-                      //       idx={idx}
-                      //       template={template}
-                      //     />
-                      //   );
-                      // }
                     }}
                   </Draggable>
                 );

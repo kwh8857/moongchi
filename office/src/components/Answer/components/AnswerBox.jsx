@@ -1,7 +1,13 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled, { css } from "styled-components";
 import Resizer from "react-image-file-resizer";
+import firebaseApp from "../../config/firebaseApp";
+import { useHistory } from "react-router-dom";
+
+const Fstore = firebaseApp.firestore();
+const Fstorage = firebaseApp.storage();
+
 const Wrapper = styled.div`
   height: 533px;
   width: 100%;
@@ -95,12 +101,82 @@ const Wrapper = styled.div`
   }}
 `;
 
-function AnswerBox() {
+function AnswerBox({ id, status, answer }) {
+  const history = useHistory();
   const dispatch = useDispatch();
+  const ContentRef = useRef(null);
   const {
-    image: { url, name },
-    content,
+    image: { url, name, resize },
   } = useSelector((state) => state.database.answer);
+  const __storageInit = useCallback((url, resize, id) => {
+    return new Promise((resolve, reject) => {
+      if (url.includes("firebase")) {
+        resolve({
+          url,
+          resize,
+        });
+      } else {
+        const data = url.split(",")[1];
+        const redata = resize.split(",")[1];
+        Fstorage.ref(`ask/${id}-asnwer`)
+          .putString(data, "base64", {
+            contentType: "image/jpeg",
+          })
+          .then((result) => {
+            result.ref.getDownloadURL().then((downloadUrl) => {
+              Fstorage.ref(`ask/${id}-answer-resize`)
+                .putString(redata, "base64", {
+                  contentType: "image/jpeg",
+                })
+                .then((res) => {
+                  res.ref.getDownloadURL().then((resizeUrl) => {
+                    resolve({
+                      url: downloadUrl,
+                      resize: resizeUrl,
+                    });
+                  });
+                });
+            });
+          });
+      }
+    });
+  }, []);
+
+  const __updateAnswer = useCallback(() => {
+    dispatch({
+      type: "@config/isLoading",
+      payload: true,
+    });
+    const content = ContentRef.current.value;
+    __storageInit(url, resize, id).then((res) => {
+      Fstore.collection("ask")
+        .doc(id)
+        .update({
+          answer: {
+            image: {
+              url: res.url,
+              resize: res.resize,
+              name,
+            },
+            content,
+            timestamp: Date.now(),
+          },
+          status: true,
+        })
+        .then(() => {
+          dispatch({
+            type: "@config/TOAST",
+            payload: "답변이 등록되었습니다",
+          });
+          dispatch({
+            type: "@config/isLoading",
+            payload: false,
+          });
+          history.goBack();
+        });
+    });
+  }, [ContentRef, __storageInit, url, resize, id, name]);
+
   const __fileReader = useCallback((file) => {
     return new Promise((resolve, reject) => {
       var reader = new FileReader();
@@ -135,7 +211,6 @@ function AnswerBox() {
   const __imageupload = useCallback(
     (e) => {
       __fileReader(e.target.files[0]).then((res) => {
-        console.log(res);
         dispatch({
           type: "@database/ANSWER_IMAGE",
           payload: res,
@@ -144,6 +219,16 @@ function AnswerBox() {
     },
     [__fileReader, dispatch]
   );
+  useEffect(() => {
+    if (answer && ContentRef) {
+      ContentRef.current.value = answer.content;
+      dispatch({
+        type: "@database/ANSWER_IMAGE",
+        payload: answer.image,
+      });
+    }
+    return () => {};
+  }, [ContentRef, status, answer]);
   return (
     <Wrapper isImage={url ? true : false}>
       <div className="title-wrapper">
@@ -152,7 +237,7 @@ function AnswerBox() {
         </figure>
         <div className="title">관리자 답변</div>
       </div>
-      <textarea placeholder="답변 입력" />
+      <textarea placeholder="답변 입력" ref={ContentRef} />
       <div className="insert-wrapper">
         <div>이미지첨부</div>
         <label className="image-insert">
@@ -168,7 +253,9 @@ function AnswerBox() {
           <div>{url ? name : "이미지를 첨부해주세요"}</div>
         </label>
       </div>
-      <button className="init">답변등록</button>
+      <button className="init" onClick={__updateAnswer}>
+        답변등록
+      </button>
     </Wrapper>
   );
 }
