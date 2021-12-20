@@ -1,11 +1,10 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { Link, useLocation } from "react-router-dom";
 
 const Wrapper = styled.div`
   width: 100%;
   position: fixed;
-  top: 0;
   height: 64px;
   border-bottom: solid 1px #dbdbdb;
   display: flex;
@@ -16,6 +15,7 @@ const Wrapper = styled.div`
   box-sizing: border-box;
   background-color: white;
   z-index: 1000;
+  transition: top 1.2s ease-in;
   & > a {
     display: flex;
     align-items: center;

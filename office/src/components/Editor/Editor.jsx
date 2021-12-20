@@ -13,11 +13,11 @@ import { Animation } from "../styles/Animation";
 import Loading from "./components/Loading";
 const Fstore = firebaseApp.firestore();
 const Fstorage = firebaseApp.storage();
+
 function Editor({ location }) {
   const dispatch = useDispatch();
   const history = useHistory();
   const { type, timestamp, category, id } = location.state;
-  console.log(id);
   const temKey = useSelector((state) => state.database.key);
   const template = useSelector((state) => state.database.editor);
 
@@ -50,55 +50,32 @@ function Editor({ location }) {
   const [isExit, setIsExit] = useState(false);
   const __updateData = useCallback(
     (path) => {
-      if (category === "portfolio") {
-        const { title, sub } = info;
-        const mainfilt = template.filter(({ type }) => type === "IMAGE");
-        Fstore.collection("editor")
-          .doc(temKey)
-          .update({
-            template: template,
-            title: title ? title : "임시저장",
-            sub: sub ? sub : "",
-            mainimg:
-              mainfilt.length > 0
-                ? mainfilt[0].content
-                : {
-                    resize:
-                      "https://firebasestorage.googleapis.com/v0/b/steadee-pf.appspot.com/o/editor%2Fbasic%2Fbasic-reszie.jpeg?alt=media&token=42033a61-6b83-4627-990d-9dc0c713a152",
-                    url: "https://firebasestorage.googleapis.com/v0/b/steadee-pf.appspot.com/o/editor%2Fbasic%2Fbasic.jpeg?alt=media&token=62440937-0aed-4387-8199-fa5c1c572b48",
-                  },
-          })
-          .then(() => {
-            setIsExit(true);
-            if (path) {
-              history.push(path);
-            }
-          });
-      } else {
-        const { title } = info;
-        Fstore.collection("editor")
-          .doc(temKey)
-          .update({
-            template: template,
-            title: title ? title : "임시저장",
-          })
-          .then(() => {
-            setIsExit(true);
-            if (path) {
-              history.push(path);
-            }
-          });
-      }
+      const { title } = info;
+      Fstore.collection(category)
+        .doc(temKey)
+        .update({
+          template: template,
+          title: title ? title : "임시저장",
+        })
+        .then(() => {
+          setIsExit(true);
+          if (path) {
+            history.push(path);
+          }
+        });
     },
     [temKey, template, info, history, category]
   );
 
   useEffect(() => {
     if (type === "new") {
-      Fstore.collection("editor")
+      Fstore.collection(category)
         .add({
           timestamp: timestamp,
-          state: category,
+          config: {
+            isBlind: true,
+            isPin: false,
+          },
         })
         .then((res) => {
           patch({
@@ -113,7 +90,7 @@ function Editor({ location }) {
           console.log(err);
         });
     } else {
-      Fstore.collection("editor")
+      Fstore.collection(category)
         .doc(id)
         .get()
         .then((result) => {
@@ -137,7 +114,6 @@ function Editor({ location }) {
               payload: [],
             });
           }
-          console.log(value.template);
           dispatch({
             type: "@layouts/CHANGE_EDITOR",
             payload: value.template,
@@ -176,7 +152,6 @@ function Editor({ location }) {
       />
       <Animation>
         <div className="editor">
-          <Header />
           <TitleSection category={category} dispatch={patch} info={info} />
           <div className="editor-wrapper">
             <EdiHeader setIsUp={setIsUp} temKey={temKey} category={category} />

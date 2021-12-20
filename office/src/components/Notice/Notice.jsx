@@ -2,9 +2,9 @@ import React, { useCallback, useMemo, useState } from "react";
 import Header from "../Header/Header";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
-import Card from "../Main/components/Card";
 import { Animation } from "../styles/Animation";
 import firebaseApp from "../config/firebaseApp";
+import Card from "../common/Card";
 
 const List = styled.div`
   width: 100%;
@@ -12,92 +12,7 @@ const List = styled.div`
   margin-top: 33px;
   display: grid;
   grid-template-columns: 100%;
-  row-gap: 17px;
-  .card {
-    overflow: hidden;
-    position: relative;
-    height: 73px;
-    width: 100%;
-    border: solid 1px #dbdbdb;
-    border-radius: 6px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    box-sizing: border-box;
-    padding: 14px 24px;
-    .left {
-      .title {
-        font-size: 16px;
-        font-weight: bold;
-      }
-      .time {
-        font-size: 13px;
-        font-weight: 500;
-        color: #898989;
-        margin-top: 2px;
-      }
-    }
-    .right {
-      display: grid;
-      grid-template-columns: repeat(2, 88px);
-      column-gap: 14px;
-      & > div {
-        width: 100%;
-        height: 37px;
-        font-size: 15px;
-        font-weight: bold;
-        color: white;
-        border-radius: 6px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        cursor: pointer;
-      }
-      .fix {
-        background-color: #434343;
-      }
-      .remove {
-        background-color: #a50006;
-      }
-    }
-    .delete-wrapper {
-      transition: right 0.2s ease-in-out;
-      border-radius: 10px;
-      padding-left: 15px;
-      box-sizing: border-box;
-      align-items: center;
-      position: absolute;
-      right: 0;
-      display: flex;
-      width: 348.4px;
-      height: 73px;
-      background-color: #a50006;
-      .white-cancel {
-        cursor: pointer;
-        margin-right: 11.5px;
-        width: 12px;
-      }
-      .delete-title {
-        font-size: 13px;
-        font-weight: 500;
-        color: white;
-      }
-      .delete-btn {
-        cursor: pointer;
-        margin-left: 32px;
-        color: #a50006;
-        border-radius: 14px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 13px;
-        font-weight: bold;
-        width: 72px;
-        height: 27px;
-        background-color: white;
-      }
-    }
-  }
+  row-gap: 12px;
 `;
 const Top = styled.div`
   display: flex;
@@ -180,25 +95,42 @@ function Notice() {
   );
   const __getData = useCallback(async () => {
     let arr = [];
-    await Fstore.collection("editor")
+    await Fstore.collection("notice")
+      .orderBy("timestamp", "desc")
       .get()
       .then((result) => {
         if (result) {
           result.forEach((item) => {
             const value = item.data();
-            if (value.state === "notice") {
-              arr.push(Object.assign(value, { id: item.id }));
-            }
+            arr.push(Object.assign(value, { id: item.id, index: arr.length }));
           });
         }
       });
-    return arr.sort((a, b) => b.timestamp - a.timestamp);
+    return arr;
   }, []);
+  const __blind = useCallback(
+    (id, state) => {
+      Fstore.collection("notice")
+        .doc(id)
+        .update({
+          config: {
+            isBlind: !state,
+          },
+        })
+        .then(() => {
+          __getData().then((result) => {
+            setListData(result);
+            setDisplayList(result);
+          });
+        });
+    },
+    [__getData]
+  );
   const __deleteCard = useCallback(
     (id, file) => {
       firebaseApp
         .firestore()
-        .collection("editor")
+        .collection("notice")
         .doc(id)
         .delete()
         .then(() => {
@@ -251,19 +183,24 @@ function Notice() {
             </div>
           </Top>
           <List>
-            {DisplayList.map(({ title, timestamp, id }, idx) => {
-              return (
-                <Card
-                  __delete={__deleteCard}
-                  navigation={__navMake}
-                  key={idx}
-                  id={id}
-                  title={title}
-                  timestamp={timestamp}
-                  index={idx}
-                />
-              );
-            })}
+            {DisplayList.map(
+              ({ title, timestamp, id, index, config, template }, idx) => {
+                return (
+                  <Card
+                    __delete={__deleteCard}
+                    navigation={__navMake}
+                    key={idx}
+                    id={id}
+                    title={title}
+                    timestamp={timestamp}
+                    config={config}
+                    index={ListData.length - index}
+                    template={template}
+                    __blind={__blind}
+                  />
+                );
+              }
+            )}
           </List>
         </Body>
       </Animation>

@@ -2,7 +2,6 @@ import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Login from "./login/Login";
 import "./styles/core.css";
-import Main from "./Main/Main";
 import Editor from "./Editor/Editor";
 import Notice from "./Notice/Notice";
 import Download from "./Download/Download";
@@ -23,7 +22,6 @@ function Navigation() {
         <Route path="/question" exact component={Question} />
         <Route path="/answer" exact component={Answer} />
         <Route path="/look" exact component={Look} />
-        <Route path="/main" exact component={Main} />
         <Route path="/popup" exact component={PopupManager} />
         <Route path="/notice" exact component={Notice} />
         <Route path="/editor" exact component={Editor} />
