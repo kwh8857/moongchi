@@ -10,6 +10,8 @@ const Wrapper = styled.div`
   justify-content: space-between;
   padding-right: 12px;
   box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
   & > .left {
     display: flex;
     align-items: center;
@@ -68,6 +70,22 @@ const Wrapper = styled.div`
       }
     }
   }
+  & > .setup {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 420px;
+    height: 65px;
+    border-radius: 5px;
+    background-color: #007fff;
+    display: flex;
+    align-items: center;
+    font-size: 13px;
+    font-weight: bold;
+    box-sizing: border-box;
+    padding-left: 18.3px;
+    padding-right: 23.2px;
+  }
 `;
 function Card({
   index,
@@ -83,7 +101,7 @@ function Card({
   const isFile = template
     ? template.filter((item) => item.type === "file")
     : [];
-  const [isOn, setIsOn] = useState(false);
+  const [On, setOn] = useState(undefined);
   return (
     <Wrapper isBlind={isBlind}>
       <div className="left">
@@ -124,13 +142,46 @@ function Card({
           <button
             className="blind"
             onClick={() => {
-              __blind(id, isBlind);
+              setOn("blind");
+              // __blind(id, isBlind);
             }}
           >
             {isBlind ? "블라인드해제" : "블라인드"}
           </button>
         </div>
       </div>
+      {On ? (
+        <div className="setup">
+          <figure>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="13.061"
+              height="13.061"
+              viewBox="0 0 13.061 13.061"
+              style={{ fill: "none", stroke: "#fff", strokeWidth: "1.5px" }}
+            >
+              <g id="X" transform="translate(.53 .53)">
+                <path
+                  id="선_68"
+                  data-name="선 68"
+                  class="cls-1"
+                  d="m0 0 12 12"
+                />
+                <path
+                  id="선_69"
+                  data-name="선 69"
+                  class="cls-1"
+                  d="M12 0 0 12"
+                />
+              </g>
+            </svg>
+          </figure>
+          <div className="title">
+            해당 게시글을 {On === "blind" ? "블라인드" : "삭제"}하시겠습니까?
+          </div>
+          <button>확인</button>
+        </div>
+      ) : undefined}
     </Wrapper>
   );
 }
