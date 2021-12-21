@@ -12,6 +12,7 @@ import Answer from "./Answer/Answer";
 import Loading from "./Editor/components/Loading";
 import Toast from "./common/Toast";
 import PopupManager from "./PopupManager/PopupManager";
+import Blog from "./Blog/Blog";
 function Navigation() {
   return (
     <Router>
@@ -24,6 +25,7 @@ function Navigation() {
         <Route path="/look" exact component={Look} />
         <Route path="/popup" exact component={PopupManager} />
         <Route path="/notice" exact component={Notice} />
+        <Route path="/blog" exact component={Blog} />
         <Route path="/editor" exact component={Editor} />
       </Switch>
       <Toast />

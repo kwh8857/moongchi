@@ -39,7 +39,16 @@ function LookCard({ index }) {
     <Card>
       <div className="title">미리보기{index}</div>
       <div className="insert-wrapper">
-        <div className="left"></div>
+        <div className="left">
+          {layout.map(({ title, type, placeholder }, idx) => {
+            return (
+              <div key={idx}>
+                <div className="title">{title}</div>
+                <input type="text" placeholder={placeholder} />
+              </div>
+            );
+          })}
+        </div>
         <div className="right"></div>
       </div>
     </Card>

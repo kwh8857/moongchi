@@ -2,13 +2,13 @@ import React, { useCallback, useState } from "react";
 import { useDispatch } from "react-redux";
 import firebaseApp from "../../config/firebaseApp";
 const Fstorage = firebaseApp.storage();
-function UploadFile({ __close, template, temKey }) {
+function UploadFile({ __close, template, temKey, category }) {
   const dispatch = useDispatch();
   const [File, setFile] = useState(undefined);
   const __uploadFile = useCallback(
     (item) => {
       return new Promise((resolve, reject) => {
-        Fstorage.ref(`/editor/${temKey}/files/${item.name}`)
+        Fstorage.ref(`/${category}/${temKey}/files/${item.name}`)
           .put(item)
           .then((res) => {
             res.ref.getDownloadURL().then((url) => {
@@ -28,7 +28,7 @@ function UploadFile({ __close, template, temKey }) {
           });
       });
     },
-    [temKey]
+    [temKey, category]
   );
   const __readFile = useCallback(() => {
     const arr = template.slice();

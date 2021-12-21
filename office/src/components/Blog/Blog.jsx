@@ -1,4 +1,5 @@
 import React, { useCallback, useMemo, useState } from "react";
+
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 import { Animation } from "../styles/Animation";
@@ -7,6 +8,7 @@ import Card from "../common/Card";
 import { useDispatch } from "react-redux";
 const Fstore = firebaseApp.firestore();
 const Fstorage = firebaseApp.storage();
+const Wrapper = styled.main``;
 const List = styled.div`
   width: 100%;
   height: 100%;
@@ -78,7 +80,7 @@ const Body = styled.div`
   padding-top: 117px;
   box-sizing: border-box;
 `;
-function Notice() {
+function Blog() {
   const dispatch = useDispatch();
   const history = useHistory();
   const [ListData, setListData] = useState([]);
@@ -87,7 +89,7 @@ function Notice() {
     (type, timestamp, id) => {
       history.push("/editor", {
         type,
-        category: "notice",
+        category: "blog",
         timestamp: timestamp ? timestamp : Date.now(),
         id: id ? id : undefined,
       });
@@ -96,7 +98,7 @@ function Notice() {
   );
   const __getData = useCallback(async () => {
     let arr = [];
-    await Fstore.collection("notice")
+    await Fstore.collection("blog")
       .orderBy("timestamp", "desc")
       .get()
       .then((result) => {
@@ -111,7 +113,7 @@ function Notice() {
   }, []);
   const __blind = useCallback(
     (id, state) => {
-      Fstore.collection("notice")
+      Fstore.collection("blog")
         .doc(id)
         .update({
           config: {
@@ -136,7 +138,7 @@ function Notice() {
   );
   const __deleteCard = useCallback(
     async (id, file) => {
-      let ref = await Fstorage.ref(`notice/${id}`);
+      let ref = await Fstorage.ref(`blog/${id}`);
       //해당 리워드에 존재하는 storage 파일들 전부삭제
       ref.listAll().then((dir) => {
         dir.items.forEach((fileRef) => {
@@ -148,7 +150,7 @@ function Notice() {
       });
       firebaseApp
         .firestore()
-        .collection("notice")
+        .collection("blog")
         .doc(id)
         .delete()
         .then(() => {
@@ -180,7 +182,7 @@ function Notice() {
       <Animation>
         <Body>
           <Top>
-            <div className="title">공지사항 관리</div>
+            <div className="title">블로그 관리</div>
             <div className="right">
               <div className="input-wrapper">
                 <input
@@ -202,7 +204,7 @@ function Notice() {
                   __navMake("new");
                 }}
               >
-                공지사항 추가
+                게시글 추가
               </div>
             </div>
           </Top>
@@ -232,7 +234,7 @@ function Notice() {
   );
 }
 
-export default Notice;
+export default Blog;
 function deleteFolderContents(path) {
   const ref = Fstorage.ref(path);
   ref.delete();

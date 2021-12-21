@@ -6,7 +6,6 @@ function TemplateTitle({ data, idx, provided, setFocus }) {
   const dispatch = useDispatch();
   const status = useSelector((state) => state.test.editor);
   useEffect(() => {
-    console.log(data);
     contentRef.current.innerHTML = data;
     return () => {};
   }, []); // eslint-disable-line react-hooks/exhaustive-deps

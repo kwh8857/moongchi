@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import Video from "./Video";
 import Youtube from "./Youtube";
 
-function Popup({ isUp: { status, type }, setIsUp, temKey }) {
+function Popup({ isUp: { status, type }, setIsUp, temKey, category }) {
   const template = useSelector((state) => state.database.editor);
   const __close = useCallback(() => {
     setIsUp({
@@ -23,9 +23,19 @@ function Popup({ isUp: { status, type }, setIsUp, temKey }) {
         {type === "LINK" ? (
           <Link __close={__close} template={template} />
         ) : type === "FILE" ? (
-          <UploadFile __close={__close} template={template} temKey={temKey} />
+          <UploadFile
+            __close={__close}
+            template={template}
+            temKey={temKey}
+            category={category}
+          />
         ) : type === "VIDEO" ? (
-          <Video __close={__close} template={template} temKey={temKey} />
+          <Video
+            __close={__close}
+            template={template}
+            temKey={temKey}
+            category={category}
+          />
         ) : (
           <Youtube __close={__close} template={template} />
         )}

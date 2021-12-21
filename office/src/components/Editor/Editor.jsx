@@ -66,6 +66,21 @@ function Editor({ location }) {
     },
     [temKey, template, info, history, category]
   );
+  const __insetData = useCallback(() => {
+    const { title } = info;
+    Fstore.collection(category)
+      .doc(temKey)
+      .update({
+        template: template,
+        title: title,
+        config: {
+          isBlind: false,
+        },
+      })
+      .then(() => {
+        history.goBack();
+      });
+  }, [template, category, temKey, info]);
 
   useEffect(() => {
     if (type === "new") {
@@ -152,12 +167,17 @@ function Editor({ location }) {
       />
       <Animation>
         <div className="editor">
-          <TitleSection category={category} dispatch={patch} info={info} />
+          <TitleSection dispatch={patch} info={info} insert={__insetData} />
           <div className="editor-wrapper">
             <EdiHeader setIsUp={setIsUp} temKey={temKey} category={category} />
             <Screen temKey={temKey} Fstore={Fstore} Fstorage={Fstorage} />
           </div>
-          <Popup isUp={isUp} setIsUp={setIsUp} temKey={temKey} />
+          <Popup
+            isUp={isUp}
+            setIsUp={setIsUp}
+            temKey={temKey}
+            category={category}
+          />
         </div>
       </Animation>
       <Loading />

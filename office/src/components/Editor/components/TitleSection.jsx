@@ -52,33 +52,19 @@ const Wrapper = styled.div`
   }
 `;
 
-function TitleSection({ category, dispatch, info: { title, sub } }) {
+function TitleSection({ dispatch, info: { title }, insert }) {
   const history = useHistory();
   return (
     <Wrapper>
       <div className="top">
-        <div className="title">
-          {category === "portfolio" ? "공사실적" : "공지사항"}추가
-        </div>
+        <div className="title">게시글 추가</div>
         <div
           className="btn"
           style={{
-            backgroundColor:
-              category === "notice"
-                ? title
-                  ? "#a50006"
-                  : "#7c7c7c"
-                : title && sub
-                ? "#a50006"
-                : "#7c7c7c",
+            backgroundColor: title ? "#007fff" : "#7c7c7c",
           }}
           onClick={() => {
-            if (category !== "notice" && title && sub) {
-              history.goBack();
-            }
-            if (category === "notice" && title) {
-              history.goBack();
-            }
+            insert();
           }}
         >
           등록
@@ -105,35 +91,6 @@ function TitleSection({ category, dispatch, info: { title, sub } }) {
           }
         }}
       />
-
-      {category !== "notice" ? (
-        <>
-          <div className="ti">개요</div>
-          <textarea
-            type="text"
-            maxLength={120}
-            value={sub ? sub : ""}
-            placeholder="개요는 최대 2줄까지 입력해주세요"
-            onChange={(e) => {
-              const line = e.target.value.split(/\n/g);
-              line.splice(2);
-              let test = line.join();
-              let result = test.replace(/,/g, "\n");
-              if (result) {
-                dispatch({
-                  type: "SUB",
-                  sub: result,
-                });
-              } else {
-                dispatch({
-                  type: "SUB",
-                  sub: undefined,
-                });
-              }
-            }}
-          />
-        </>
-      ) : undefined}
     </Wrapper>
   );
 }

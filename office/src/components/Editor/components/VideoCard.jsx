@@ -11,6 +11,7 @@ function VideoCard({
   selectList,
   __upload,
   temKey,
+  category,
 }) {
   const [video, setVideo] = useState(undefined);
   const [upload, setupload] = useState(undefined);
@@ -41,12 +42,12 @@ function VideoCard({
   }, [video, __delete, idx, uploadstate, thumbnail]);
   const __uploadVideo = useCallback(
     (thumbnail) => {
-      const update = Fstorage.ref(`editor/${temKey}/${data.name}/video`).put(
-        data
-      );
+      const update = Fstorage.ref(
+        `${category}/${temKey}/${data.name}/video`
+      ).put(data);
       __upload(idx, update, data.name, thumbnail);
     },
-    [data, __upload, idx, temKey]
+    [data, __upload, idx, temKey, category]
   );
   const __withdrawThumbnail = useCallback(() => {
     return new Promise((resolve, reject) => {
@@ -66,7 +67,7 @@ function VideoCard({
           .drawImage(video, 0, 0, canvas.width, canvas.height);
         var image = canvas.toDataURL();
         const base = image.split(",")[1];
-        Fstorage.ref(`editor/${temKey}/video/${data.name}/thumbnail`)
+        Fstorage.ref(`${category}/${temKey}/video/${data.name}/thumbnail`)
           .putString(base, "base64")
           .then((result) => {
             result.ref.getDownloadURL().then((getDownloadURL) => {
@@ -81,7 +82,7 @@ function VideoCard({
       video.playsInline = true;
       video.play();
     });
-  }, [data, temKey]);
+  }, [data, temKey, category]);
   useEffect(() => {
     if (percent === 100 && video === undefined && upload) {
       upload.then((snapshot) => {
@@ -106,7 +107,7 @@ function VideoCard({
     //데이터가 file인경우 type이 존재
     if (data.type) {
       //이미 존재하는 이름의 비디오인지 확인
-      Fstorage.ref(`editor/${temKey}/video/${data.name}/video`)
+      Fstorage.ref(`${category}/${temKey}/video/${data.name}/video`)
         .getDownloadURL()
         .then((res) => {
           //이부분 토스트 메세지 추가 필요
@@ -134,7 +135,7 @@ function VideoCard({
       setthumbnail(data.thumbnail);
     }
     return () => {};
-  }, [data]);
+  }, [data, category]);
   return (
     <div className="video-card">
       <div className="thumbnail-wrapper">

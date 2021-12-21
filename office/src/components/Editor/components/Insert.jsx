@@ -13,7 +13,7 @@ const dummy = [
 
 const Fstorage = firebaseApp.storage();
 const Fstore = firebaseApp.firestore();
-function Insert({ setIsUp, temKey }) {
+function Insert({ setIsUp, temKey, category }) {
   const dispatch = useDispatch();
   const template = useSelector((state) => state.database.editor);
   const __imageUpload = useCallback(
@@ -21,11 +21,11 @@ function Insert({ setIsUp, temKey }) {
       return new Promise((resolve, reject) => {
         const data = data64.split(",")[1];
         const redata = resize.split(",")[1];
-        Fstorage.ref(`editor/${temKey}/${name}`)
+        Fstorage.ref(`${category}/${temKey}/${name}`)
           .putString(data, "base64")
           .then((result) => {
             result.ref.getDownloadURL().then((downloadUrl) => {
-              Fstorage.ref(`editor/${temKey}/${name}-resize`)
+              Fstorage.ref(`${category}/${temKey}/${name}-resize`)
                 .putString(redata, "base64")
                 .then((result) => {
                   result.ref.getDownloadURL().then((resizeUrl) => {
@@ -36,7 +36,7 @@ function Insert({ setIsUp, temKey }) {
           });
       });
     },
-    [temKey]
+    [temKey, category]
   );
   const __fileReader = useCallback((file) => {
     return new Promise((resolve, reject) => {
@@ -104,7 +104,7 @@ function Insert({ setIsUp, temKey }) {
           })
         ).then((result) => {
           const arr = template.slice();
-          Fstore.collection("/editor")
+          Fstore.collection(category)
             .doc(temKey)
             .update({ template: [...arr, ...result] });
           dispatch({
@@ -118,7 +118,7 @@ function Insert({ setIsUp, temKey }) {
         });
       });
     },
-    [__imageUpload, __fileReader, template, dispatch, temKey]
+    [__imageUpload, __fileReader, template, dispatch, temKey, category]
   );
   return (
     <div className="insert-wrapper">
