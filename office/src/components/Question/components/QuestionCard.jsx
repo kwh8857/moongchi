@@ -92,7 +92,7 @@ function QuestionCard({ data }) {
   const navigate = useHistory();
   const __nav = useCallback(() => {
     navigate.push("/answer", { data });
-  }, [data]);
+  }, [data, navigate]);
   return (
     <Wrapper status={status}>
       <div className="left">

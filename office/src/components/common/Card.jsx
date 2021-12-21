@@ -21,21 +21,27 @@ const Wrapper = styled.div`
       font-weight: bold;
       text-align: center;
     }
-    & > .title {
+    & > .title-wrapper {
+      display: flex;
+      align-items: center;
       font-weight: bold;
       width: 440px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    & > .badge {
-      align-items: center;
-      display: grid;
-      grid-template-columns: 24px 24px;
-      column-gap: 3px;
-      margin-left: 7px;
-      & > figure {
-        width: 24px;
-        height: 24px;
+      & > .title {
+        white-space: nowrap;
+        max-width: 390px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      & > .badge {
+        align-items: center;
+        display: grid;
+        grid-template-columns: 24px 24px;
+        column-gap: 3px;
+        margin-left: 7px;
+        & > figure {
+          width: 24px;
+          height: 24px;
+        }
       }
     }
   }
@@ -146,25 +152,27 @@ function Card({
   __blind,
 }) {
   const isFile = template
-    ? template.filter((item) => item.type === "file")
+    ? template.filter((item) => item.type === "FILE")
     : [];
   const [On, setOn] = useState(undefined);
   return (
     <Wrapper isBlind={isBlind} on={On}>
       <div className="left">
         <div className="index">{index}</div>
-        <div className="title">{title}</div>
-        <div className="badge">
-          {isFile.length > 0 ? (
-            <figure>
-              <img src="/assets/common/file.svg" alt="" />
-            </figure>
-          ) : undefined}
-          {isPin ? (
-            <figure>
-              <img src="/assets/common/blue-pin.svg" alt="" />
-            </figure>
-          ) : undefined}
+        <div className="title-wrapper">
+          <div className="title">{title}</div>
+          <div className="badge">
+            {isFile.length > 0 ? (
+              <figure>
+                <img src="/assets/common/file.svg" alt="" />
+              </figure>
+            ) : undefined}
+            {isPin ? (
+              <figure>
+                <img src="/assets/common/blue-pin.svg" alt="" />
+              </figure>
+            ) : undefined}
+          </div>
         </div>
       </div>
       <div className="right">

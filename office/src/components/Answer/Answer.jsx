@@ -26,7 +26,7 @@ function Answer({
         type: "@database/ANSWER_RESET",
       });
     };
-  }, []);
+  }, [dispatch]);
   return (
     <Wrapper>
       <div className="container">

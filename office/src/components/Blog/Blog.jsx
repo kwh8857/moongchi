@@ -134,7 +134,7 @@ function Blog() {
           });
         });
     },
-    [__getData]
+    [__getData, dispatch]
   );
   const __deleteCard = useCallback(
     async (id, file) => {
@@ -167,7 +167,7 @@ function Blog() {
           });
         });
     },
-    [__getData]
+    [__getData, dispatch]
   );
   useMemo(
     () =>
@@ -178,7 +178,7 @@ function Blog() {
     [__getData]
   );
   return (
-    <div>
+    <Wrapper>
       <Animation>
         <Body>
           <Top>
@@ -230,7 +230,7 @@ function Blog() {
           </List>
         </Body>
       </Animation>
-    </div>
+    </Wrapper>
   );
 }
 

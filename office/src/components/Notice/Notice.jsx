@@ -132,7 +132,7 @@ function Notice() {
           });
         });
     },
-    [__getData]
+    [__getData, dispatch]
   );
   const __deleteCard = useCallback(
     async (id, file) => {
@@ -165,7 +165,7 @@ function Notice() {
           });
         });
     },
-    [__getData]
+    [__getData, dispatch]
   );
   useMemo(
     () =>

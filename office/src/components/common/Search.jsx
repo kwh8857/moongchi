@@ -88,15 +88,30 @@ const Wrapper = styled.section`
             color: ${props.isfilter ? "#007fff" : "#434343"};
           }
         }
+        & > .btn-wrapper {
+          grid-template-columns: ${props.type === "look"
+            ? "repeat(3,153px)"
+            : "repeat(2,153px)"};
+        }
       }
     `;
   }}
 `;
 
-function Search({ title, type, placeholder, searching, change, isfilter }) {
+function Search({
+  title,
+  type,
+  placeholder,
+  searching,
+  change,
+  isfilter,
+  upload,
+  add,
+  preview,
+}) {
   return (
-    <Wrapper isfilter={isfilter}>
-      <div className="title">{title}</div>{" "}
+    <Wrapper isfilter={isfilter} type={type}>
+      <div className="title">{title}</div>
       <div className="right">
         {type === "question" ? (
           <div className="filter">
@@ -110,8 +125,18 @@ function Search({ title, type, placeholder, searching, change, isfilter }) {
         ) : undefined}
         {type === "look" ? (
           <div className="btn-wrapper">
-            <button className="first">미리보기</button>
-            <button className="two">저장히기</button>
+            <button onClick={add}>추가</button>
+            <button
+              className="first"
+              onClick={() => {
+                preview(true);
+              }}
+            >
+              미리보기
+            </button>
+            <button className="two" onClick={upload}>
+              저장히기
+            </button>
           </div>
         ) : (
           <div className="input-wrapper">

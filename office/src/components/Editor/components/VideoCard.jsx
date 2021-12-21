@@ -128,7 +128,7 @@ function VideoCard({
       setVideo(undefined);
       setthumbnail(undefined);
     };
-  }, [__uploadVideo, data, __withdrawThumbnail, temKey]);
+  }, [__uploadVideo, data, __withdrawThumbnail, temKey, category]);
   useEffect(() => {
     if (data.upload) {
       setupload(data.upload);

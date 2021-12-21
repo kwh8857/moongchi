@@ -48,12 +48,6 @@ $gray3: #dbdbdb;
     flex-direction: column;
     justify-content: center;
 
-    button {
-      outline: 0;
-      border: 0;
-      background-color: white;
-    }
-
     .editor-wrapper {
       border-radius: 10px;
       border: solid 1px $gray3;
@@ -64,7 +58,7 @@ $gray3: #dbdbdb;
       padding: 20px 16px;
       box-sizing: border-box;
 
-      .edit-header {
+      .edit-header { 
         top: 64px;
         left: 0;
         background-color: white;
@@ -76,6 +70,11 @@ $gray3: #dbdbdb;
         position: fixed;
         z-index: 200;
 
+    button {
+      outline: 0;
+      border: 0;
+      background-color: white;
+    }
         .line {
           height: 29px;
           width: 1px;

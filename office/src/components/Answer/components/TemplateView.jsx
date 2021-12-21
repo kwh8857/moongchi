@@ -15,6 +15,8 @@ function TemplateView({ data }) {
           return <DisplayImage content={content} width={width} key={idx} />;
         } else if (type === "context") {
           return <Context key={idx} data={content} />;
+        } else {
+          return <></>;
         }
       })}
     </Wrapper>

@@ -63,12 +63,6 @@
           justify-content: center;
 }
 
-#root .editor button {
-  outline: 0;
-  border: 0;
-  background-color: white;
-}
-
 #root .editor .editor-wrapper {
   border-radius: 10px;
   border: solid 1px #dbdbdb;
@@ -96,6 +90,12 @@
           align-items: center;
   position: fixed;
   z-index: 200;
+}
+
+#root .editor .editor-wrapper .edit-header button {
+  outline: 0;
+  border: 0;
+  background-color: white;
 }
 
 #root .editor .editor-wrapper .edit-header .line {

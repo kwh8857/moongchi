@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled, { css } from "styled-components";
 import Resizer from "react-image-file-resizer";
@@ -178,7 +178,7 @@ function AnswerBox({ id, status, answer }) {
           history.goBack();
         });
     });
-  }, [ContentRef, __storageInit, url, resize, id, name]);
+  }, [ContentRef, __storageInit, url, resize, id, name, dispatch, history]);
 
   const __fileReader = useCallback((file) => {
     return new Promise((resolve, reject) => {
@@ -231,7 +231,7 @@ function AnswerBox({ id, status, answer }) {
       });
     }
     return () => {};
-  }, [ContentRef, status, answer]);
+  }, [ContentRef, status, answer, dispatch]);
   return (
     <Wrapper isImage={url ? true : false}>
       <div className="title-wrapper">

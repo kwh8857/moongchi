@@ -25,14 +25,14 @@ function Editor({ location }) {
       case "RESET":
         return {
           title: undefined,
-          sub: undefined,
+          sub: false,
         };
       case "INIT":
         return action.info;
       case "TITLE":
         return { ...state, title: action.title };
-      case "SUB":
-        return { ...state, sub: action.sub };
+      case "PIN":
+        return { ...state, isPin: action.pin };
       default:
         throw new Error(`Unhandled action type: ${action.type}`);
     }
@@ -40,7 +40,7 @@ function Editor({ location }) {
 
   const [info, patch] = useReducer(reducer, {
     title: undefined,
-    sub: undefined,
+    isPin: false,
   });
   const [isUp, setIsUp] = useState({
     status: false,
@@ -66,7 +66,7 @@ function Editor({ location }) {
     [temKey, template, info, history, category]
   );
   const __insetData = useCallback(() => {
-    const { title } = info;
+    const { title, isPin } = info;
     Fstore.collection(category)
       .doc(temKey)
       .update({
@@ -74,12 +74,13 @@ function Editor({ location }) {
         title: title,
         config: {
           isBlind: false,
+          isPin,
         },
       })
       .then(() => {
         history.goBack();
       });
-  }, [template, category, temKey, info]);
+  }, [template, category, temKey, info, history]);
 
   useEffect(() => {
     if (type === "new") {
@@ -114,7 +115,7 @@ function Editor({ location }) {
             type: "INIT",
             info: {
               title: value.title,
-              sub: category !== "notice" ? value.sub : undefined,
+              isPin: value.config.isPin,
             },
           });
           if (value.videoList) {

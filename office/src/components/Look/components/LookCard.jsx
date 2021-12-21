@@ -1,29 +1,33 @@
 import React from "react";
-import styled from "styled-components";
-import InputWrapper from "./components/InputWrapper";
+import styled, { css } from "styled-components";
 import { Animation } from "../../styles/Animation";
+import InputWrapper from "./InputWrapper";
 const layout = [
   {
     title: "카테고리",
     type: "category",
     placeholder: "카테고리 입력",
+    patcher: "CATEGORY",
   },
   {
     title: "제목",
     sub: "2줄 권장 / 개행 가능",
     type: "title",
     placeholder: "제목을 입력해주세요",
+    patcher: "TITLE",
   },
   {
     title: "내용",
     sub: "3줄 권장 / 개행 가능",
     type: "content",
     placeholder: "내용을 입력해주세요",
+    patcher: "CONTENT",
   },
   {
     title: "링크",
     type: "link",
     placeholder: "링크 입력",
+    patcher: "LINK",
   },
 ];
 
@@ -78,10 +82,7 @@ const Card = styled.div`
           align-items: center;
           justify-content: center;
           flex-direction: column;
-          & > img {
-            width: 67px;
-            height: 66px;
-          }
+
           & > figcaption {
             font-size: 14px;
             font-weight: 500;
@@ -92,16 +93,40 @@ const Card = styled.div`
       }
     }
   }
+  ${(props) => {
+    return css`
+      & > .insert-wrapper {
+        & > .right {
+          & > label {
+            & > figure {
+              & > img {
+                width: ${props.isImage ? "396px" : "67px"};
+                height: ${props.isImage ? "262px" : "66px"};
+              }
+            }
+          }
+        }
+      }
+    `;
+  }}
 `;
-function LookCard({ index, data, imageupload }) {
+function LookCard({ index, data, imageupload, displayIndex }) {
+  console.log(data);
   return (
     <Animation>
-      <Card>
-        <div className="title">미리보기{index + 1}</div>
+      <Card isImage={data.image.url ? true : false}>
+        <div className="title">미리보기{displayIndex}</div>
         <div className="insert-wrapper">
           <div className="left">
             {layout.map((item, idx) => {
-              return <InputWrapper key={idx} data={item} />;
+              return (
+                <InputWrapper
+                  key={idx}
+                  data={item}
+                  index={index}
+                  content={data[item.type]}
+                />
+              );
             })}
           </div>
           <div className="right">
@@ -116,8 +141,14 @@ function LookCard({ index, data, imageupload }) {
                 }}
               />
               <figure>
-                <img src="/assets/common/add.svg" alt="" />
-                <figcaption>사진을 업로드해주세요 ( jpeg, png )</figcaption>
+                {data.image.url ? (
+                  <img src={data.image.url} alt="" />
+                ) : (
+                  <>
+                    <img src="/assets/common/add.svg" alt="" />
+                    <figcaption>사진을 업로드해주세요 ( jpeg, png )</figcaption>
+                  </>
+                )}
               </figure>
             </label>
           </div>

@@ -42,7 +42,7 @@ const database = (state = initialState, { type, idx, payload, index }) => {
       arr[index].image = payload;
       return {
         ...state,
-        preview: payload,
+        preview: [...arr],
       };
     }
     case "@database/PREVIEW_LINK": {
@@ -50,7 +50,7 @@ const database = (state = initialState, { type, idx, payload, index }) => {
       arr[index].link = payload;
       return {
         ...state,
-        preview: payload,
+        preview: [...arr],
       };
     }
     case "@database/PREVIEW_CONTENT": {
@@ -58,7 +58,7 @@ const database = (state = initialState, { type, idx, payload, index }) => {
       arr[index].content = payload;
       return {
         ...state,
-        preview: payload,
+        preview: [...arr],
       };
     }
     case "@database/PREVIEW_CATEGORY": {
@@ -66,7 +66,7 @@ const database = (state = initialState, { type, idx, payload, index }) => {
       arr[index].category = payload;
       return {
         ...state,
-        preview: payload,
+        preview: [...arr],
       };
     }
     case "@database/PREVIEW_TITLE": {
@@ -74,7 +74,7 @@ const database = (state = initialState, { type, idx, payload, index }) => {
       arr[index].title = payload;
       return {
         ...state,
-        preview: payload,
+        preview: [...arr],
       };
     }
     case "@database/PREVIEW": {
