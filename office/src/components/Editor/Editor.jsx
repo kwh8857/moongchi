@@ -3,7 +3,6 @@ import "./css/index.css";
 import EdiHeader from "./components/EdiHeader";
 import Screen from "./components/Screen";
 import Popup from "./components/Popup";
-import Header from "../Header/Header";
 import { useDispatch, useSelector } from "react-redux";
 import { Beforeunload } from "react-beforeunload";
 import { Prompt, useHistory } from "react-router-dom";

@@ -21,9 +21,68 @@ const initialState = {
     },
     content: "",
   },
+  preview: [
+    {
+      title: "",
+      category: "",
+      content: "",
+      link: "",
+      image: {
+        url: "",
+        resize: "",
+      },
+      timestamp: Date.now(),
+    },
+  ],
 };
 const database = (state = initialState, { type, idx, payload, index }) => {
   switch (type) {
+    case "@database/PREVIEW_IMAGE": {
+      let arr = state.preview;
+      arr[index].image = payload;
+      return {
+        ...state,
+        preview: payload,
+      };
+    }
+    case "@database/PREVIEW_LINK": {
+      let arr = state.preview;
+      arr[index].link = payload;
+      return {
+        ...state,
+        preview: payload,
+      };
+    }
+    case "@database/PREVIEW_CONTENT": {
+      let arr = state.preview;
+      arr[index].content = payload;
+      return {
+        ...state,
+        preview: payload,
+      };
+    }
+    case "@database/PREVIEW_CATEGORY": {
+      let arr = state.preview;
+      arr[index].category = payload;
+      return {
+        ...state,
+        preview: payload,
+      };
+    }
+    case "@database/PREVIEW_TITLE": {
+      let arr = state.preview;
+      arr[index].title = payload;
+      return {
+        ...state,
+        preview: payload,
+      };
+    }
+    case "@database/PREVIEW": {
+      return {
+        ...state,
+        preview: payload,
+      };
+    }
     case "@database/ANSWER_IMAGE": {
       return {
         ...state,
