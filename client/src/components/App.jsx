@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Main from "./Main/Main";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./Header/Header";
@@ -12,28 +12,7 @@ import Notice from "./Notice/Notice";
 import Blog from "./Blog/Blog";
 import Detail from "./Detail/Detail";
 import Popup from "./common/Popup";
-import firebaseApp from "./config/firebaseApp";
-import FirstPopup from "./FirstPopup/FirstPopup";
 function App() {
-  const [isFirst, setisFirst] = useState(undefined);
-  useEffect(() => {
-    firebaseApp
-      .firestore()
-      .collection("config")
-      .doc("popup")
-      .get()
-      .then((res) => {
-        if (!res.emty) {
-          const value = res.data();
-          const time = new Date(value.time);
-          time.setHours(0);
-          if (Date.now() <= time.getTime()) {
-            setisFirst(res.data());
-          }
-        }
-      });
-    return () => {};
-  }, []);
   return (
     <Router>
       <Header />
@@ -47,7 +26,6 @@ function App() {
         <Route path="/blog" exact element={<Blog />} />
         <Route path="/detail/:type/:id" exact element={<Detail />} />
       </Routes>
-      {isFirst ? <FirstPopup data={isFirst} cancel={setisFirst} /> : undefined}
       <Popup />
       <Footer />
     </Router>

@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import styled from "styled-components";
+import firebaseApp from "../config/firebaseApp";
+import FirstPopup from "../FirstPopup/FirstPopup";
 
 import Section1 from "./components/Section1";
 import Section2 from "./components/Section2";
@@ -13,6 +15,25 @@ const Wrapper = styled.main`
   padding-top: 64px;
 `;
 function Main() {
+  const [isFirst, setisFirst] = useState(undefined);
+  useEffect(() => {
+    firebaseApp
+      .firestore()
+      .collection("config")
+      .doc("popup")
+      .get()
+      .then((res) => {
+        if (!res.emty) {
+          const value = res.data();
+          const time = new Date(value.time);
+          time.setHours(0);
+          if (Date.now() <= time.getTime()) {
+            setisFirst(res.data());
+          }
+        }
+      });
+    return () => {};
+  }, []);
   return (
     <Wrapper>
       <Section7 />
@@ -23,6 +44,7 @@ function Main() {
       <Section5 />
       <Section6 />
       <Section7 />
+      {isFirst ? <FirstPopup data={isFirst} cancel={setisFirst} /> : undefined}
     </Wrapper>
   );
 }
