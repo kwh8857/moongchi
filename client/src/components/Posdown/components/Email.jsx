@@ -238,7 +238,7 @@ function Email({ useragent }) {
         });
     }
     return () => {};
-  }, []);
+  }, [location.search]);
   return (
     <Wrapper isClear={isClear}>
       {success ? (

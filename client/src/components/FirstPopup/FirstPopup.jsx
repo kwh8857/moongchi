@@ -118,7 +118,7 @@ function FirstPopup({ data: { title, link, content }, cancel }) {
         </button>
         <div className="title">{title}</div>
         <div className="content">{content}</div>
-        <a href={link} target={"_blank"}>
+        <a href={link} target={"_blank"} rel="noreferrer">
           자세히보기
         </a>
       </div>

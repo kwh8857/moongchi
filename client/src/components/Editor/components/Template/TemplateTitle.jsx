@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
-const mbinner = window.innerHeight;
+// const mbinner = window.innerHeight;
 const agent = navigator.userAgent;
 function TemplateTitle({ data, idx, provided, setFocus }) {
   const contentRef = useRef(null);

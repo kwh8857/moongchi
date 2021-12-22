@@ -130,7 +130,7 @@ function AskCard({ data: { status, title, password, key, timestamp }, index }) {
         password: password,
       },
     });
-  }, [password, key]);
+  }, [password, key, dispatch]);
 
   return (
     <Card

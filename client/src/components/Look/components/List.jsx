@@ -1,5 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import firebaseApp from "../../config/firebaseApp";
 
@@ -111,7 +110,7 @@ function List() {
               <a
                 href={link}
                 className="image"
-                rel="noopeenr"
+                rel="noreferrer"
                 target={"_blank"}
                 style={{ backgroundImage: `url(${image.url})` }}
               >

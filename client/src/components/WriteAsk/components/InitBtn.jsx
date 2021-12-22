@@ -124,7 +124,7 @@ function InitBtn() {
           navigate(-1);
         });
     });
-  }, [title, name, password, tel, screen, __storageInit]);
+  }, [title, name, password, tel, screen, __storageInit, dispatch, navigate]);
 
   useEffect(() => {
     if (title && name && password.length === 4 && tel.length === 13) {

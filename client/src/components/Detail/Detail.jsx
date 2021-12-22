@@ -38,7 +38,7 @@ function Detail() {
         });
     }
     return () => {};
-  }, [type, key]);
+  }, [type, key, location.state, navigate]);
 
   return (
     <Wrapper>

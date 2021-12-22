@@ -86,7 +86,7 @@ function AskPopup({ id, confirm }) {
         },
       });
     }
-  }, [password, id, confirm]);
+  }, [password, id, confirm, dispatch, navigate]);
   return (
     <Box className="box">
       <button

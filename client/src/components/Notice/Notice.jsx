@@ -87,7 +87,6 @@ function Notice() {
     [original]
   );
   useEffect(() => {
-    let arr = [];
     Fstore.collection("notice")
       .orderBy("timestamp", "desc")
       .get()

@@ -86,7 +86,7 @@ function Popup() {
       },
     });
     navigate("/");
-  }, [navigate]);
+  }, [navigate, dispatch]);
 
   return ispos ? (
     <Wrapper>

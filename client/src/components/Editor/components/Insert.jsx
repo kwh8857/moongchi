@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import Resizer from "react-image-file-resizer";
 import { __UPDATE_LOADING__ } from "../../../common/actionTypes";
 
-function Insert({ temKey, category, state, uid, urlList, agent }) {
+function Insert({ category, state, uid, urlList, agent }) {
   const dispatch = useDispatch();
   const template = useSelector((state) => state.database.editor);
   const [dummy, setdummy] = useState([]);
@@ -85,7 +85,7 @@ function Insert({ temKey, category, state, uid, urlList, agent }) {
         });
       });
     },
-    [__fileReader, template, dispatch, category, state, uid, urlList]
+    [__fileReader, template, dispatch]
   );
   useEffect(() => {
     if (agent !== "mobile") {
