@@ -108,6 +108,18 @@ function Insert({ setIsUp, temKey, category, type }) {
             Fstore.collection(category)
               .doc(temKey)
               .update({ template: [...arr, ...result] });
+          } else {
+            Fstore.collection(category)
+              .doc(temKey)
+              .get()
+              .then((res) => {
+                const value = res.data();
+                if (value.urlList) {
+                  res.ref.update({ urlList: value.urlList.concat(result) });
+                } else {
+                  res.ref.update({ urlList: result });
+                }
+              });
           }
           dispatch({
             type: "@layouts/CHANGE_EDITOR",

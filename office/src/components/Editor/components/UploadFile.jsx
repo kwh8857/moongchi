@@ -2,7 +2,8 @@ import React, { useCallback, useState } from "react";
 import { useDispatch } from "react-redux";
 import firebaseApp from "../../config/firebaseApp";
 const Fstorage = firebaseApp.storage();
-function UploadFile({ __close, template, temKey, category }) {
+const Fstore = firebaseApp.firestore();
+function UploadFile({ __close, template, temKey, category, state }) {
   const dispatch = useDispatch();
   const [File, setFile] = useState(undefined);
   const __uploadFile = useCallback(
@@ -41,13 +42,39 @@ function UploadFile({ __close, template, temKey, category }) {
         return result;
       })
     ).then((result) => {
+      if (state === "new") {
+        Fstore.collection(category)
+          .doc(temKey)
+          .update({ template: [...arr, ...result] });
+      } else {
+        Fstore.collection(category)
+          .doc(temKey)
+          .get()
+          .then((res) => {
+            const value = res.data();
+            if (value.urlList) {
+              res.ref.update({ urlList: value.urlList.concat(result) });
+            } else {
+              res.ref.update({ urlList: result });
+            }
+          });
+      }
       dispatch({
         type: "@layouts/CHANGE_EDITOR",
         payload: [...arr, ...result],
       });
       __close();
     });
-  }, [File, dispatch, __close, template, __uploadFile]);
+  }, [
+    File,
+    dispatch,
+    __close,
+    template,
+    __uploadFile,
+    state,
+    category,
+    temKey,
+  ]);
   return (
     <div className="popup-wrapper file">
       <img

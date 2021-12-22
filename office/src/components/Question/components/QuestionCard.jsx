@@ -35,10 +35,11 @@ const Wrapper = styled.div`
       font-weight: bold;
     }
     & > .title {
+      white-space: nowrap;
       font-size: 16px;
       font-weight: bold;
       margin-left: 24px;
-      width: 393px;
+      width: 380px;
       overflow: hidden;
       text-overflow: ellipsis;
     }

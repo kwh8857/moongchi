@@ -5,7 +5,7 @@ import Screen from "./components/Screen";
 import Popup from "./components/Popup";
 import { useDispatch, useSelector } from "react-redux";
 import { Beforeunload } from "react-beforeunload";
-import { Prompt, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import firebaseApp from "../config/firebaseApp";
 import TitleSection from "./components/TitleSection";
 import { Animation } from "../styles/Animation";
@@ -46,46 +46,96 @@ function Editor({ location }) {
     status: false,
     type: "",
   });
-  const [isExit, setIsExit] = useState(false);
-  const __updateData = useCallback(
-    (path) => {
-      const { title } = info;
+  const __removeUrl = useCallback((template, urlList) => {
+    return new Promise((resolve, reject) => {
+      if (urlList.length > 0) {
+        const clone = urlList.slice();
+        template.forEach(({ content: { resize, url }, type }) => {
+          if (type === "IMAGE" || type === "FILE") {
+            for (let i = 0; i < clone.length; i++) {
+              const element = clone[i];
+              if (
+                element.content.resize === resize &&
+                element.content.url === url
+              ) {
+                clone.splice(i, i + 1);
+              } else if (element.content.url === url) {
+                clone.splice(i, i + 1);
+              }
+            }
+          }
+        });
+        resolve(clone);
+      } else {
+        resolve(undefined);
+      }
+    });
+  }, []);
+
+  const __insetData = useCallback(() => {
+    const { title, isPin } = info;
+    if (type !== "new") {
+      Fstore.collection(category)
+        .doc(temKey)
+        .get()
+        .then((res) => {
+          const value = res.data();
+          if (value.urlList) {
+            __removeUrl(template, value.urlList).then((urlList) => {
+              res.ref
+                .update({
+                  urlList,
+                  template: template,
+                  title: title,
+                  config: {
+                    isBlind: false,
+                    isPin,
+                  },
+                })
+                .then(() => {
+                  history.goBack();
+                });
+            });
+          } else {
+            res.ref
+              .update({
+                template: template,
+                title: title,
+                config: {
+                  isBlind: false,
+                  isPin,
+                },
+              })
+              .then(() => {
+                history.goBack();
+              });
+          }
+        })
+        .then(() => {
+          history.goBack();
+        });
+    } else {
       Fstore.collection(category)
         .doc(temKey)
         .update({
           template: template,
-          title: title ? title : "임시저장",
+          title: title,
+          config: {
+            isBlind: false,
+            isPin,
+          },
         })
         .then(() => {
-          setIsExit(true);
-          if (path) {
-            history.push(path);
-          }
+          history.goBack();
         });
-    },
-    [temKey, template, info, history, category]
-  );
-  const __insetData = useCallback(() => {
-    const { title, isPin } = info;
-    Fstore.collection(category)
-      .doc(temKey)
-      .update({
-        template: template,
-        title: title,
-        config: {
-          isBlind: false,
-          isPin,
-        },
-      })
-      .then(() => {
-        history.goBack();
-      });
-  }, [template, category, temKey, info, history]);
+    }
+  }, [template, category, temKey, info, history, type, __removeUrl]);
 
   useEffect(() => {
     if (type === "new") {
       Fstore.collection(category)
         .add({
+          title: "임시저장",
           timestamp: timestamp,
           config: {
             isBlind: true,
@@ -129,9 +179,22 @@ function Editor({ location }) {
               payload: [],
             });
           }
+
           dispatch({
             type: "@layouts/CHANGE_EDITOR",
-            payload: value.template,
+            payload: value.template
+              ? value.template
+              : [
+                  {
+                    type: "TITLE",
+                    content: "",
+                    id: `title-${
+                      new Date().getTime() -
+                      Math.floor(Math.random() * (100 - 1 + 1)) +
+                      1
+                    }`,
+                  },
+                ],
           });
         });
       dispatch({
@@ -151,20 +214,9 @@ function Editor({ location }) {
   return (
     <Beforeunload
       onBeforeunload={(e) => {
-        __updateData();
         e.preventDefault();
       }}
     >
-      <Prompt
-        message={(e) => {
-          if (!isExit) {
-            __updateData(e.pathname);
-            return false;
-          } else {
-            return true;
-          }
-        }}
-      />
       <Animation>
         <div className="editor">
           <TitleSection dispatch={patch} info={info} insert={__insetData} />
@@ -182,6 +234,7 @@ function Editor({ location }) {
             setIsUp={setIsUp}
             temKey={temKey}
             category={category}
+            state={type}
           />
         </div>
       </Animation>
