@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-
+import { useNavigate } from "react-router-dom";
 const Popup = styled.section`
   position: fixed;
   top: 64px;
@@ -51,9 +51,12 @@ const Popup = styled.section`
       }
     }
   }
+  @media screen and (max-width: 1024px) {
+  }
 `;
 
 function HeadPopup() {
+  const navigate = useNavigate();
   return (
     <Popup>
       <div className="container">
@@ -65,7 +68,12 @@ function HeadPopup() {
             이메일 인증하고 <br /> 지금 바로 뭉치를 다운로드해보세요!
           </div>
         </div>
-        <button className="right">
+        <button
+          className="right"
+          onClick={() => {
+            navigate("/down");
+          }}
+        >
           <span>뭉치 다운로드 하기</span>
           <figure>
             <img src="/assets/main/arrow.svg" alt="" />
