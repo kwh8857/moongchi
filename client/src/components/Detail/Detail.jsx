@@ -10,6 +10,7 @@ const Wrapper = styled.main`
   height: fit-content;
   padding-top: 140px;
   padding-bottom: 166px;
+  min-height: 100%;
 `;
 
 const Fstore = firebaseApp.firestore();
@@ -29,11 +30,16 @@ function Detail() {
         .doc(key)
         .get()
         .then((res) => {
-          setData(res.data());
+          const value = res.data();
+          res.ref.update({
+            view: value.view ? value.view + 1 : 1,
+          });
+          setData(value);
         });
     }
     return () => {};
   }, [type, key]);
+
   return (
     <Wrapper>
       {data ? (
@@ -42,6 +48,7 @@ function Detail() {
             title={data.title}
             type={type}
             timestamp={data.timestamp}
+            view={data.view ? data.view : 1}
           />
           <TemplateView data={data.template} type={type} answer={data.answer} />
         </div>

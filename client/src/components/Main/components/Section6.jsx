@@ -1,4 +1,5 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import styled from "styled-components";
 
@@ -34,10 +35,8 @@ const Wrapper = styled.section`
         }
       }
       & > .right {
-        & > figure {
-          width: 444px;
-          height: 462px;
-        }
+        width: 444px;
+        height: 462px;
       }
     }
   }
@@ -84,10 +83,88 @@ const Wrapper = styled.section`
       }
     }
   }
+  @media screen and (max-width: 1024px) {
+    height: 771px;
+    & > .top {
+      height: 551px;
+      padding-top: 81px;
+      padding-bottom: 122px;
+      & > .container {
+        & > .left {
+          & > .title {
+            font-size: 30px;
+          }
+          & > .sub {
+            margin-top: 14px;
+            font-size: 14px;
+          }
+        }
+        & > .right {
+          width: 334px;
+          height: 348px;
+        }
+      }
+    }
+    & > .bottom {
+      height: 220px;
+      & > .container {
+        & > .left {
+          & > figure {
+            width: 63.1px;
+            height: 50.5px;
+            margin-right: 22.9px;
+          }
+          & > .title {
+            font-size: 25px;
+          }
+        }
+      }
+    }
+  }
+  @media screen and (max-width: 769px) {
+    height: 1378px;
+    & > .top {
+      height: 873px;
+      padding-top: 109px;
+      padding-bottom: 151px;
+      & > .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        justify-content: unset;
+        & > .left {
+        }
+        & > .right {
+          margin-top: 47px;
+          width: 300px;
+          height: 412px;
+        }
+      }
+    }
+    & > .bottom {
+      height: 505px;
+      & > .container {
+        flex-direction: column;
+        justify-content: center;
+        & > .left {
+          flex-direction: column;
+          text-align: center;
+          & > figure {
+            margin-right: unset;
+          }
+          & > .title {
+            margin: 33.6px 0;
+          }
+        }
+      }
+    }
+  }
 `;
 
 function Section6() {
   const navigate = useNavigate();
+  const useragent = useSelector((state) => state.config.useragent);
   return (
     <Wrapper>
       <div className="top">
@@ -118,7 +195,10 @@ function Section6() {
               <img src="/assets/main/section6/mail.svg" alt="" />
             </figure>
             <div className="title">
-              이메일 인증하고 <br /> 지금 바로 뭉치를 다운로드해보세요!
+              이메일 인증하고 {useragent !== "tablet" ? <br /> : undefined}지금
+              바로{useragent === "tablet" ? <br /> : undefined} 뭉치를
+              {useragent === "mobile" ? <br /> : undefined}
+              다운로드해보세요!
             </div>
           </div>
           <button

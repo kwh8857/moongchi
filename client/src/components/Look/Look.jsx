@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import HeadPopup from "./components/HeadPopup";
-import List from "./components/List/List";
+import List from "./components/List";
 const Wrapper = styled.main`
   width: 100%;
   height: 100%;

@@ -50,6 +50,7 @@ function PosPopup({ __navMain }) {
               ispos: false,
               type: "",
               id: "",
+              password: "",
             },
           });
         }}

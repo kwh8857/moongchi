@@ -56,8 +56,71 @@ const Wrapper = styled.section`
     }
     & > .right {
       & > img {
-        width: 482.4px;
-        height: 507px;
+        width: 541.4px;
+        height: 568.6px;
+      }
+    }
+  }
+  @media screen and (max-width: 1024px) {
+    height: 668px;
+    padding-top: 140px;
+    & > .container {
+      & > .left {
+        margin-right: 70px;
+        & > figure {
+          width: 79px;
+          height: 79px;
+        }
+        & > .tag {
+          margin-top: 17px;
+          margin-bottom: 14px;
+          font-size: 16px;
+        }
+        & > .title {
+          font-size: 30px;
+          line-height: 1.3;
+        }
+        & > .sub {
+          font-size: 14px;
+          margin: 23px 0;
+        }
+        & > .bottom {
+          width: 305px;
+          height: 72px;
+        }
+      }
+      & > .right {
+        & > img {
+          width: 361px;
+          height: 379.2px;
+        }
+      }
+    }
+  }
+  @media screen and (max-width: 769px) {
+    height: 1024px;
+    padding-top: 101px;
+    & > .container {
+      flex-direction: column;
+      text-align: center;
+      .left {
+        margin-right: unset;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        & > .bottom {
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: unset;
+        }
+      }
+      & > .right {
+        margin-top: 42.8px;
+        & > img {
+          width: 360px;
+        }
       }
     }
   }

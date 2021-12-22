@@ -121,4 +121,16 @@ textarea:focus {
   height: 100%;
   margin: 0 auto;
 }
+
+@media screen and (max-width: 1024px) {
+  .container {
+    width: 704px;
+  }
+}
+
+@media screen and (max-width: 769px) {
+  .container {
+    width: 320px;
+  }
+}
 /*# sourceMappingURL=core.css.map */

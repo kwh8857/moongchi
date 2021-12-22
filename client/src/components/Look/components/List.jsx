@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
-import firebaseApp from "../../../config/firebaseApp";
+import firebaseApp from "../../config/firebaseApp";
 
 const Fstore = firebaseApp.firestore();
 const Wrapper = styled.section`
@@ -69,6 +69,13 @@ const Wrapper = styled.section`
           }
         }
       }
+    }
+  }
+  @media screen and (max-width: 1024px) {
+    & > .container {
+      grid-template-columns: repeat(2, 321px);
+      row-gap: 30px;
+      column-gap: 16px;
     }
   }
 `;

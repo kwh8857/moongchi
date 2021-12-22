@@ -53,6 +53,46 @@ const Wrapper = styled.section`
       margin-left: 56px;
     }
   }
+  @media screen and (max-width: 1024px) {
+    height: 1106px;
+    padding-top: 126px;
+    & > .container {
+      flex-direction: column;
+      text-align: center;
+      align-items: center;
+      & > .left {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        & > .title {
+          font-size: 35px;
+          line-height: 1.29;
+        }
+        & > .sub {
+          margin-top: 12px;
+          font-size: 13px;
+          line-height: 1.62;
+        }
+        & > button {
+          margin-top: 30px;
+        }
+      }
+      & > figure {
+        margin-top: 59px;
+        margin-left: unset;
+      }
+    }
+  }
+  @media screen and (max-width: 769px) {
+    height: 865px;
+    & > .container {
+      & > figure {
+        width: 320px;
+        height: 264.6px;
+        margin-top: 52px;
+      }
+    }
+  }
 `;
 function Section1() {
   const navigate = useNavigate();
@@ -65,8 +105,8 @@ function Section1() {
             쉽다!
           </div>
           <div className="sub">
-            소상공인을 위한 강력한 무료 소프트웨어 <br />{" "}
-            고객알림톡(전단지광고), 인앱결제(카드, 무통장, 포인트등) <br />{" "}
+            소상공인을 위한 강력한 무료 소프트웨어 <br />
+            고객알림톡(전단지광고), 인앱결제(카드, 무통장, 포인트등) <br />
             판매/분석/재고/고객관리를 위한 풀메뉴 제공! <br /> 원스톱 서비스
             뭉치로 쉽고, 간편하게 진행해 보세요.
           </div>

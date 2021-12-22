@@ -17,20 +17,25 @@ const Wrapper = styled.div`
     font-weight: bold;
     margin-bottom: 19px;
   }
-  & > .timestamp {
+  & > .bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     font-size: 14px;
     font-weight: 500;
-    display: flex;
     color: #7c7c7c;
   }
 `;
 
-function TitleSection({ title, type, timestamp }) {
+function TitleSection({ title, type, timestamp, view }) {
   return (
     <Wrapper>
       <div className="type">{type === "ask" ? "고객문의" : ""}</div>
       <div className="title">{title}</div>
-      <div className="timestamp">{formatDate(timestamp, ".")}</div>
+      <div className="bottom">
+        <div className="timestamp">{formatDate(timestamp, ".")}</div>
+        <div className="view">조회수 {view}</div>
+      </div>
     </Wrapper>
   );
 }

@@ -57,8 +57,75 @@ const Wrapper = styled.section`
     }
     & > .right {
       & > img {
-        width: 667px;
-        height: 523.6px;
+        width: 693px;
+        height: 544.6px;
+      }
+    }
+  }
+  @media screen and (max-width: 1024px) {
+    height: 668px;
+    padding-top: 120px;
+    padding-bottom: 140px;
+    & > .container {
+      & > .left {
+        margin-right: 15px;
+        & > figure {
+          width: 79px;
+          height: 79px;
+        }
+        & > .tag {
+          font-size: 16px;
+          margin-top: 17px;
+          margin-bottom: 12px;
+        }
+        & > .title {
+          font-size: 30px;
+          line-height: 1.3;
+        }
+        & > .sub {
+          font-size: 14px;
+          margin-bottom: 23px;
+        }
+        & > .bottom {
+          width: 320px;
+        }
+      }
+      & > .right {
+        & > img {
+          width: 401px;
+          height: 333.4px;
+        }
+      }
+    }
+  }
+  @media screen and (max-width: 769px) {
+    height: 948px;
+    padding-top: 99px;
+    padding-bottom: 97px;
+    & > .container {
+      flex-direction: column;
+      text-align: center;
+      & > .left {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-right: unset;
+        & > .tag {
+          margin-top: 18px;
+          margin-bottom: 14px;
+        }
+        & > .bottom {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: unset;
+        }
+      }
+      & > .right {
+        margin-top: 36.6px;
+        img > {
+          width: 360px;
+        }
       }
     }
   }
@@ -81,7 +148,7 @@ function Section4() {
             소비자에게 쇼핑 정보를 알려주고 <br /> 결제를 진행받을 수 있습니다
           </div>
           <div className="bottom">
-            알림톡 건당 10원 <br /> 앱으로 카드 결제 시 카드수수료 발생
+            알림톡 건당 10원 <br /> 앱 결제 시 수수료 발생
           </div>
         </div>
         <figure className="right">

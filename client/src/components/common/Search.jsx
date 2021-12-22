@@ -1,6 +1,7 @@
 import React, { useCallback } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 const Wrapper = styled.section`
   & > .container {
     display: flex;
@@ -44,10 +45,36 @@ const Wrapper = styled.section`
       }
     }
   }
+  @media screen and (max-width: 1024px) {
+    & > .container {
+      justify-content: unset;
+      flex-direction: column;
+      & > .left {
+        margin-bottom: 25.4px;
+        & > .title {
+          font-size: 26px;
+        }
+        & > button {
+          position: fixed;
+          right: 20px;
+          bottom: 20px;
+          width: 102px;
+          height: 102px;
+          padding: unset;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 102px;
+          font-size: 14px;
+        }
+      }
+    }
+  }
 `;
 
 function Search({ type, searching }) {
   const navigate = useNavigate();
+  const useragent = useSelector((state) => state.config.useragent);
   const navAsk = useCallback(() => {
     navigate("/write");
   }, [navigate]);

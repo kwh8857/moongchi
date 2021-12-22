@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React from "react";
+
 import styled from "styled-components";
-import { SEARCH } from "../../reducers/actions";
+
 import Section1 from "./components/Section1";
 import Section2 from "./components/Section2";
 import Section3 from "./components/Section3";
@@ -13,17 +13,9 @@ const Wrapper = styled.main`
   padding-top: 64px;
 `;
 function Main() {
-  const dispatch = useDispatch();
-  const test = useSelector((state) => state.config);
-  useEffect(() => {
-    dispatch({
-      type: SEARCH,
-      payload: "ok",
-    });
-  }, [dispatch]);
-
   return (
     <Wrapper>
+      <Section7 />
       <Section1 />
       <Section2 />
       <Section3 />

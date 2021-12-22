@@ -1,6 +1,7 @@
 import * as actions from "../actions";
 
 const initialState = {
+  useragent: "",
   data: {},
   status: "test",
   payload: "",
@@ -15,6 +16,11 @@ const initialState = {
 
 const config = (state = initialState, action) => {
   switch (action.type) {
+    case "USERAGENT":
+      return {
+        ...state,
+        useragent: action.payload,
+      };
     case "LOADING":
       return {
         ...state,

@@ -1,59 +1,10 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import List from "../common/List";
 import Search from "../common/Search";
+import firebaseApp from "../config/firebaseApp";
 
-const arr = [
-  {
-    title: "뭉치 업데이트 vol.3.1.1",
-    timestamp: Date.now(),
-    view: 0,
-    templates: [],
-    isPin: true,
-    isFile: true,
-  },
-  {
-    title: "뭉치 업데이트 vol.3.1.1",
-    timestamp: Date.now(),
-    view: 0,
-    templates: [],
-    isPin: true,
-    isFile: false,
-  },
-  {
-    title: "뭉치 업데이트 vol.3.1.1",
-    timestamp: Date.now(),
-    view: 0,
-    templates: [],
-    isPin: false,
-    isFile: true,
-  },
-  {
-    title: "뭉치 업데이트 vol.3.1.1",
-    timestamp: Date.now(),
-    view: 0,
-    templates: [],
-    isPin: false,
-    isFile: false,
-  },
-  {
-    title: "뭉치 업데이트 vol.3.1.1",
-    timestamp: Date.now(),
-    view: 0,
-    templates: [],
-    isPin: false,
-    isFile: false,
-  },
-  {
-    title: "뭉치 업데이트 vol.3.1.1",
-    timestamp: Date.now(),
-    view: 0,
-    templates: [],
-    isPin: false,
-    isFile: false,
-  },
-];
-
+const Fstore = firebaseApp.firestore();
 const Wrapper = styled.main`
   width: 100%;
   height: 100%;
@@ -94,6 +45,11 @@ const Wrapper = styled.main`
       }
     }
   }
+  @media screen and (max-width: 1024px) {
+    & > .container {
+      width: 100%;
+    }
+  }
   ${(props) => {
     return css`
       .pages {
@@ -103,8 +59,10 @@ const Wrapper = styled.main`
   }}
 `;
 function Notice() {
-  const length = parseFloat(String(arr.length / 10));
   const [now, setNow] = useState(1);
+  const [original, setOriginal] = useState([]);
+  const [displayList, setdisplayList] = useState([]);
+  const length = parseFloat(String(displayList.length / 10));
   const __changePage = useCallback(
     (type) => {
       if (type === "next") {
@@ -115,11 +73,49 @@ function Notice() {
     },
     [now]
   );
+  const __seaching = useCallback(
+    (e) => {
+      if (e.target.value) {
+        const arr = original.slice();
+        const filt = arr.filter(({ title }) => title.includes(e.target.value));
+        console.log(filt);
+        setdisplayList(filt);
+      } else {
+        setdisplayList(original);
+      }
+    },
+    [original]
+  );
+  useEffect(() => {
+    let arr = [];
+    Fstore.collection("notice")
+      .orderBy("timestamp", "desc")
+      .get()
+      .then((res) => {
+        let arr = [];
+        let pinarr = [];
+        if (!res.empty) {
+          res.forEach((item) => {
+            const value = item.data();
+            console.log(value);
+            if (value.config.isPin) {
+              pinarr.push(Object.assign(value, { id: item.id }));
+            } else {
+              arr.push(Object.assign(value, { id: item.id }));
+            }
+          });
+          const contac = pinarr.concat(arr);
+          setdisplayList(contac);
+          setOriginal(contac);
+        }
+      });
+    return () => {};
+  }, []);
   return (
     <Wrapper>
-      <Search type="notice" />
+      <Search type="notice" searching={__seaching} />
       <div className="container">
-        <List type="notice" data={arr} />
+        <List type="notice" data={displayList} />
         <div className="pager-wrapper">
           <figure
             onClick={() => {

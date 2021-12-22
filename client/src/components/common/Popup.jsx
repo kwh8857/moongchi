@@ -68,6 +68,15 @@ function Popup() {
     (state) => state.config.popup
   );
   const __navMain = useCallback(() => {
+    dispatch({
+      type: "POPUP",
+      payload: {
+        ispos: false,
+        type: "",
+        id: "",
+        password: "",
+      },
+    });
     navigate("/");
   }, [navigate]);
 

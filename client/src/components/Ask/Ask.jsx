@@ -44,6 +44,11 @@ const Wrapper = styled.main`
       }
     }
   }
+  @media screen and (max-width: 1024px) {
+    & > .container {
+      width: 100%;
+    }
+  }
   ${(props) => {
     return css`
       .pages {
@@ -84,16 +89,15 @@ function Ask() {
   );
   useEffect(() => {
     Fstore.collection("ask")
+      .orderBy("timestamp", "desc")
       .get()
       .then((res) => {
         if (res) {
           let arr = [];
           res.forEach((item) => {
-            arr.push(
-              Object.assign(item.data(), { index: arr.length, key: item.id })
-            );
+            arr.push(Object.assign(item.data(), { key: item.id }));
           });
-          arr.reverse();
+
           setOriginal(arr);
           setaskList(arr);
         }
