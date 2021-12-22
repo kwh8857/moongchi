@@ -169,7 +169,12 @@ function Editor({ location }) {
         <div className="editor">
           <TitleSection dispatch={patch} info={info} insert={__insetData} />
           <div className="editor-wrapper">
-            <EdiHeader setIsUp={setIsUp} temKey={temKey} category={category} />
+            <EdiHeader
+              setIsUp={setIsUp}
+              temKey={temKey}
+              category={category}
+              type={type}
+            />
             <Screen temKey={temKey} Fstore={Fstore} Fstorage={Fstorage} />
           </div>
           <Popup

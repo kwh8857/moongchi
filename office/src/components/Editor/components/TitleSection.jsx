@@ -69,7 +69,6 @@ const Wrapper = styled.div`
     padding: 12px 17px;
   }
   ${(props) => {
-    console.log(props.isPin);
     return css`
       .top {
         & > .right {

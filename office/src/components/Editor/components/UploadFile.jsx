@@ -8,7 +8,7 @@ function UploadFile({ __close, template, temKey, category }) {
   const __uploadFile = useCallback(
     (item) => {
       return new Promise((resolve, reject) => {
-        Fstorage.ref(`/${category}/${temKey}/files/${item.name}`)
+        Fstorage.ref(`/${category}/${temKey}/${item.name}`)
           .put(item)
           .then((res) => {
             res.ref.getDownloadURL().then((url) => {

@@ -3,7 +3,7 @@ import Ftsize from "./Ftsize";
 import Ftstyle from "./Ftstyle";
 import Ftalign from "./Ftalign";
 import Insert from "./Insert";
-function EdiHeader({ setIsUp, temKey, category }) {
+function EdiHeader({ setIsUp, temKey, category, type }) {
   return (
     <div className="edit-header">
       <Ftsize />
@@ -12,7 +12,12 @@ function EdiHeader({ setIsUp, temKey, category }) {
       <div className="line" />
       <Ftalign />
       <div className="line" />
-      <Insert setIsUp={setIsUp} temKey={temKey} category={category} />
+      <Insert
+        setIsUp={setIsUp}
+        temKey={temKey}
+        category={category}
+        type={type}
+      />
     </div>
   );
 }

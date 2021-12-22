@@ -13,7 +13,7 @@ const dummy = [
 
 const Fstorage = firebaseApp.storage();
 const Fstore = firebaseApp.firestore();
-function Insert({ setIsUp, temKey, category }) {
+function Insert({ setIsUp, temKey, category, type }) {
   const dispatch = useDispatch();
   const template = useSelector((state) => state.database.editor);
   const __imageUpload = useCallback(
@@ -104,9 +104,11 @@ function Insert({ setIsUp, temKey, category }) {
           })
         ).then((result) => {
           const arr = template.slice();
-          Fstore.collection(category)
-            .doc(temKey)
-            .update({ template: [...arr, ...result] });
+          if (type === "new") {
+            Fstore.collection(category)
+              .doc(temKey)
+              .update({ template: [...arr, ...result] });
+          }
           dispatch({
             type: "@layouts/CHANGE_EDITOR",
             payload: [...arr, ...result],
@@ -118,7 +120,7 @@ function Insert({ setIsUp, temKey, category }) {
         });
       });
     },
-    [__imageUpload, __fileReader, template, dispatch, temKey, category]
+    [__imageUpload, __fileReader, template, dispatch, temKey, category, type]
   );
   return (
     <div className="insert-wrapper">
