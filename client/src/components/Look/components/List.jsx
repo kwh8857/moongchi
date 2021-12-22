@@ -6,6 +6,7 @@ import firebaseApp from "../../config/firebaseApp";
 const Fstore = firebaseApp.firestore();
 const Wrapper = styled.section`
   padding-top: 254px;
+
   & > .container {
     display: grid;
     grid-template-columns: repeat(3, 321px);
@@ -76,6 +77,12 @@ const Wrapper = styled.section`
       grid-template-columns: repeat(2, 321px);
       row-gap: 30px;
       column-gap: 16px;
+    }
+  }
+  @media screen and (max-width: 769px) {
+    & > .container {
+      grid-template-columns: unset;
+      column-gap: unset;
     }
   }
 `;
