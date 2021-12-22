@@ -1,4 +1,5 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 import Loading from "../common/Loading";
 import Infoinsert from "./components/Infoinsert";
@@ -52,8 +53,32 @@ const Wrapper = styled.main`
       row-gap: 17px;
     }
   }
+  @media screen and (max-width: 1024px) {
+    min-height: unset;
+    & > .container {
+      & > .title-wrapper {
+        & > .title {
+          font-size: 26px;
+        }
+      }
+      & > .info-wrapper {
+        margin-top: 30px;
+        grid-template-columns: repeat(2, 344px);
+        row-gap: 15px;
+        column-gap: 16px;
+      }
+    }
+  }
+  @media screen and (max-width: 769px) {
+    & > .container {
+      & > .info-wrapper {
+        grid-template-columns: unset;
+      }
+    }
+  }
 `;
 function WriteAsk() {
+  const useragent = useSelector((state) => state.config.useragent);
   return (
     <Wrapper>
       <div className="container">
@@ -74,8 +99,9 @@ function WriteAsk() {
             );
           })}
         </div>
-        <Template />
+        {useragent === "desktop" ? <Template agent={useragent} /> : undefined}
       </div>
+      {useragent !== "desktop" ? <Template agent={useragent} /> : undefined}
       <Loading />
     </Wrapper>
   );

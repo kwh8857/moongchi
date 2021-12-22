@@ -26,6 +26,22 @@ const Box = styled.div`
     margin-top: 14px;
     margin-bottom: 18px;
   }
+  @media screen and (max-width: 1024px) {
+    & > figure {
+      width: 42.1px;
+      height: 48.1px;
+    }
+    & > .title {
+      font-size: 22px;
+      margin-top: 11px;
+      margin-bottom: 16px;
+    }
+    & > form {
+      & > input {
+        width: 244px;
+      }
+    }
+  }
 `;
 
 const Init = styled.button`
@@ -37,7 +53,10 @@ const Init = styled.button`
   color: white;
   font-size: 18px;
   font-weight: bold;
-
+  @media screen and (max-width: 1024px) {
+    width: 209px;
+    height: 46px;
+  }
   ${(props) => {
     return css`
       background-color: ${props.isOn ? "#007fff" : "#dbdbdb"};

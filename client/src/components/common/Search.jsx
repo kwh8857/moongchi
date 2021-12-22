@@ -74,7 +74,6 @@ const Wrapper = styled.section`
 
 function Search({ type, searching }) {
   const navigate = useNavigate();
-  const useragent = useSelector((state) => state.config.useragent);
   const navAsk = useCallback(() => {
     navigate("/write");
   }, [navigate]);

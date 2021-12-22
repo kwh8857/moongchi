@@ -12,11 +12,14 @@ const Wrapper = styled.section`
   position: relative;
   overflow: hidden;
   overflow-y: scroll;
+  @media screen and (max-width: 1024px) {
+    height: 737.6px;
+  }
 `;
-function Template() {
+function Template({ agent }) {
   return (
-    <Wrapper>
-      <EdiHeader category="ask" state="new" />
+    <Wrapper className="editor-wrapper">
+      <EdiHeader category="ask" state="new" agent={agent} />
       <Screen />
     </Wrapper>
   );

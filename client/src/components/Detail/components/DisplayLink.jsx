@@ -22,7 +22,7 @@ const Dlink = styled.a`
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
-    width: 90%;
+    width: 85%;
     color: #007fff;
     font-size: 14px;
     font-weight: bold;
@@ -42,21 +42,13 @@ const Dlink = styled.a`
         width: ${props.type === "LINK" ? "24.5px" : "14.5px"};
         height: ${props.type === "LINK" ? "12.3px" : "17.6px"};
       }
+        @media screen and (max-width: 769px) {
+           & > .asset-link {
+        width: ${props.type === "LINK" ? "24.5px" : "14.5px"};
+        h
+        }
     `;
   }}
-  @media screen and (max-width: 538px) {
-    margin: 15px 0;
-    height: 42px;
-
-    .asset-link {
-      width: 34.8px;
-    }
-
-    .title {
-      font-size: 13px;
-      width: 70%;
-    }
-  }
 `;
 function DisplayLink({ content: { url, title }, type }) {
   return (

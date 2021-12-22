@@ -60,10 +60,18 @@ const Wrapper = styled.section`
       }
     }
   }
+  @media screen and (max-width: 1024px) {
+    & > .box {
+      width: 320px;
+      height: 308px;
+      padding-top: 45.3px;
+    }
+  }
 `;
 function Popup() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const useragent = useSelector((state) => state.config.useragent);
   const { ispos, id, type, password } = useSelector(
     (state) => state.config.popup
   );
@@ -84,7 +92,7 @@ function Popup() {
     <Wrapper>
       <div className="back" />
       {type === "pos" ? (
-        <PosPopup __navMain={__navMain} />
+        <PosPopup __navMain={__navMain} agent={useragent} />
       ) : (
         <AskPopup id={id} confirm={password} />
       )}

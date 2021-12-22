@@ -1,12 +1,14 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 import Email from "./components/Email";
 const Wrapper = styled.main`
   width: 100%;
   height: 100%;
   padding-top: 64px;
-  box-sizing: border-box;
   background-color: #f7f8fa;
+  overflow-y: scroll;
+
   & > .container {
     display: flex;
     flex-direction: column;
@@ -35,16 +37,34 @@ const Wrapper = styled.main`
         color: #007fff;
       }
     }
-    & > .box {
-      width: 860px;
-      height: 350px;
-      background-color: white;
-      border-radius: 20px;
-      box-shadow: 0 3px 20px 0 rgba(69, 71, 101, 0.06);
+  }
+  @media screen and (max-width: 1024px) {
+    & > .container {
+      & > .logo {
+        width: 36.2px;
+        height: 43.4px;
+        margin-bottom: 18.8px;
+      }
+      & > .title {
+        font-size: 27px;
+      }
+      & > .sub {
+        font-size: 14px;
+        margin-top: 15px;
+        margin-bottom: 33px;
+        line-height: 1.64;
+      }
+    }
+  }
+  @media screen and (max-width: 1024px) {
+    padding: 114px 0;
+    & > .container {
+      justify-content: unset;
     }
   }
 `;
 function Posdown() {
+  const useragent = useSelector((state) => state.config.useragent);
   return (
     <Wrapper>
       <div className="container">
@@ -64,11 +84,14 @@ function Posdown() {
         </figure>
         <div className="title">뭉치 POS 다운로드</div>
         <div className="sub">
-          뭉치는 소상공인과 함께 성장하고자 모든 개발 프로그램을
-          <span> 무료로 배포</span>합니다. <br /> 간단한 이메일 인증과 함께
-          든든한 판매 파트너 뭉치를 만나보세요!
+          뭉치는 소상공인과 함께 성장하고자 모든 개발
+          {useragent !== "desktop" ? <br /> : undefined} 프로그램을
+          <span> 무료로 배포</span>합니다.
+          {useragent === "desktop" ? <br /> : undefined}간단한 이메일 인증과
+          {useragent !== "desktop" ? <br /> : undefined}함께 든든한 판매 파트너
+          뭉치를 만나보세요!
         </div>
-        <Email />
+        <Email useragent={useragent} />
       </div>
     </Wrapper>
   );

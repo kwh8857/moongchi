@@ -175,8 +175,8 @@ const Wrapper = styled.div`
       }
     }
   }
-  @media screen and (max-width: 538px) {
-    top: 130px;
+  @media screen and (max-width: 769px) {
+    top: 0px;
     transition: top 0.2s ease-in-out;
     z-index: 1000;
     .ftsize {
@@ -187,6 +187,7 @@ const Wrapper = styled.div`
       }
       .mb-wrapper {
         position: absolute;
+        background-color: #f7f7f7;
         left: 0;
         top: 32px;
         overflow: scroll;
@@ -224,6 +225,8 @@ const Wrapper = styled.div`
         bottom: -65px;
         height: 50px;
         overflow-x: scroll;
+        -ms-overflow-style: none;
+        scrollbar-width: none;
         .color-wrapper {
           padding: 7px;
           padding-right: 20px;
@@ -244,6 +247,9 @@ const Wrapper = styled.div`
             border-radius: 2px;
           }
         }
+      }
+      .mb-color-wrapper::-webkit-scrollbar {
+        display: none; /* Chrome, Safari, Opera*/
       }
     }
     .ftalign-wrapper {
@@ -280,7 +286,7 @@ const Wrapper = styled.div`
 function EdiHeader({ setIsUp, temKey, category, state, uid, urlList, agent }) {
   const mbNow = useSelector((state) => state.test.mobile);
   return (
-    <Wrapper>
+    <Wrapper className="edit-header">
       <Ftsize agent={agent} mbnow={mbNow} />
       <div className="line" />
       <Ftstyle agent={agent} mbnow={mbNow} />

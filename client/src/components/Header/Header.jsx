@@ -163,7 +163,7 @@ function Header() {
   }, [ObRef, dispatch]);
 
   return (
-    <Wrapper ref={ObRef} isOpen={isOpen}>
+    <Wrapper ref={ObRef} isOpen={isOpen} className="HeaderWrapper">
       <figure
         onClick={() => {
           navigate("/");

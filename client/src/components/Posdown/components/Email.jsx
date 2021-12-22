@@ -49,6 +49,7 @@ const Wrapper = styled.section`
         font-weight: bold;
         color: #434343;
         margin-left: 10.3px;
+        white-space: nowrap;
       }
     }
     & > input {
@@ -129,9 +130,55 @@ const Wrapper = styled.section`
     font-weight: bold;
     color: white;
   }
+  @media screen and (max-width: 1024px) {
+    width: 704px;
+  }
+  @media screen and (max-width: 769px) {
+    width: 320px;
+    padding-top: 34px;
+    & > .title {
+      font-size: 18px;
+    }
+    & > .sub {
+      margin-top: 8px;
+      margin-bottom: 28px;
+    }
+    & > .input-wrapper {
+      width: 279px;
+      height: 50px;
+      & > .left {
+        & > figure {
+          width: 19px;
+          height: 15.2px;
+          & > svg {
+            width: 100%;
+            height: 100%;
+          }
+        }
+        & > .tag {
+          font-size: 12px;
+          margin-left: 5px;
+        }
+      }
+    }
+    & > button {
+      width: 209px;
+      height: 46px;
+      font-size: 15px;
+      margin-top: 62px;
+      padding-left: 18px;
+      padding-right: 19px;
+      & > figure {
+        & > img {
+          width: 25.4px;
+          height: 15.2px;
+        }
+      }
+    }
+  }
 `;
 
-function Email() {
+function Email({ useragent }) {
   const location = useLocation();
   const emailRef = useRef(null);
   const dispatch = useDispatch();
@@ -215,9 +262,11 @@ function Email() {
         <>
           <div className="title">이메일 인증 후 다운로드</div>
           <div className="sub">
-            메일을 입력 후 [인증메일 요청]을 클릭하시면 작성해주신 메일로 인증
-            메일이 발송됩니다. <br /> 메일 인증을 마무리하시면 다운로드 링크가
-            오픈됩니다 ☺️
+            메일을 입력 후 [인증메일 요청]을 클릭하시면 작성해
+            {useragent === "mobile" ? <br /> : undefined}주신 메일로 인증 메일이
+            발송됩니다. {useragent !== "mobile" ? <br /> : undefined}메일 인증을
+            마{useragent === "mobile" ? <br /> : undefined}무리하시면 다운로드
+            링크가 오픈됩니다 ☺️
           </div>
           <div className="input-wrapper">
             <div className="left">

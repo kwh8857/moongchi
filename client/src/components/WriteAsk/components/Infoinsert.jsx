@@ -11,6 +11,14 @@ const Insert = styled.div`
     font-weight: bold;
     margin-right: 18px;
   }
+  @media screen and (max-width: 1024px) {
+    flex-direction: column;
+    align-items: flex-start;
+    & > .title {
+      margin-bottom: 7.4px;
+      width: fit-content;
+    }
+  }
   ${(props) => {
     return css`
       & > input {
@@ -21,6 +29,11 @@ const Insert = styled.div`
         font-size: 16px;
         box-sizing: border-box;
         padding: 0 17px;
+      }
+      @media screen and (max-width: 1024px) {
+        & > input {
+          width: 100%;
+        }
       }
     `;
   }}

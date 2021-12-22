@@ -1,8 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 const Popup = styled.section`
   position: fixed;
+  z-index: 6000;
   top: 64px;
   left: 0;
   height: 129px;
@@ -52,20 +54,65 @@ const Popup = styled.section`
     }
   }
   @media screen and (max-width: 1024px) {
+    height: 139px;
+    & > .container {
+      & > .left {
+        & > figure {
+          width: 62.2px;
+          height: 49.7px;
+          margin-right: 19.4px;
+        }
+        & > .title {
+          font-size: 19px;
+          line-height: 1.37;
+        }
+      }
+      & > button {
+        width: 168px;
+        height: 37px;
+        font-size: 12px;
+        white-space: nowrap;
+        padding-left: 15px;
+        padding-right: 13px;
+        & > figure {
+          width: 24.6px;
+          height: 14.8px;
+        }
+      }
+    }
+  }
+  @media screen and (max-width: 769px) {
+    & > .container {
+      flex-direction: column;
+      justify-content: center;
+      & > .left {
+        & > .title {
+          text-align: center;
+          font-size: 15px;
+          line-height: 1.47;
+          margin-bottom: 11.5px;
+        }
+      }
+    }
   }
 `;
 
 function HeadPopup() {
   const navigate = useNavigate();
+  const useragent = useSelector((state) => state.config.useragent);
   return (
     <Popup>
       <div className="container">
         <div className="left">
-          <figure>
-            <img src="/assets/look/email.svg" alt="" />
-          </figure>
+          {useragent !== "mobile" ? (
+            <figure>
+              <img src="/assets/look/email.svg" alt="" />
+            </figure>
+          ) : undefined}
           <div className="title">
-            이메일 인증하고 <br /> 지금 바로 뭉치를 다운로드해보세요!
+            이메일 인증하고 {useragent !== "mobile" ? <br /> : undefined} 지금
+            바로 {useragent === "mobile" ? <br /> : undefined}뭉치를
+            다운로드해보세요!
           </div>
         </div>
         <button

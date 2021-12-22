@@ -19,6 +19,11 @@ const Btn = styled.button`
   font-size: 19px;
   font-weight: bold;
 
+  @media screen and (max-width: 1024px) {
+    width: 96px;
+    height: 36px;
+    font-size: 14px;
+  }
   ${(props) => {
     return css`
       background-color: ${props.isOn ? "#007fff" : "#dbdbdb"};

@@ -6,7 +6,7 @@ import firebaseApp from "../config/firebaseApp";
 
 const Wrapper = styled.main`
   width: 100%;
-  height: 100%;
+  min-height: 100%;
   padding-top: 151px;
   & > .container {
     & > .pager-wrapper {
@@ -45,10 +45,13 @@ const Wrapper = styled.main`
     }
   }
   @media screen and (max-width: 1024px) {
+    height: fit-content;
+    padding-bottom: 100px;
     & > .container {
       width: 100%;
     }
   }
+
   ${(props) => {
     return css`
       .pages {

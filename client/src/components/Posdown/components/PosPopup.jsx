@@ -35,9 +35,30 @@ const Box = styled.div`
     font-weight: bold;
     margin-top: 33px;
   }
+  @media screen and (max-width: 1024px) {
+    & > figure {
+      width: 53.2px;
+      height: 42.5px;
+    }
+    & > .title {
+      font-size: 22px;
+      margin-top: 13.2px;
+    }
+    & > .sub {
+      font-size: 14px;
+      margin-top: 11px;
+    }
+    & > .send {
+      width: 209px;
+      height: 46px;
+      font-size: 15px;
+      margin-top: 30px;
+      justify-content: center;
+    }
+  }
 `;
 
-function PosPopup({ __navMain }) {
+function PosPopup({ __navMain, agent }) {
   const dispatch = useDispatch();
   return (
     <Box className="box">
@@ -69,9 +90,11 @@ function PosPopup({ __navMain }) {
       </div>
       <button className="send" onClick={__navMain}>
         <div>메인으로</div>
-        <figure>
-          <img src="/assets/main/arrow.svg" alt="" />
-        </figure>
+        {agent === "desktop" ? (
+          <figure>
+            <img src="/assets/main/arrow.svg" alt="" />
+          </figure>
+        ) : undefined}
       </button>
     </Box>
   );
