@@ -1,7 +1,7 @@
-import React from 'react';
-import TemplateEmty from './TemplateEmty';
+import React from "react";
+import TemplateEmty from "./TemplateEmty";
 
-function TemplateVideo({ data, provided, template, idx, setFocus }) {
+function TemplateVideo({ data, provided, template, idx, setFocus, __delete }) {
   return (
     <>
       {idx === 0 ? <TemplateEmty idx={idx} /> : undefined}
@@ -14,6 +14,14 @@ function TemplateVideo({ data, provided, template, idx, setFocus }) {
           setFocus(idx);
         }}
       >
+        <figure
+          className="delete-btn"
+          onClick={() => {
+            __delete(idx);
+          }}
+        >
+          <img src="/assets/common/delete.svg" alt="" />
+        </figure>
         <div className="dnd-icon">
           <img
             src="/assets/projects/dnd-icon.svg"
@@ -22,7 +30,7 @@ function TemplateVideo({ data, provided, template, idx, setFocus }) {
         </div>
         <video src={data} controls></video>
       </div>
-      {!template[idx + 1] || template[idx + 1].type !== 'TITLE' ? (
+      {!template[idx + 1] || template[idx + 1].type !== "TITLE" ? (
         <TemplateEmty idx={idx + 1} />
       ) : undefined}
     </>

@@ -111,7 +111,6 @@ const Card = styled.div`
   }}
 `;
 function LookCard({ index, data, imageupload, displayIndex }) {
-  console.log(data);
   return (
     <Animation>
       <Card isImage={data.image.url ? true : false}>

@@ -2,13 +2,15 @@ import React from "react";
 import TemplateEmty from "./TemplateEmty";
 
 function TemplateImage({
-  data: { resize, url },
+  data,
   provided,
   setFocus,
   focusIdx,
   idx,
   template,
+  __delete,
 }) {
+  const { resize, url } = data;
   return (
     <>
       {idx === 0 ? <TemplateEmty idx={idx} /> : undefined}
@@ -21,6 +23,20 @@ function TemplateImage({
           setFocus(idx);
         }}
       >
+        <figure
+          className="delete-btn"
+          onClick={() => {
+            __delete(
+              url,
+              "IMAGE",
+              idx,
+              { content: data, type: "IMAGE" },
+              resize
+            );
+          }}
+        >
+          <img src="/assets/common/delete.svg" alt="" />
+        </figure>
         <img src={url} alt="이미지" />
       </div>
       {!template[idx + 1] || template[idx + 1].type !== "TITLE" ? (

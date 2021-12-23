@@ -110,34 +110,38 @@ function AnswerBox({ id, status, answer }) {
   } = useSelector((state) => state.database.answer);
   const __storageInit = useCallback((url, resize, id) => {
     return new Promise((resolve, reject) => {
-      if (url.includes("firebase")) {
-        resolve({
-          url,
-          resize,
-        });
+      if (!url) {
+        resolve(undefined);
       } else {
-        const data = url.split(",")[1];
-        const redata = resize.split(",")[1];
-        Fstorage.ref(`ask/${id}-asnwer`)
-          .putString(data, "base64", {
-            contentType: "image/jpeg",
-          })
-          .then((result) => {
-            result.ref.getDownloadURL().then((downloadUrl) => {
-              Fstorage.ref(`ask/${id}-answer-resize`)
-                .putString(redata, "base64", {
-                  contentType: "image/jpeg",
-                })
-                .then((res) => {
-                  res.ref.getDownloadURL().then((resizeUrl) => {
-                    resolve({
-                      url: downloadUrl,
-                      resize: resizeUrl,
+        if (url.includes("firebase")) {
+          resolve({
+            url,
+            resize,
+          });
+        } else {
+          const data = url.split(",")[1];
+          const redata = resize.split(",")[1];
+          Fstorage.ref(`ask/${id}-asnwer`)
+            .putString(data, "base64", {
+              contentType: "image/jpeg",
+            })
+            .then((result) => {
+              result.ref.getDownloadURL().then((downloadUrl) => {
+                Fstorage.ref(`ask/${id}-answer-resize`)
+                  .putString(redata, "base64", {
+                    contentType: "image/jpeg",
+                  })
+                  .then((res) => {
+                    res.ref.getDownloadURL().then((resizeUrl) => {
+                      resolve({
+                        url: downloadUrl,
+                        resize: resizeUrl,
+                      });
                     });
                   });
-                });
+              });
             });
-          });
+        }
       }
     });
   }, []);
@@ -154,8 +158,8 @@ function AnswerBox({ id, status, answer }) {
         .update({
           answer: {
             image: {
-              url: res.url,
-              resize: res.resize,
+              url: res ? res.url : "",
+              resize: res ? res.resize : "",
               name,
             },
             content,

@@ -93,7 +93,7 @@ function TitleSection({ dispatch, info: { title, isPin }, insert }) {
             onClick={() => {
               dispatch({
                 type: "PIN",
-                pin: !isPin,
+                isPin: !isPin,
               });
             }}
           >

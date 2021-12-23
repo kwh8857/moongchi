@@ -1,11 +1,9 @@
-// const admin = require("firebase-admin");
-// var serviceAccount = require("../service/serviceKey.json");
+var admin = require("firebase-admin");
 
-// // const appState = 'production'
+var serviceAccount = require("../service/serviceAccountKey.json");
 
-// admin.initializeApp({
-//   credential: admin.credential.cert(serviceAccount),
-//   databaseURL: "https://steadee-pf-default-rtdb.firebaseio.com/",
-// });
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+});
 
-// module.exports = admin;
+module.exports = admin;

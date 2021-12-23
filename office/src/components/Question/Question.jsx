@@ -33,6 +33,7 @@ function Question() {
   }, []);
   useEffect(() => {
     Fstore.collection("ask")
+      .orderBy("timestamp", "desc")
       .get()
       .then((res) => {
         let arr = [];
@@ -41,7 +42,6 @@ function Question() {
             Object.assign(item.data(), { index: arr.length, key: item.id })
           );
         });
-        arr.reverse();
         setOriginal(arr);
       });
     return () => {};

@@ -237,8 +237,16 @@ $gray3: #dbdbdb;
           width: 100%;
           min-height: 30px;
         }
-
+        .delete-btn{
+          width: 30px;
+          height: 30px;
+          cursor: pointer;
+          position: absolute;
+          top: -34px;
+          right: 0;
+        }
         .template-img {
+          position: relative;
           display: flex;
           justify-content: center;
           width: 100%;

@@ -198,7 +198,7 @@ function Email({ useragent }) {
       .then((res) => {
         if (res.empty) {
           Fauth.sendSignInLinkToEmail(emailRef.current.value, {
-            url: `http://localhost:3000/down?${emailRef.current.value}?`,
+            url: `http://https://moogchi.com/down?${emailRef.current.value}?`,
             handleCodeInApp: true,
           }).then(() => {
             console.log("인증완료");

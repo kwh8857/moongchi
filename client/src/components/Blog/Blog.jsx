@@ -97,11 +97,12 @@ function Blog() {
         if (!res.empty) {
           res.forEach((item) => {
             const value = item.data();
-            console.log(value);
-            if (value.config.isPin) {
-              pinarr.push(Object.assign(value, { id: item.id }));
-            } else {
-              arr.push(Object.assign(value, { id: item.id }));
+            if (!value.config.isBlind) {
+              if (value.config.isPin) {
+                pinarr.push(Object.assign(value, { id: item.id }));
+              } else {
+                arr.push(Object.assign(value, { id: item.id }));
+              }
             }
           });
           const contac = pinarr.concat(arr);

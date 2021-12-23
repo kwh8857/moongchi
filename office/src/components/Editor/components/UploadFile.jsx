@@ -7,9 +7,9 @@ function UploadFile({ __close, template, temKey, category, state }) {
   const dispatch = useDispatch();
   const [File, setFile] = useState(undefined);
   const __uploadFile = useCallback(
-    (item) => {
+    (item, id) => {
       return new Promise((resolve, reject) => {
-        Fstorage.ref(`/${category}/${temKey}/${item.name}`)
+        Fstorage.ref(`/${category}/${temKey}/${id}`)
           .put(item)
           .then((res) => {
             res.ref.getDownloadURL().then((url) => {
@@ -19,11 +19,7 @@ function UploadFile({ __close, template, temKey, category, state }) {
                   title: item.name,
                   url,
                 },
-                id: `file-${
-                  new Date().getTime() -
-                  Math.floor(Math.random() * (100 - 1 + 1)) +
-                  1
-                }`,
+                id,
               });
             });
           });
@@ -36,7 +32,12 @@ function UploadFile({ __close, template, temKey, category, state }) {
     let fileList = Object.values(File);
     Promise.all(
       fileList.map(async (item, idx) => {
-        const result = await __uploadFile(item).then((result) => {
+        const result = await __uploadFile(
+          item,
+          `file-${
+            new Date().getTime() - Math.floor(Math.random() * (100 - 1 + 1)) + 1
+          }`
+        ).then((result) => {
           return result;
         });
         return result;
@@ -53,9 +54,18 @@ function UploadFile({ __close, template, temKey, category, state }) {
           .then((res) => {
             const value = res.data();
             if (value.urlList) {
-              res.ref.update({ urlList: value.urlList.concat(result) });
+              const concatArr = value.urlList.concat(result);
+              res.ref.update({ urlList: concatArr });
+              dispatch({
+                type: "@layouts/INIT_DELETELIST",
+                payload: concatArr,
+              });
             } else {
               res.ref.update({ urlList: result });
+              dispatch({
+                type: "@layouts/INIT_DELETELIST",
+                payload: result,
+              });
             }
           });
       }

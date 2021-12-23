@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import styled from "styled-components";
 import firebaseApp from "../config/firebaseApp";
@@ -16,46 +16,43 @@ const Wrapper = styled.main`
 `;
 function Main() {
   const [isFirst, setisFirst] = useState(undefined);
-  const setDate = useCallback(() => {
-    const now = new Date();
-    now.setDate(now.getDate() + 1);
-    document.cookie = `popup=popup;expires=${now.toGMTString()}`;
-  }, []);
-  const getCookie = useCallback(() => {
-    var cookie = document.cookie;
-    if (document.cookie !== "") {
-      var cookie_array = cookie.split("; ");
-      for (var index in cookie_array) {
-        var cookie_name = cookie_array[index].split("=");
-        if (cookie_name[0] === "popup") {
-          return true;
-        }
-      }
-    }
-  }, []);
+  // const setDate = useCallback(() => {
+  //   const now = new Date();
+  //   now.setDate(now.getDate() + 1);
+  //   document.cookie = `popup=popup;expires=${now.toGMTString()}`;
+  // }, []);
+  // const getCookie = useCallback(() => {
+  //   var cookie = document.cookie;
+  //   if (document.cookie !== "") {
+  //     var cookie_array = cookie.split("; ");
+  //     for (var index in cookie_array) {
+  //       var cookie_name = cookie_array[index].split("=");
+  //       if (cookie_name[0] === "popup") {
+  //         return true;
+  //       }
+  //     }
+  //   }
+  // }, []);
   useEffect(() => {
-    const checking = getCookie();
-    if (!checking) {
-      firebaseApp
-        .firestore()
-        .collection("config")
-        .doc("popup")
-        .get()
-        .then((res) => {
-          if (!res.emty) {
-            const value = res.data();
-            const time = new Date(value.time);
-            time.setHours(0);
-            if (Date.now() <= time.getTime()) {
-              setisFirst(res.data());
-              setDate();
-            }
+    firebaseApp
+      .firestore()
+      .collection("config")
+      .doc("popup")
+      .get()
+      .then((res) => {
+        if (!res.emty) {
+          const value = res.data();
+          const time = new Date(value.time);
+          time.setHours(0);
+          if (Date.now() <= time.getTime()) {
+            setisFirst(res.data());
+            // setDate();
           }
-        });
-    }
+        }
+      });
 
     return () => {};
-  }, [setDate, getCookie]);
+  }, []);
   return (
     <Wrapper>
       <Section7 />

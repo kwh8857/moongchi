@@ -105,11 +105,9 @@ const database = (state = initialState, { type, idx, payload, index }) => {
       };
     }
     case "@layouts/INIT_DELETELIST": {
-      let arr = state.deletelist;
-      arr.push(payload);
       return {
         ...state,
-        deletelist: [...arr],
+        deletelist: payload,
       };
     }
     case "@layouts/RESET": {

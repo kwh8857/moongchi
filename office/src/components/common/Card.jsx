@@ -240,7 +240,13 @@ function Card({
             </svg>
           </figure>
           <div className="title">
-            해당 게시글을 {On === "blind" ? "블라인드" : "삭제"}하시겠습니까?
+            해당 게시글을{" "}
+            {On === "blind"
+              ? isBlind
+                ? "블라인드 해제"
+                : "블라인드 "
+              : "삭제"}
+            하시겠습니까?
           </div>
         </div>
         <button

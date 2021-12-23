@@ -17,19 +17,19 @@ function Insert({ setIsUp, temKey, category, type }) {
   const dispatch = useDispatch();
   const template = useSelector((state) => state.database.editor);
   const __imageUpload = useCallback(
-    (data64, name, resize) => {
+    (data64, resize, id) => {
       return new Promise((resolve, reject) => {
         const data = data64.split(",")[1];
         const redata = resize.split(",")[1];
-        Fstorage.ref(`${category}/${temKey}/${name}`)
+        Fstorage.ref(`${category}/${temKey}/${id}`)
           .putString(data, "base64")
           .then((result) => {
             result.ref.getDownloadURL().then((downloadUrl) => {
-              Fstorage.ref(`${category}/${temKey}/${name}-resize`)
+              Fstorage.ref(`${category}/${temKey}/${id}-resize`)
                 .putString(redata, "base64")
                 .then((result) => {
                   result.ref.getDownloadURL().then((resizeUrl) => {
-                    resolve({ url: downloadUrl, resize: resizeUrl });
+                    resolve({ url: downloadUrl, resize: resizeUrl, id });
                   });
                 });
             });
@@ -86,18 +86,22 @@ function Insert({ setIsUp, temKey, category, type }) {
       );
       base64.then((result) => {
         Promise.all(
-          result.map(({ url, name, resize, width, height }) => {
-            const po = __imageUpload(url, name, resize).then((result) => {
+          result.map(({ url, resize, width, height }) => {
+            const po = __imageUpload(
+              url,
+              resize,
+              `image-${
+                new Date().getTime() -
+                Math.floor(Math.random() * (100 - 1 + 1)) +
+                1
+              }`
+            ).then((result) => {
               return {
                 type: "IMAGE",
                 content: result,
                 width,
                 height,
-                id: `image-${
-                  new Date().getTime() -
-                  Math.floor(Math.random() * (100 - 1 + 1)) +
-                  1
-                }`,
+                id: result.id,
               };
             });
             return po;
@@ -115,9 +119,18 @@ function Insert({ setIsUp, temKey, category, type }) {
               .then((res) => {
                 const value = res.data();
                 if (value.urlList) {
-                  res.ref.update({ urlList: value.urlList.concat(result) });
+                  const concatArr = value.urlList.concat(result);
+                  res.ref.update({ urlList: concatArr });
+                  dispatch({
+                    type: "@layouts/INIT_DELETELIST",
+                    payload: concatArr,
+                  });
                 } else {
                   res.ref.update({ urlList: result });
+                  dispatch({
+                    type: "@layouts/INIT_DELETELIST",
+                    payload: result,
+                  });
                 }
               });
           }

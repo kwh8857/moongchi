@@ -178,36 +178,16 @@ function Screen({
     [template, dispatch]
   );
   const __deleteImage = useCallback(
-    (idx, resize, url) => {
+    (idx) => {
       const arr = template.slice();
       arr.splice(idx, 1);
-      // if (state === "new") {
-      //   Fstorage.refFromURL(resize).delete();
-      //   Fstorage.refFromURL(url).delete();
-      // } else {
-      //   const List = urlList
-      //     .slice()
-      //     .filter((item) => item !== url || item !== resize);
-      //   if (List.length === urlList.length) {
-      //     dispatch({
-      //       type: "@layouts/INIT_DELETELIST",
-      //       payload: {
-      //         url,
-      //         resize,
-      //       },
-      //     });
-      //   } else {
-      //     Fstorage.refFromURL(resize).delete();
-      //     Fstorage.refFromURL(url).delete();
-      //     Fdatabase.ref(`users/${uid}/urlList`).set(List);
-      //   }
-      // }
+
       dispatch({
         type: "@layouts/CHANGE_EDITOR",
         payload: arr,
       });
     },
-    [category, state, dispatch, uid, template, Fdatabase, Fstorage, urlList]
+    [dispatch, template]
   );
   useEffect(() => {
     function deleteTem(event) {
@@ -217,8 +197,7 @@ function Screen({
         if (nowTemplate.type !== "context") {
           setFoucsIdx(-1);
           if (nowTemplate.type === "image") {
-            const { resize, url } = nowTemplate.content;
-            __deleteImage(foucsIdx, resize, url);
+            __deleteImage(foucsIdx);
           }
         } else {
           arr.splice(foucsIdx, 1);

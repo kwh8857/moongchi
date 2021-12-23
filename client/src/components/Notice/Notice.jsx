@@ -88,19 +88,22 @@ function Notice() {
   );
   useEffect(() => {
     Fstore.collection("notice")
+      // .where("config.isBlind", "==", false)
       .orderBy("timestamp", "desc")
       .get()
       .then((res) => {
+        console.log(res);
         let arr = [];
         let pinarr = [];
         if (!res.empty) {
           res.forEach((item) => {
             const value = item.data();
-            console.log(value);
-            if (value.config.isPin) {
-              pinarr.push(Object.assign(value, { id: item.id }));
-            } else {
-              arr.push(Object.assign(value, { id: item.id }));
+            if (!value.config.isBlind) {
+              if (value.config.isPin) {
+                pinarr.push(Object.assign(value, { id: item.id }));
+              } else {
+                arr.push(Object.assign(value, { id: item.id }));
+              }
             }
           });
           const contac = pinarr.concat(arr);
