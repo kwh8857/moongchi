@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="19" height="18" viewBox="0 0 19 18">
+    <defs>
+        <style>
+            .cls-1{fill:none;stroke:#a8a8a8;stroke-width:1.5px}
+        </style>
+    </defs>
+    <g id="add" transform="translate(0 -.511)">
+        <g id="타원_2" data-name="타원 2" class="cls-1" transform="translate(0 .511)">
+            <ellipse cx="9.5" cy="9" rx="9.5" ry="9" style="stroke:none"/>
+            <ellipse cx="9.5" cy="9" rx="8.75" ry="8.25" style="fill:none"/>
+        </g>
+        <g id="그룹_70" data-name="그룹 70" transform="translate(5.106 4.951)">
+            <path id="선_8" data-name="선 8" class="cls-1" transform="translate(0 4.624)" d="M0 0h9.249"/>
+            <path id="선_9" data-name="선 9" class="cls-1" transform="rotate(90 2.312 2.312)" d="M0 0h9.249"/>
+        </g>
+    </g>
+</svg>

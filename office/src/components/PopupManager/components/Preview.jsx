@@ -12,25 +12,26 @@ const Wrapper = styled.div`
       transform: translateY(0);
     }
   }
+  z-index: 9500;
+  position: absolute;
   width: 100%;
   height: 100%;
-  position: absolute;
   left: 0;
   top: 0;
-  z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: center;
+
   & > .back {
     width: 100%;
     height: 100%;
-    background-color: black;
-    opacity: 0.3;
+    background-color: rgba(0, 0, 0, 0.5);
     position: absolute;
     left: 0;
     top: 0;
   }
   & > .box {
+    text-align: center;
     animation: fadeIn 0.4s;
     width: 663px;
     position: relative;
@@ -40,14 +41,15 @@ const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 49px;
-    padding-bottom: 41px;
+    padding: 49px 63.5px 41px 63.5px;
     & > .title {
+      width: 506px;
       font-size: 25px;
       font-weight: bold;
       line-height: 1.4;
     }
     & > .content {
+      width: 536px;
       margin-top: 15px;
       margin-bottom: 26px;
       font-size: 17px;
@@ -68,12 +70,15 @@ const Wrapper = styled.div`
       justify-content: center;
     }
     & > .cancel {
-      width: 24px;
-      height: 24px;
       cursor: pointer;
       position: absolute;
-      top: 25px;
-      right: 27px;
+      top: 24.2px;
+      right: 22.5px;
+      width: 21.7px;
+      height: 21.7px;
+      & > figure {
+        background-color: white;
+      }
     }
   }
 `;

@@ -43,7 +43,8 @@ bower_components
 
 #product
 /build
-
+/office/build
+/client/build
 # Compiled binary addons (http://nodejs.org/api/addons.html)
 build/Release
 

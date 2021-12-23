@@ -50,6 +50,20 @@ const Wrapper = styled.section`
         background-color: #007fff;
         color: white;
       }
+      & > .insert {
+        display: flex;
+        align-items: center;
+        background-color: white;
+        box-sizing: border-box;
+        padding-left: 30px;
+        & > figure {
+          margin-right: 7px;
+          height: 21px;
+          & > img {
+            width: 19px;
+          }
+        }
+      }
     }
     .input-wrapper {
       background-color: white;
@@ -125,7 +139,12 @@ function Search({
         ) : undefined}
         {type === "look" ? (
           <div className="btn-wrapper">
-            <button onClick={add}>추가</button>
+            <button onClick={add} className="insert">
+              <figure>
+                <img src="/assets/common/insert.svg" alt="" />
+              </figure>
+              추가하기
+            </button>
             <button
               className="first"
               onClick={() => {
