@@ -18,21 +18,24 @@ function Editor({ location }) {
   const history = useHistory();
   const { type, timestamp, category, id } = location.state;
   const temKey = useSelector((state) => state.database.key);
+  const deletelist = useSelector((state) => state.database.deletelist);
   const template = useSelector((state) => state.database.editor);
-
   function reducer(state, action) {
     switch (action.type) {
       case "RESET":
         return {
           title: undefined,
-          sub: false,
+          isPin: false,
+          isBlind: false,
         };
       case "INIT":
         return action.info;
       case "TITLE":
         return { ...state, title: action.title };
       case "PIN":
-        return { ...state, isPin: action.pin };
+        return { ...state, isPin: action.isPin };
+      case "BLIND":
+        return { ...state, isBlind: action.isBlind };
       default:
         throw new Error(`Unhandled action type: ${action.type}`);
     }
@@ -50,16 +53,11 @@ function Editor({ location }) {
     return new Promise((resolve, reject) => {
       if (urlList.length > 0) {
         const clone = urlList.slice();
-        template.forEach(({ content: { resize, url }, type }) => {
+        template.forEach(({ content: { url }, type }) => {
           if (type === "IMAGE" || type === "FILE") {
             for (let i = 0; i < clone.length; i++) {
               const element = clone[i];
-              if (
-                element.content.resize === resize &&
-                element.content.url === url
-              ) {
-                clone.splice(i, i + 1);
-              } else if (element.content.url === url) {
+              if (element.content.url === url) {
                 clone.splice(i, i + 1);
               }
             }
@@ -73,47 +71,40 @@ function Editor({ location }) {
   }, []);
 
   const __insetData = useCallback(() => {
-    const { title, isPin } = info;
+    const { title, isPin, isBlind } = info;
     if (type !== "new") {
-      Fstore.collection(category)
-        .doc(temKey)
-        .get()
-        .then((res) => {
-          const value = res.data();
-          if (value.urlList) {
-            __removeUrl(template, value.urlList).then((urlList) => {
-              res.ref
-                .update({
-                  urlList,
-                  template: template,
-                  title: title,
-                  config: {
-                    isBlind: false,
-                    isPin,
-                  },
-                })
-                .then(() => {
-                  history.goBack();
-                });
+      const res = Fstore.collection(category).doc(temKey);
+      if (deletelist.length > 0) {
+        __removeUrl(template, deletelist).then((urlList) => {
+          console.log(urlList);
+          res
+            .update({
+              urlList,
+              template: template,
+              title: title,
+              config: {
+                isPin,
+                isBlind,
+              },
+            })
+            .then(() => {
+              history.goBack();
             });
-          } else {
-            res.ref
-              .update({
-                template: template,
-                title: title,
-                config: {
-                  isBlind: false,
-                  isPin,
-                },
-              })
-              .then(() => {
-                history.goBack();
-              });
-          }
-        })
-        .then(() => {
-          history.goBack();
         });
+      } else {
+        res
+          .update({
+            template: template,
+            title: title,
+            config: {
+              isPin,
+              isBlind,
+            },
+          })
+          .then(() => {
+            history.goBack();
+          });
+      }
     } else {
       Fstore.collection(category)
         .doc(temKey)
@@ -129,7 +120,16 @@ function Editor({ location }) {
           history.goBack();
         });
     }
-  }, [template, category, temKey, info, history, type, __removeUrl]);
+  }, [
+    template,
+    category,
+    temKey,
+    info,
+    history,
+    type,
+    __removeUrl,
+    deletelist,
+  ]);
 
   useEffect(() => {
     if (type === "new") {
@@ -160,14 +160,25 @@ function Editor({ location }) {
         .get()
         .then((result) => {
           const value = result.data();
-
           patch({
             type: "INIT",
             info: {
               title: value.title,
               isPin: value.config.isPin,
+              isBlind: value.config.isBlind,
             },
           });
+          if (value.urlList) {
+            dispatch({
+              type: "@layouts/INIT_DELETELIST",
+              payload: value.urlList,
+            });
+          } else {
+            dispatch({
+              type: "@layouts/INIT_DELETELIST",
+              payload: [],
+            });
+          }
           if (value.videoList) {
             dispatch({
               type: "@layouts/INIT_VIDEO",
@@ -227,7 +238,12 @@ function Editor({ location }) {
               category={category}
               type={type}
             />
-            <Screen temKey={temKey} Fstore={Fstore} Fstorage={Fstorage} />
+            <Screen
+              temKey={temKey}
+              Fstore={Fstore}
+              Fstorage={Fstorage}
+              state={type}
+            />
           </div>
           <Popup
             isUp={isUp}
