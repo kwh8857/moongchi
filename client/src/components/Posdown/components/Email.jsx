@@ -192,29 +192,33 @@ function Email({ useragent }) {
     }
   }, []);
   const __sendEmail = useCallback(() => {
-    Fstore.collection("download")
-      .where("email", "==", emailRef.current.value)
-      .get()
-      .then((res) => {
-        if (res.empty) {
-          Fauth.sendSignInLinkToEmail(emailRef.current.value, {
-            url: `http://https://moogchi.com/down?${emailRef.current.value}?`,
-            handleCodeInApp: true,
-          }).then(() => {
-            console.log("인증완료");
-          });
-          dispatch({
-            type: "POPUP",
-            payload: {
-              ispos: true,
-              type: "pos",
-            },
-          });
-        } else {
-          setsuccess(true);
-        }
-      });
-  }, [dispatch, emailRef]);
+    if (isClear) {
+      Fstore.collection("download")
+        .where("email", "==", emailRef.current.value)
+        .get()
+        .then((res) => {
+          if (res.empty) {
+            Fauth.sendSignInLinkToEmail(emailRef.current.value, {
+              url: `https://moogchi.com/down?${emailRef.current.value}?`,
+              handleCodeInApp: true,
+            }).then(() => {
+              console.log("인증완료");
+            });
+            dispatch({
+              type: "POPUP",
+              payload: {
+                ispos: true,
+                type: "pos",
+              },
+            });
+          } else {
+            setsuccess(true);
+          }
+        });
+    } else {
+      alert("올바르지 않은 이메일 형식입니다");
+    }
+  }, [dispatch, emailRef, isClear]);
   useEffect(() => {
     const check = location.search.split("?")[1];
     if (check) {

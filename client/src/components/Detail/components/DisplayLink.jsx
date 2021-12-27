@@ -51,8 +51,16 @@ const Dlink = styled.a`
   }}
 `;
 function DisplayLink({ content: { url, title }, type }) {
+  console.log(url);
   return (
-    <Dlink target="_blank" rel="noopener noreferrer" href={url} type={type}>
+    <Dlink
+      target="_blank"
+      rel="noopener noreferrer"
+      href={url}
+      type={type}
+      attributes-list
+      download
+    >
       <div className="asset-link">
         <img
           src={`/assets/common/${type === "LINK" ? "link" : "blue-down"}.svg`}

@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useRef } from "react";
 import styled from "styled-components";
 
 const Wrapper = styled.section`
@@ -11,6 +12,8 @@ const Wrapper = styled.section`
   & > .container {
     display: flex;
     align-items: center;
+    opacity: 0;
+    transform: translate3d(0, 10%, 0);
     & > .left {
       margin-right: 158px;
       & > figure {
@@ -126,10 +129,30 @@ const Wrapper = styled.section`
   }
 `;
 
-function Section3() {
+function Section3({ handleScroll }) {
+  const dom = useRef(null);
+  useEffect(() => {
+    let observer;
+    const { current } = dom;
+    if (current) {
+      observer = new IntersectionObserver(
+        (e) => {
+          handleScroll(e, dom);
+        },
+        {
+          threshold: 0.2,
+          root: null,
+          rootMargin: "0px",
+        }
+      );
+      observer.observe(current);
+
+      return () => observer && observer.disconnect();
+    }
+  }, [dom, handleScroll]);
   return (
     <Wrapper>
-      <div className="container">
+      <div className="container" ref={dom}>
         <div className="left">
           <figure>
             <img src="/assets/main/section2/man.svg" alt="" />

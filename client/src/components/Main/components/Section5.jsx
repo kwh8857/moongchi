@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 const Wrapper = styled.section`
@@ -8,6 +8,8 @@ const Wrapper = styled.section`
   box-sizing: border-box;
   width: 100%;
   & > .container {
+    opacity: 0;
+    transform: translate3d(0, 10%, 0);
     & > .title {
       font-size: 42px;
       font-weight: bold;
@@ -52,11 +54,31 @@ const Wrapper = styled.section`
     }
   }
 `;
-function Section5() {
+function Section5({ handleScroll }) {
+  const dom = useRef(null);
   const useragent = useSelector((state) => state.config.useragent);
+  useEffect(() => {
+    let observer;
+    const { current } = dom;
+    if (current) {
+      observer = new IntersectionObserver(
+        (e) => {
+          handleScroll(e, dom);
+        },
+        {
+          threshold: 0.2,
+          root: null,
+          rootMargin: "0px",
+        }
+      );
+      observer.observe(current);
+
+      return () => observer && observer.disconnect();
+    }
+  }, [dom, handleScroll]);
   return (
     <Wrapper>
-      <div className="container">
+      <div className="container" ref={dom}>
         <div className="title">
           작은 업체도 <br /> 효율적으로 구축
         </div>

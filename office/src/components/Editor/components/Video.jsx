@@ -69,15 +69,6 @@ function Video({ __close, template, temKey, category }) {
   );
   const __updateList = useCallback(
     (idx, url, name, thumbnail) => {
-      Fstore.collection(category)
-        .doc(temKey)
-        .update({
-          videoList: firebaseApp.firestore.FieldValue.arrayUnion({
-            url,
-            name,
-            thumbnail,
-          }),
-        });
       dispatch({
         type: "@layouts/UPDATE_VIDEO",
         payload: {
@@ -87,8 +78,20 @@ function Video({ __close, template, temKey, category }) {
         },
         idx,
       });
+      Fstore.collection(category)
+        .doc(temKey)
+        .update({
+          videoList: firebaseApp.firestore.FieldValue.arrayUnion({
+            url,
+            name,
+            thumbnail,
+          }),
+        })
+        .then(() => {
+          __selectVideo(url);
+        });
     },
-    [dispatch, temKey, category]
+    [dispatch, temKey, category, __selectVideo]
   );
   const __uploadVideo = useCallback(
     (e) => {

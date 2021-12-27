@@ -345,7 +345,7 @@
 }
 
 #root .editor .editor-wrapper .editor-screen .template-video .dnd-icon {
-  width: 50px;
+  width: 25px;
   z-index: 1000;
   position: absolute;
   right: 0;

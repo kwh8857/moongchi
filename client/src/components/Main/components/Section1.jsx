@@ -1,6 +1,8 @@
 import React from "react";
+import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router";
 import styled from "styled-components";
+
 const Wrapper = styled.section`
   width: 100%;
   background-color: #f7f8fa;
@@ -9,6 +11,8 @@ const Wrapper = styled.section`
   padding-top: 120px;
   & > .container {
     display: flex;
+    opacity: 0;
+    transform: translate3d(0, 5%, 0);
     & > .left {
       & > .title {
         font-size: 50px;
@@ -94,11 +98,32 @@ const Wrapper = styled.section`
     }
   }
 `;
-function Section1() {
+
+function Section1({ handleScroll }) {
   const navigate = useNavigate();
+  const dom = useRef(null);
+  useEffect(() => {
+    let observer;
+    const { current } = dom;
+    if (current) {
+      observer = new IntersectionObserver(
+        (e) => {
+          handleScroll(e, dom);
+        },
+        {
+          threshold: 0.2,
+          root: null,
+          rootMargin: "0px",
+        }
+      );
+      observer.observe(current);
+
+      return () => observer && observer.disconnect();
+    }
+  }, [dom, handleScroll]);
   return (
     <Wrapper>
-      <div className="container">
+      <div className="container" ref={dom}>
         <div className="left">
           <div className="title">
             손쉬운 쇼핑, <br /> 손쉬운 매장 관리 <br /> <span>뭉치</span>면

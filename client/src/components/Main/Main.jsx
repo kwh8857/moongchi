@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useCallback } from "react";
 
 import styled from "styled-components";
 import firebaseApp from "../config/firebaseApp";
@@ -16,53 +17,62 @@ const Wrapper = styled.main`
 `;
 function Main() {
   const [isFirst, setisFirst] = useState(undefined);
-  // const setDate = useCallback(() => {
-  //   const now = new Date();
-  //   now.setDate(now.getDate() + 1);
-  //   document.cookie = `popup=popup;expires=${now.toGMTString()}`;
-  // }, []);
-  // const getCookie = useCallback(() => {
-  //   var cookie = document.cookie;
-  //   if (document.cookie !== "") {
-  //     var cookie_array = cookie.split("; ");
-  //     for (var index in cookie_array) {
-  //       var cookie_name = cookie_array[index].split("=");
-  //       if (cookie_name[0] === "popup") {
-  //         return true;
-  //       }
-  //     }
-  //   }
-  // }, []);
-  useEffect(() => {
-    firebaseApp
-      .firestore()
-      .collection("config")
-      .doc("popup")
-      .get()
-      .then((res) => {
-        if (!res.emty) {
-          const value = res.data();
-          const time = new Date(value.time);
-          time.setHours(0);
-          if (Date.now() <= time.getTime()) {
-            setisFirst(res.data());
-            // setDate();
-          }
+  const handleScroll = useCallback(([entry], dom) => {
+    const { current } = dom;
+    if (current && entry.isIntersecting) {
+      current.style.transitionProperty = "opacity ,transform";
+      current.style.transitionDuration = "0.7s";
+      current.style.transitionTimingFunction = "ease";
+      current.style.transitionDelay = `0.2s`;
+      current.style.opacity = "1";
+      current.style.transform = "translate3d(0, 0, 0)";
+    }
+  }, []);
+  const getCookie = useCallback(() => {
+    var cookie = document.cookie;
+    if (document.cookie !== "") {
+      var cookie_array = cookie.split("; ");
+      for (var index in cookie_array) {
+        var cookie_name = cookie_array[index].split("=");
+        if (cookie_name[0] === "popup") {
+          return true;
         }
-      });
+      }
+    }
+  }, []);
+  useEffect(() => {
+    const isCheck = getCookie();
+
+    if (!isCheck) {
+      firebaseApp
+        .firestore()
+        .collection("config")
+        .doc("popup")
+        .get()
+        .then((res) => {
+          if (res.exists) {
+            const value = res.data();
+            const time = new Date(value.time);
+            time.setHours(0);
+            if (Date.now() <= time.getTime()) {
+              setisFirst(res.data());
+            }
+          }
+        });
+    }
 
     return () => {};
-  }, []);
+  }, [getCookie]);
   return (
     <Wrapper>
-      <Section7 />
-      <Section1 />
-      <Section2 />
-      <Section3 />
-      <Section4 />
-      <Section5 />
-      <Section6 />
-      <Section7 />
+      <Section7 handleScroll={handleScroll} />
+      <Section1 handleScroll={handleScroll} />
+      <Section2 handleScroll={handleScroll} />
+      <Section3 handleScroll={handleScroll} />
+      <Section4 handleScroll={handleScroll} />
+      <Section5 handleScroll={handleScroll} />
+      <Section6 handleScroll={handleScroll} />
+      <Section7 handleScroll={handleScroll} />
       {isFirst ? <FirstPopup data={isFirst} cancel={setisFirst} /> : undefined}
     </Wrapper>
   );

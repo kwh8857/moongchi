@@ -27,17 +27,22 @@ const Wrapper = styled.main`
 function Look() {
   const dispatch = useDispatch();
   const List = useSelector((state) => state.database.preview);
+  const removeList = useSelector((state) => state.database.question.removelist);
   const [isPreview, setIsPreview] = useState(false);
   const __storage = useCallback((data64, index, resize) => {
     return new Promise((resolve, reject) => {
       const data = data64.split(",")[1];
       const redata = resize.split(",")[1];
       Fstorage.ref(`preview/${index}`)
-        .putString(data, "base64")
+        .putString(data, "base64", {
+          contentType: "image/jpeg",
+        })
         .then((result) => {
           result.ref.getDownloadURL().then((downloadUrl) => {
             Fstorage.ref(`preview/${index}-resize`)
-              .putString(redata, "base64")
+              .putString(redata, "base64", {
+                contentType: "image/jpeg",
+              })
               .then((result) => {
                 result.ref.getDownloadURL().then((resizeUrl) => {
                   resolve({ url: downloadUrl, resize: resizeUrl });
@@ -52,12 +57,20 @@ function Look() {
       type: "@config/isLoading",
       payload: true,
     });
+    if (removeList.length > 0) {
+      removeList.forEach((item) => {
+        Fstorage.refFromURL(item).delete();
+      });
+      dispatch({
+        type: "@database/QUESTION_REMOVE_RESET",
+      });
+    }
     Promise.all(
       List.map((item, idx) => {
         if (item.image.url.substr(0, 4) === "data") {
           const storage = __storage(
             item.image.url,
-            List.length - idx,
+            item.id,
             item.image.resize
           ).then((res) => {
             return Object.assign(item, { image: res });
@@ -68,7 +81,6 @@ function Look() {
         }
       })
     ).then((res) => {
-      console.log(res);
       Fstore.collection("config")
         .doc("preview")
         .set({
@@ -88,7 +100,7 @@ function Look() {
           });
         });
     });
-  }, [List, __storage, dispatch]);
+  }, [List, __storage, dispatch, removeList]);
   const __fileReader = useCallback((file) => {
     return new Promise((resolve, reject) => {
       var reader = new FileReader();
@@ -118,7 +130,14 @@ function Look() {
     });
   }, []);
   const __imageUpload = useCallback(
-    (e, index) => {
+    (e, index, image, resize) => {
+      if (image) {
+        dispatch({
+          type: "@database/QUESTION_REMOVE",
+          payload: image,
+          resize,
+        });
+      }
       __fileReader(e.target.files[0]).then((res) => {
         dispatch({
           type: "@database/PREVIEW_IMAGE",
@@ -128,6 +147,17 @@ function Look() {
       });
     },
     [__fileReader, dispatch]
+  );
+  const __removeList = useCallback(
+    (idx) => {
+      let arr = List.slice();
+      arr.splice(idx, 1);
+      dispatch({
+        type: "@database/PREVIEW",
+        payload: arr,
+      });
+    },
+    [List, dispatch]
   );
   const __listAdd = useCallback(() => {
     let arr = List.slice();
@@ -140,6 +170,9 @@ function Look() {
         url: "",
         resize: "",
       },
+      id: `preview-${
+        new Date().getTime() - Math.floor(Math.random() * (100 - 1 + 1)) + 1
+      }`,
       timestamp: Date.now(),
     });
     dispatch({
@@ -155,11 +188,17 @@ function Look() {
       .doc("preview")
       .get()
       .then((res) => {
-        if (!res.empty) {
-          dispatch({
-            type: "@database/PREVIEW",
-            payload: res.data().list,
-          });
+        if (res.exists) {
+          if (res.data().list) {
+            dispatch({
+              type: "@database/PREVIEW",
+              payload: res.data().list,
+            });
+          } else {
+            dispatch({
+              type: "@database/PREVIEW_RESET",
+            });
+          }
         }
       });
     return () => {};
@@ -183,6 +222,7 @@ function Look() {
                 data={item}
                 imageupload={__imageUpload}
                 displayIndex={List.length - idx}
+                remove={__removeList}
               />
             );
           })}

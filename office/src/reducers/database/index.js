@@ -21,6 +21,9 @@ const initialState = {
     },
     content: "",
   },
+  question: {
+    removelist: [],
+  },
   preview: [
     {
       title: "",
@@ -35,8 +38,32 @@ const initialState = {
     },
   ],
 };
-const database = (state = initialState, { type, idx, payload, index }) => {
+const database = (
+  state = initialState,
+  { type, idx, payload, index, resize }
+) => {
   switch (type) {
+    case "@database/QUESTION_REMOVE_RESET": {
+      return {
+        ...state,
+        question: {
+          ...state.question,
+          removelist: [],
+        },
+      };
+    }
+    case "@database/QUESTION_REMOVE": {
+      let arr = state.question.removelist;
+      arr.push(payload);
+      arr.push(resize);
+      return {
+        ...state,
+        question: {
+          ...state.question,
+          removelist: [...arr],
+        },
+      };
+    }
     case "@database/PREVIEW_IMAGE": {
       let arr = state.preview;
       arr[index].image = payload;
@@ -75,6 +102,12 @@ const database = (state = initialState, { type, idx, payload, index }) => {
       return {
         ...state,
         preview: [...arr],
+      };
+    }
+    case "@database/PREVIEW_RESET": {
+      return {
+        ...state,
+        preview: initialState.preview,
       };
     }
     case "@database/PREVIEW": {

@@ -9,7 +9,7 @@ function UploadFile({ __close, template, temKey, category, state }) {
   const __uploadFile = useCallback(
     (item, id) => {
       return new Promise((resolve, reject) => {
-        Fstorage.ref(`/${category}/${temKey}/${id}`)
+        Fstorage.ref(`/${category}/${temKey}/${item.name}`)
           .put(item)
           .then((res) => {
             res.ref.getDownloadURL().then((url) => {
@@ -32,6 +32,7 @@ function UploadFile({ __close, template, temKey, category, state }) {
     let fileList = Object.values(File);
     Promise.all(
       fileList.map(async (item, idx) => {
+        console.log(item);
         const result = await __uploadFile(
           item,
           `file-${

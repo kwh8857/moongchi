@@ -21,15 +21,9 @@ function VideoCard({
 
   const __deleteVideo = useCallback(() => {
     if (video) {
-      Fstorage.refFromURL(video)
-        .delete()
-        .then(() => {
-          Fstorage.refFromURL(thumbnail)
-            .delete()
-            .then(() => {
-              __delete(idx);
-            });
-        });
+      Fstorage.refFromURL(video).delete();
+      Fstorage.refFromURL(thumbnail).delete();
+      __delete(idx);
     } else {
       if (uploadstate) {
         uploadstate.task.cancel();
@@ -42,9 +36,9 @@ function VideoCard({
   }, [video, __delete, idx, uploadstate, thumbnail]);
   const __uploadVideo = useCallback(
     (thumbnail) => {
-      const update = Fstorage.ref(
-        `${category}/${temKey}/${data.name}/video`
-      ).put(data);
+      const update = Fstorage.ref(`${category}/${temKey}/${data.name}`).put(
+        data
+      );
       __upload(idx, update, data.name, thumbnail);
     },
     [data, __upload, idx, temKey, category]
@@ -67,8 +61,10 @@ function VideoCard({
           .drawImage(video, 0, 0, canvas.width, canvas.height);
         var image = canvas.toDataURL();
         const base = image.split(",")[1];
-        Fstorage.ref(`${category}/${temKey}/video/${data.name}/thumbnail`)
-          .putString(base, "base64")
+        Fstorage.ref(`${category}/${temKey}/${data.name}-thumbnail`)
+          .putString(base, "base64", {
+            contentType: "image/jpeg",
+          })
           .then((result) => {
             result.ref.getDownloadURL().then((getDownloadURL) => {
               resolve(getDownloadURL);
@@ -107,7 +103,7 @@ function VideoCard({
     //데이터가 file인경우 type이 존재
     if (data.type) {
       //이미 존재하는 이름의 비디오인지 확인
-      Fstorage.ref(`${category}/${temKey}/video/${data.name}/video`)
+      Fstorage.ref(`${category}/${temKey}/${data.name}`)
         .getDownloadURL()
         .then((res) => {
           //이부분 토스트 메세지 추가 필요

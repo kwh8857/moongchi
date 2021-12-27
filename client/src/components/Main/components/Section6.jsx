@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import styled from "styled-components";
@@ -15,6 +15,8 @@ const Wrapper = styled.section`
       display: flex;
       align-items: center;
       justify-content: space-between;
+      opacity: 0;
+      transform: translate3d(0, 10%, 0);
       & > .left {
         & > .title {
           font-size: 46px;
@@ -162,13 +164,33 @@ const Wrapper = styled.section`
   }
 `;
 
-function Section6() {
+function Section6({ handleScroll }) {
   const navigate = useNavigate();
+  const dom = useRef(null);
   const useragent = useSelector((state) => state.config.useragent);
+  useEffect(() => {
+    let observer;
+    const { current } = dom;
+    if (current) {
+      observer = new IntersectionObserver(
+        (e) => {
+          handleScroll(e, dom);
+        },
+        {
+          threshold: 0.2,
+          root: null,
+          rootMargin: "0px",
+        }
+      );
+      observer.observe(current);
+
+      return () => observer && observer.disconnect();
+    }
+  }, [dom, handleScroll]);
   return (
     <Wrapper>
       <div className="top">
-        <div className="container">
+        <div className="container" ref={dom}>
           <div className="left">
             <div className="title">
               내 <span>단골</span>은 <br /> 스스로 관리하자!

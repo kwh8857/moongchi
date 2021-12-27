@@ -1,5 +1,6 @@
 import React, { useCallback } from "react";
 import styled from "styled-components";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 const Wrapper = styled.section`
   & > .container {
@@ -65,6 +66,12 @@ const Wrapper = styled.section`
           justify-content: center;
           border-radius: 102px;
           font-size: 14px;
+          flex-direction: column;
+          & > figure {
+            width: 36px;
+            height: 36px;
+            margin-bottom: 3px;
+          }
         }
       }
     }
@@ -72,6 +79,7 @@ const Wrapper = styled.section`
 `;
 
 function Search({ type, searching }) {
+  const useragent = useSelector((state) => state.config.useragent);
   const navigate = useNavigate();
   const navAsk = useCallback(() => {
     navigate("/write");
@@ -88,7 +96,14 @@ function Search({ type, searching }) {
               : "블로그"}
           </div>
           {type === "ask" ? (
-            <button onClick={navAsk}>문의글 작성</button>
+            <button onClick={navAsk}>
+              {useragent !== "desktop" ? (
+                <figure>
+                  <img src="/assets/ask/pen.svg" alt="" />
+                </figure>
+              ) : undefined}
+              문의글 작성
+            </button>
           ) : undefined}
         </div>
         <div className="right">

@@ -1,4 +1,6 @@
 import React from "react";
+import { useEffect } from "react";
+import { useRef } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 
@@ -21,6 +23,8 @@ const Wrapper = styled.section`
     align-items: center;
     justify-content: space-between;
     & > .left {
+      opacity: 0;
+      transform: translate3d(0, 3%, 0);
       & > figure {
         width: 231px;
         height: 52.5px;
@@ -91,12 +95,32 @@ const Wrapper = styled.section`
   }
 `;
 
-function Section7() {
+function Section7({ handleScroll }) {
   const useragent = useSelector((state) => state.config.useragent);
+  const dom = useRef(null);
+  useEffect(() => {
+    let observer;
+    const { current } = dom;
+    if (current) {
+      observer = new IntersectionObserver(
+        (e) => {
+          handleScroll(e, dom);
+        },
+        {
+          threshold: 0.2,
+          root: null,
+          rootMargin: "0px",
+        }
+      );
+      observer.observe(current);
+
+      return () => observer && observer.disconnect();
+    }
+  }, [dom, handleScroll]);
   return (
     <Wrapper useragent={useragent}>
       <div className="container">
-        <div className="left">
+        <div className="left" ref={dom}>
           <figure>
             <img src="/assets/main/section7/logo.svg" alt="" />
           </figure>

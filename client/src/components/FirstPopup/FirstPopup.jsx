@@ -1,5 +1,6 @@
-import React from "react";
-import styled from "styled-components";
+import React, { useCallback } from "react";
+import { useState } from "react";
+import styled, { css } from "styled-components";
 
 const Wrapper = styled.div`
   @keyframes fadeIn {
@@ -80,6 +81,24 @@ const Wrapper = styled.div`
         background-color: white;
       }
     }
+    & > .check {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      right: 27px;
+      bottom: 21px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #434343;
+      & > button {
+        width: 20px;
+        height: 20px;
+        border-radius: 20px;
+        background-color: white;
+        cursor: pointer;
+        margin-right: 4px;
+      }
+    }
   }
   @media screen and (max-width: 1024px) {
     & > .box {
@@ -90,6 +109,13 @@ const Wrapper = styled.div`
     & > .box {
       width: 320px;
       box-sizing: border-box;
+      padding-bottom: 74px;
+      & > .cancel {
+        top: 18px;
+        right: 18.7px;
+        width: 18.3px;
+        height: 18.3px;
+      }
       & > .title {
         width: 200px;
         font-size: 19px;
@@ -98,17 +124,42 @@ const Wrapper = styled.div`
         width: 250px;
         font-size: 13px;
       }
+      & > .check {
+        right: unset;
+        bottom: 31px;
+      }
     }
   }
+  ${(props) => {
+    return css`
+      & > .box {
+        & > .check {
+          & > button {
+            border: ${props.isCheck ? "unset" : "solid 1px #dbdbdb"};
+          }
+        }
+      }
+    `;
+  }}
 `;
 function FirstPopup({ data: { title, link, content }, cancel }) {
+  const [isCheck, setIsCheck] = useState(false);
+  const setDate = useCallback(() => {
+    const now = new Date();
+    now.setDate(now.getDate() + 1);
+    document.cookie = `popup=popup;expires=${now.toGMTString()}`;
+  }, []);
+
   return (
-    <Wrapper>
+    <Wrapper isCheck={isCheck}>
       <div className="back" />
       <div className="box">
         <button
           className="cancel"
           onClick={() => {
+            if (isCheck) {
+              setDate();
+            }
             cancel(undefined);
           }}
         >
@@ -118,9 +169,31 @@ function FirstPopup({ data: { title, link, content }, cancel }) {
         </button>
         <div className="title">{title}</div>
         <div className="content">{content}</div>
-        <a href={link} target={"_blank"} rel="noreferrer">
+        <a
+          href={link}
+          target={"_blank"}
+          rel="noreferrer"
+          onClick={() => {
+            if (isCheck) {
+              setDate();
+            }
+            cancel(undefined);
+          }}
+        >
           자세히보기
         </a>
+        <div className="check">
+          <button
+            onClick={() => {
+              setIsCheck(!isCheck);
+            }}
+          >
+            {isCheck ? (
+              <img src="/assets/main/blue-check.svg" alt="" />
+            ) : undefined}
+          </button>
+          <div className="check-title">오늘 하루동안 보지 않기</div>
+        </div>
       </div>
     </Wrapper>
   );

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
 
 const arr = [
@@ -33,6 +33,8 @@ const Wrapper = styled.section`
       line-height: 1.31;
       font-family: "cafe24";
       position: relative;
+      opacity: 0;
+      transform: translate3d(0, 8%, 0);
       & > .circle {
         position: absolute;
         top: -12px;
@@ -52,6 +54,8 @@ const Wrapper = styled.section`
       }
     }
     & > .card-wrapper {
+      opacity: 0;
+      transform: translate3d(0, 8%, 0);
       margin-top: 44px;
       display: grid;
       grid-template-columns: repeat(2, 489px);
@@ -145,11 +149,51 @@ const Wrapper = styled.section`
   }
 `;
 
-function Section2() {
+function Section2({ handleScroll }) {
+  const dom = useRef(null);
+  const cardDom = useRef(null);
+  useEffect(() => {
+    let observer;
+    const { current } = dom;
+    if (current) {
+      observer = new IntersectionObserver(
+        (e) => {
+          handleScroll(e, dom);
+        },
+        {
+          threshold: 0.2,
+          root: null,
+          rootMargin: "0px",
+        }
+      );
+      observer.observe(current);
+
+      return () => observer && observer.disconnect();
+    }
+  }, [dom, handleScroll]);
+  useEffect(() => {
+    let observer;
+    const { current } = cardDom;
+    if (current) {
+      observer = new IntersectionObserver(
+        (e) => {
+          handleScroll(e, cardDom);
+        },
+        {
+          threshold: 0.2,
+          root: null,
+          rootMargin: "0px",
+        }
+      );
+      observer.observe(current);
+
+      return () => observer && observer.disconnect();
+    }
+  }, [cardDom, handleScroll]);
   return (
     <Wrapper>
       <div className="container">
-        <div className="title">
+        <div className="title" ref={dom}>
           <div className="circle">
             <div />
             <div />
@@ -158,7 +202,7 @@ function Section2() {
           <span> 뭉치</span>
           고 <br /> 깔끔하게 관리하세요!
         </div>
-        <div className="card-wrapper">
+        <div className="card-wrapper" ref={cardDom}>
           {arr.map(({ title, tag, image, logo, sub }, idx) => {
             return (
               <div className="card" key={idx}>

@@ -39,7 +39,18 @@ const Card = styled.div`
   background-color: white;
   padding: 17px 68px 41px 26px;
   box-sizing: border-box;
-
+  position: relative;
+  & > .cancel {
+    cursor: pointer;
+    position: absolute;
+    top: 15.5px;
+    right: 15.5px;
+    & > figure {
+      width: 20px;
+      height: 20px;
+      background-color: white;
+    }
+  }
   & > .title {
     font-size: 20px;
     font-weight: bold;
@@ -110,10 +121,20 @@ const Card = styled.div`
     `;
   }}
 `;
-function LookCard({ index, data, imageupload, displayIndex }) {
+function LookCard({ index, data, imageupload, displayIndex, remove }) {
   return (
     <Animation>
       <Card isImage={data.image.url ? true : false}>
+        <button
+          className="cancel"
+          onClick={() => {
+            remove(index, data.image.url, data.image.resize);
+          }}
+        >
+          <figure>
+            <img src="/assets/question/cancel.svg" alt="" />
+          </figure>
+        </button>
         <div className="title">미리보기{displayIndex}</div>
         <div className="insert-wrapper">
           <div className="left">
@@ -136,7 +157,11 @@ function LookCard({ index, data, imageupload, displayIndex }) {
                 style={{ opacity: 0 }}
                 accept="image/x-png,image/gif,image/jpeg"
                 onChange={(e) => {
-                  imageupload(e, index);
+                  if (data.image && data.image.url.substr(0, 4) !== "data") {
+                    imageupload(e, index, data.image.url, data.image.resize);
+                  } else {
+                    imageupload(e, index);
+                  }
                 }}
               />
               <figure>

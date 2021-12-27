@@ -6,6 +6,7 @@ import styled from "styled-components";
 const TitleWrapper = styled.div`
   white-space: pre-wrap;
   margin-bottom: 44px;
+  line-height: 2;
 `;
 function Context({ data }) {
   const TextRef = useRef(null);

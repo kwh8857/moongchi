@@ -84,7 +84,7 @@ function Posdown() {
         </figure>
         <div className="title">뭉치 POS 다운로드</div>
         <div className="sub">
-          뭉치는 소상공인과 함께 성장하고자 모든 개발
+          뭉치는 소상공인과 함께 성장하고자 뭉치 POS
           {useragent !== "desktop" ? <br /> : undefined} 프로그램을
           <span> 무료로 배포</span>합니다.
           {useragent === "desktop" ? <br /> : undefined}간단한 이메일 인증과
