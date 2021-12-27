@@ -51,7 +51,6 @@ const Dlink = styled.a`
   }}
 `;
 function DisplayLink({ content: { url, title }, type }) {
-  console.log(url);
   return (
     <Dlink
       target="_blank"

@@ -79,7 +79,7 @@ function AskPopup({ id, confirm }) {
       dispatch({
         type: "POPUP",
         payload: {
-          ispos: false,
+          isactive: false,
           type: "",
           id: "",
           password: "",
@@ -95,7 +95,7 @@ function AskPopup({ id, confirm }) {
           dispatch({
             type: "POPUP",
             payload: {
-              ispos: false,
+              isactive: false,
               type: "",
               id: "",
               password: "",

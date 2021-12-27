@@ -14,21 +14,40 @@ import Toast from "./common/Toast";
 import PopupManager from "./PopupManager/PopupManager";
 import Blog from "./Blog/Blog";
 import Preview from "./Look/components/Preview";
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 function Navigation() {
+  const dispatch = useDispatch();
+  const isLogin = useSelector((state) => state.config.isLogin);
+  useEffect(() => {
+    const checkLogin = window.sessionStorage.getItem("isLogin");
+    if (checkLogin === "true") {
+      dispatch({
+        type: "@config/isLogin",
+        payload: true,
+      });
+    }
+    return () => {};
+  }, [dispatch]);
   return (
     <Router>
-      <Header />
+      <Header isLogin={isLogin} />
       <Switch>
-        <Route path="/" exact component={Login} />
-        <Route path="/download" exact component={Download} />
-        <Route path="/question" exact component={Question} />
-        <Route path="/answer" exact component={Answer} />
-        <Route path="/look" exact component={Look} />
-        <Route path="/preview" exact component={Preview} />
-        <Route path="/popup" exact component={PopupManager} />
-        <Route path="/notice" exact component={Notice} />
-        <Route path="/blog" exact component={Blog} />
-        <Route path="/editor" exact component={Editor} />
+        {!isLogin ? (
+          <Route path="/" exact component={Login} />
+        ) : (
+          <>
+            <Route path="/" exact component={Download} />
+            <Route path="/question" exact component={Question} />
+            <Route path="/answer" exact component={Answer} />
+            <Route path="/look" exact component={Look} />
+            <Route path="/preview" exact component={Preview} />
+            <Route path="/popup" exact component={PopupManager} />
+            <Route path="/notice" exact component={Notice} />
+            <Route path="/blog" exact component={Blog} />
+            <Route path="/editor" exact component={Editor} />
+          </>
+        )}
       </Switch>
       <Toast />
       <Loading />

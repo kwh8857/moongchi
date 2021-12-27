@@ -7,6 +7,7 @@ const initialState = {
     isactive: false,
     msg: "",
   },
+  isLogin: false,
   isLoading: false,
 };
 const config = (state = initialState, { type, payload }) => {
@@ -15,6 +16,12 @@ const config = (state = initialState, { type, payload }) => {
       return {
         ...state,
         isLoading: payload,
+      };
+    }
+    case "@config/isLogin": {
+      return {
+        ...state,
+        isLogin: payload,
       };
     }
     case "@config/TOAST-OFF": {

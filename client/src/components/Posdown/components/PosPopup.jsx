@@ -68,7 +68,7 @@ function PosPopup({ __navMain, agent }) {
           dispatch({
             type: "POPUP",
             payload: {
-              ispos: false,
+              isactive: false,
               type: "",
               id: "",
               password: "",

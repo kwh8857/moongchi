@@ -207,7 +207,7 @@ function Email({ useragent }) {
             dispatch({
               type: "POPUP",
               payload: {
-                ispos: true,
+                isactive: true,
                 type: "pos",
               },
             });

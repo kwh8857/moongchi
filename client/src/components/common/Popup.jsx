@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import PosPopup from "../Posdown/components/PosPopup";
 import AskPopup from "../Ask/components/AskPopup";
+import DeletePopup from "../Ask/components/DeletePopup";
 const Wrapper = styled.section`
   @keyframes fadeIn {
     from {
@@ -72,14 +73,14 @@ function Popup() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const useragent = useSelector((state) => state.config.useragent);
-  const { ispos, id, type, password } = useSelector(
+  const { isactive, id, type, password } = useSelector(
     (state) => state.config.popup
   );
   const __navMain = useCallback(() => {
     dispatch({
       type: "POPUP",
       payload: {
-        ispos: false,
+        isactive: false,
         type: "",
         id: "",
         password: "",
@@ -88,11 +89,13 @@ function Popup() {
     navigate("/");
   }, [navigate, dispatch]);
 
-  return ispos ? (
+  return isactive ? (
     <Wrapper>
       <div className="back" />
       {type === "pos" ? (
         <PosPopup __navMain={__navMain} agent={useragent} />
+      ) : type === "delete" ? (
+        <DeletePopup id={id} agent={useragent} />
       ) : (
         <AskPopup id={id} confirm={password} />
       )}

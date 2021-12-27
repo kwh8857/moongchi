@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -41,17 +41,16 @@ const Wrapper = styled.div`
     }
   }
 `;
-function Header() {
-  const location = useLocation();
+function Header({ isLogin }) {
   return (
     <Wrapper>
-      <Link to="/download">
+      <Link to="/">
         <img src="/assets/logo.svg" alt="logo" />
         <div>ADMIN</div>
       </Link>
-      {location.pathname !== "/" ? (
+      {isLogin ? (
         <div className="right">
-          <Link to="/download">다운로드관리</Link>
+          <Link to="/">다운로드관리</Link>
           <Link to="/question">고객문의관리</Link>
           <Link to="/look">미리보기관리</Link>
           <Link to="/notice">공지사항관리</Link>

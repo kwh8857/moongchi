@@ -124,7 +124,7 @@ function AskCard({ data: { status, title, password, key, timestamp }, index }) {
     dispatch({
       type: "POPUP",
       payload: {
-        ispos: true,
+        isactive: true,
         type: "password",
         id: key,
         password: password,

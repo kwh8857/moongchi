@@ -1,6 +1,7 @@
 import React, { useCallback } from "react";
 import styled from "styled-components";
-import { useHistory } from "react-router-dom";
+import { useRef } from "react";
+import { useDispatch } from "react-redux";
 
 const Wrapper = styled.div`
   background-color: #f7f7f7;
@@ -78,10 +79,30 @@ const Body = styled.div`
   }
 `;
 function Login() {
-  const history = useHistory();
+  const dispatch = useDispatch();
+  const IdRef = useRef(null);
+  const PasswordRef = useRef(null);
   const Nav = useCallback(() => {
-    history.push("/download");
-  }, [history]);
+    if (
+      IdRef.current.value === "moogchi" &&
+      PasswordRef.current.value === "^jtbc~moogchi^"
+    ) {
+      window.sessionStorage.setItem("isLogin", true);
+      dispatch({
+        type: "@config/isLogin",
+        payload: true,
+      });
+    } else {
+      dispatch({
+        type: "@config/TOAST",
+        payload: {
+          isactive: true,
+          msg: "아이디 or 비밀번호를 확인해주세요",
+        },
+      });
+    }
+  }, [IdRef, PasswordRef, dispatch]);
+
   return (
     <Wrapper>
       <Body>
@@ -92,8 +113,16 @@ function Login() {
           </div>
           <div className="bottom">
             <div className="input-wrapper">
-              <input type="text" placeholder="아이디를 입력해주세요" />
-              <input type="password" placeholder="비밀번호를 입력해주세요" />
+              <input
+                type="text"
+                placeholder="아이디를 입력해주세요"
+                ref={IdRef}
+              />
+              <input
+                type="password"
+                placeholder="비밀번호를 입력해주세요"
+                ref={PasswordRef}
+              />
             </div>
             <div className="btn" onClick={Nav}>
               로그인하기

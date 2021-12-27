@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 import firebaseApp from "../../config/firebaseApp";
+import LookCard from "./LookCard";
 
 const Fstore = firebaseApp.firestore();
 const Wrapper = styled.section`
@@ -18,6 +19,8 @@ const Wrapper = styled.section`
       background-color: white;
       padding: 25px 23px 22.3px 23px;
       box-sizing: border-box;
+      opacity: 0;
+      transform: translate3d(0, 10%, 0);
       & > .tag {
         font-size: 13px;
         font-weight: bold;
@@ -87,6 +90,17 @@ const Wrapper = styled.section`
 `;
 function List() {
   const [preview, setPreview] = useState([]);
+  const handleScroll = useCallback(([entry], dom) => {
+    const { current } = dom;
+    if (current && entry.isIntersecting) {
+      current.style.transitionProperty = "opacity ,transform";
+      current.style.transitionDuration = "0.7s";
+      current.style.transitionTimingFunction = "ease";
+      current.style.transitionDelay = `0.2s`;
+      current.style.opacity = "1";
+      current.style.transform = "translate3d(0, 0, 0)";
+    }
+  }, []);
   useEffect(() => {
     Fstore.collection("config")
       .doc("preview")
@@ -101,25 +115,8 @@ function List() {
   return (
     <Wrapper>
       <div className="container">
-        {preview.map(({ category, title, content, image, link }, idx) => {
-          return (
-            <div key={idx} className="card">
-              <div className="tag">{category}</div>
-              <div className="title">{title}</div>
-              <div className="sub">{content}</div>
-              <a
-                href={link}
-                className="image"
-                rel="noreferrer"
-                target={"_blank"}
-                style={{ backgroundImage: `url(${image.url})` }}
-              >
-                <figure>
-                  <img src="/assets/look/play.svg" alt="" />
-                </figure>
-              </a>
-            </div>
-          );
+        {preview.map((item, idx) => {
+          return <LookCard key={idx} data={item} handleScroll={handleScroll} />;
         })}
       </div>
     </Wrapper>

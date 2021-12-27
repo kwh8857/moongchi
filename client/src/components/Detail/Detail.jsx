@@ -49,6 +49,7 @@ function Detail() {
             type={type}
             timestamp={data.timestamp}
             view={data.view ? data.view : 1}
+            id={key}
           />
           <TemplateView data={data.template} type={type} answer={data.answer} />
         </div>
