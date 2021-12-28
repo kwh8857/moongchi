@@ -16,6 +16,8 @@ import Blog from "./Blog/Blog";
 import Preview from "./Look/components/Preview";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import firebaseApp from "./config/firebaseApp";
+const Fauth = firebaseApp.auth();
 function Navigation() {
   const dispatch = useDispatch();
   const isLogin = useSelector((state) => state.config.isLogin);
@@ -27,6 +29,22 @@ function Navigation() {
         payload: true,
       });
     }
+    return () => {};
+  }, [dispatch]);
+  useEffect(() => {
+    Fauth.onAuthStateChanged((user) => {
+      if (user) {
+        dispatch({
+          type: "@config/isLogin",
+          payload: true,
+        });
+      } else {
+        dispatch({
+          type: "@config/isLogin",
+          payload: false,
+        });
+      }
+    });
     return () => {};
   }, [dispatch]);
   return (

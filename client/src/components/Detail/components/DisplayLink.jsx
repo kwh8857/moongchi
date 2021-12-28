@@ -1,6 +1,6 @@
 import React from "react";
 import styled, { css } from "styled-components";
-const Dlink = styled.a`
+const Dlink = styled.button`
   display: flex;
   align-items: center;
   position: relative;
@@ -10,7 +10,7 @@ const Dlink = styled.a`
   border-radius: 5px;
   height: 53px;
   width: 100%;
-
+  cursor: pointer;
   .asset-link {
     height: 12.3px;
     margin-left: 15px;
@@ -19,6 +19,7 @@ const Dlink = styled.a`
   }
 
   .title {
+    text-align: left;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
@@ -53,12 +54,30 @@ const Dlink = styled.a`
 function DisplayLink({ content: { url, title }, type }) {
   return (
     <Dlink
-      target="_blank"
-      rel="noopener noreferrer"
-      href={url}
       type={type}
-      attributes-list
-      download
+      onClick={() => {
+        if (type === "FILE") {
+          var xhr = new XMLHttpRequest();
+          xhr.responseType = "blob";
+          xhr.onload = (event) => {
+            var blob = URL.createObjectURL(xhr.response);
+            var link = document.createElement("a");
+            link.href = blob;
+            link.download = title;
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+          };
+          xhr.open("GET", url);
+          xhr.send();
+        } else {
+          var link = document.createElement("a");
+          link.href = url;
+          link.target = "_blank";
+          link.click();
+          link.remove();
+        }
+      }}
     >
       <div className="asset-link">
         <img

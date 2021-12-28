@@ -1,7 +1,10 @@
-import React, { useCallback } from "react";
-import styled from "styled-components";
+import React, { useCallback, useEffect } from "react";
+import styled, { css } from "styled-components";
 import { useRef } from "react";
 import { useDispatch } from "react-redux";
+import firebaseApp from "../config/firebaseApp";
+
+const Fauth = firebaseApp.auth();
 
 const Wrapper = styled.div`
   background-color: #f7f7f7;
@@ -66,7 +69,6 @@ const Body = styled.div`
         width: 341px;
         height: 52px;
         border-radius: 6px;
-        background-color: #007fff;
         display: flex;
         color: white;
         align-items: center;
@@ -77,32 +79,69 @@ const Body = styled.div`
       }
     }
   }
+  ${(props) => {
+    console.log(props.isactive);
+    return css`
+      & > .box {
+        & > .bottom {
+          & > .btn {
+            background-color: ${props.isactive ? "#007fff" : "#dbdbdb"};
+          }
+        }
+      }
+    `;
+  }}
 `;
 function Login() {
   const dispatch = useDispatch();
   const IdRef = useRef(null);
   const PasswordRef = useRef(null);
-  const Nav = useCallback(() => {
-    if (
-      IdRef.current.value === "moogchi" &&
-      PasswordRef.current.value === "^jtbc~moogchi^"
-    ) {
-      window.sessionStorage.setItem("isLogin", true);
-      dispatch({
-        type: "@config/isLogin",
-        payload: true,
-      });
-    } else {
-      dispatch({
-        type: "@config/TOAST",
-        payload: {
-          isactive: true,
-          msg: "아이디 or 비밀번호를 확인해주세요",
-        },
-      });
-    }
+  const __login = useCallback(() => {
+    Fauth.setPersistence(firebaseApp.auth.Auth.Persistence.SESSION).then(() => {
+      return Fauth.signInWithEmailAndPassword(
+        IdRef.current.value,
+        PasswordRef.current.value
+      )
+        .then((result) => {
+          const {
+            user: { uid },
+          } = result;
+          if (uid === "I9JFP3oIyAX1w8veQzg74231M5R2") {
+            dispatch({
+              type: "@config/isLogin",
+              payload: true,
+            });
+          } else {
+            dispatch({
+              type: "@config/TOAST",
+              payload: {
+                isactive: true,
+                msg: "등록된 관리자가 아닙니다 접근에 주의하세요",
+              },
+            });
+          }
+        })
+        .catch((err) => {
+          if (err.code === "auth/user-not-found") {
+            dispatch({
+              type: "@config/TOAST",
+              payload: {
+                isactive: true,
+                msg: "존재하지않는 유저이거나 잘못된 이메일입니다",
+              },
+            });
+          } else if (err.code === "auth/wrong-password") {
+            dispatch({
+              type: "@config/TOAST",
+              payload: {
+                isactive: true,
+                msg: "비밀번호가 맞지않습니다",
+              },
+            });
+          }
+        });
+    });
   }, [IdRef, PasswordRef, dispatch]);
-
   return (
     <Wrapper>
       <Body>
@@ -124,7 +163,7 @@ function Login() {
                 ref={PasswordRef}
               />
             </div>
-            <div className="btn" onClick={Nav}>
+            <div className="btn" onClick={__login}>
               로그인하기
             </div>
           </div>

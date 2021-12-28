@@ -61,8 +61,8 @@ const Wrapper = styled.section`
     }
     & > .right {
       & > img {
-        width: 693px;
-        height: 544.6px;
+        width: 661px;
+        height: 537px;
       }
     }
   }
