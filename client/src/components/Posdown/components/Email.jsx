@@ -222,7 +222,6 @@ function Email({ useragent }) {
   useEffect(() => {
     const check = location.search.split("?")[1];
     if (check) {
-      console.log("발동");
       Fstore.collection("download")
         .where("email", "==", check)
         .get()
@@ -254,7 +253,16 @@ function Email({ useragent }) {
             <figure>
               <img src="/assets/down/logo.svg" alt="" />
             </figure>
-            <button>
+            <button
+              onClick={() => {
+                var link = document.createElement("a");
+                link.href = "/bigpos_setup_32.zip";
+                link.download = "moogchi_pos";
+                document.body.appendChild(link);
+                link.click();
+                link.remove();
+              }}
+            >
               <figure>
                 <img src="/assets/header/download.svg" alt="" />
               </figure>

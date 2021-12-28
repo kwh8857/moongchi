@@ -32,7 +32,6 @@ function UploadFile({ __close, template, temKey, category, state }) {
     let fileList = Object.values(File);
     Promise.all(
       fileList.map(async (item, idx) => {
-        console.log(item);
         const result = await __uploadFile(
           item,
           `file-${

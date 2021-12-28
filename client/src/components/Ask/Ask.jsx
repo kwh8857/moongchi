@@ -103,6 +103,9 @@ function Ask() {
 
           setOriginal(arr);
           setaskList(arr);
+        } else {
+          setOriginal([]);
+          setaskList([]);
         }
       });
     return () => {};

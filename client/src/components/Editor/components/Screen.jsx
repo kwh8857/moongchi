@@ -194,15 +194,15 @@ function Screen({
       if (event.key === "Backspace" && template.length > 1 && foucsIdx > -1) {
         const arr = template.slice();
         let nowTemplate = arr[foucsIdx];
-        if (nowTemplate.type !== "context") {
+        if (nowTemplate.type !== "TITLE") {
           setFoucsIdx(-1);
-          if (nowTemplate.type === "image") {
+          if (nowTemplate.type === "IMAGE") {
             __deleteImage(foucsIdx);
           }
         } else {
           arr.splice(foucsIdx, 1);
           if (
-            nowTemplate.type === "context" &&
+            nowTemplate.type === "TITLE" &&
             foucsIdx !== 0 &&
             nowTemplate.content.length === 0
           ) {
@@ -258,7 +258,7 @@ function Screen({
                 return (
                   <Draggable key={id} draggableId={id} index={idx}>
                     {(provided) => {
-                      if (type === "image") {
+                      if (type === "IMAGE") {
                         return (
                           <TemplateImage
                             data={content}
@@ -271,7 +271,7 @@ function Screen({
                             __remove={__deleteImage}
                           />
                         );
-                      } else if (type === "context") {
+                      } else if (type === "TITLE") {
                         return (
                           <TemplateTitle
                             key={idx}
@@ -283,6 +283,8 @@ function Screen({
                             __delete={__deleteTemplate}
                           />
                         );
+                      } else {
+                        return <></>;
                       }
                     }}
                   </Draggable>

@@ -95,13 +95,16 @@ function Insert({ setIsUp, temKey, category, type }) {
                 Math.floor(Math.random() * (100 - 1 + 1)) +
                 1
               }`
-            ).then((result) => {
+            ).then(({ url, resize, id }) => {
               return {
                 type: "IMAGE",
-                content: result,
+                content: {
+                  url,
+                  resize,
+                },
                 width,
                 height,
-                id: result.id,
+                id: id,
               };
             });
             return po;

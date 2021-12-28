@@ -3,9 +3,9 @@ const initialState = {
   key: undefined,
   editor: [
     {
-      type: "context",
+      type: "TITLE",
       content: "",
-      id: `context-${
+      id: `title-${
         new Date().getTime() - Math.floor(Math.random() * (100 - 1 + 1)) + 1
       }`,
     },

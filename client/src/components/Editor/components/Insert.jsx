@@ -57,7 +57,7 @@ function Insert({ category, state, uid, urlList, agent }) {
         Promise.all(
           result.map(({ url, name, resize, width, height }) => {
             return {
-              type: "image",
+              type: "IMAGE",
               content: {
                 url,
                 resize,
@@ -89,15 +89,7 @@ function Insert({ category, state, uid, urlList, agent }) {
   );
   useEffect(() => {
     if (agent !== "mobile") {
-      setdummy([
-        // { img: 'summary', type: 'SUMMARY' },
-        { img: "temp", type: "image" },
-        // { img: "horizontal", type: "horizontal" },
-        // { img: 'video', type: 'VIDEO' },
-        // { img: "youtube", type: "youtube" },
-        // { img: "link", type: "link" },
-        // { img: "file", type: "file" },
-      ]);
+      setdummy([{ img: "temp", type: "image" }]);
     } else {
       setdummy([{ img: "temp", type: "image" }]);
     }

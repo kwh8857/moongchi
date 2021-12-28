@@ -94,7 +94,6 @@ function Notice() {
       .orderBy("timestamp", "desc")
       .get()
       .then((res) => {
-        console.log(res);
         let arr = [];
         let pinarr = [];
         if (!res.empty) {
@@ -111,6 +110,9 @@ function Notice() {
           const contac = pinarr.concat(arr);
           setdisplayList(contac);
           setOriginal(contac);
+        } else {
+          setdisplayList([]);
+          setOriginal([]);
         }
       });
     return () => {};

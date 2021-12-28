@@ -15,9 +15,9 @@ function TemplateView({ data, type, answer }) {
   return (
     <Wrapper>
       {data.map(({ content, type, width }, idx) => {
-        if (type === "image" || type === "IMAGE") {
+        if (type === "IMAGE") {
           return <DisplayImage content={content} width={width} key={idx} />;
-        } else if (type === "context" || type === "TITLE") {
+        } else if (type === "TITLE") {
           return <Context key={idx} data={content} />;
         } else if (type === "FILE" || type === "LINK") {
           return <DisplayLink key={idx} content={content} type={type} />;

@@ -76,7 +76,6 @@ function Editor({ location }) {
       const res = Fstore.collection(category).doc(temKey);
       if (deletelist.length > 0) {
         __removeUrl(template, deletelist).then((urlList) => {
-          console.log(urlList);
           res
             .update({
               urlList,

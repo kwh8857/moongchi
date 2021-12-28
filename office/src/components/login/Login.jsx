@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback } from "react";
 import styled, { css } from "styled-components";
 import { useRef } from "react";
 import { useDispatch } from "react-redux";
@@ -76,11 +76,11 @@ const Body = styled.div`
         font-weight: bold;
         cursor: pointer;
         justify-content: center;
+        background-color: #007fff;
       }
     }
   }
-  ${(props) => {
-    console.log(props.isactive);
+  /* ${(props) => {
     return css`
       & > .box {
         & > .bottom {
@@ -90,7 +90,7 @@ const Body = styled.div`
         }
       }
     `;
-  }}
+  }} */
 `;
 function Login() {
   const dispatch = useDispatch();
@@ -99,7 +99,7 @@ function Login() {
   const __login = useCallback(() => {
     Fauth.setPersistence(firebaseApp.auth.Auth.Persistence.SESSION).then(() => {
       return Fauth.signInWithEmailAndPassword(
-        IdRef.current.value,
+        `${IdRef.current.value}@moogchi.com`,
         PasswordRef.current.value
       )
         .then((result) => {

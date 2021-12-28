@@ -75,7 +75,7 @@ function InitBtn() {
     const template = screen.slice();
     Promise.all(
       template.map((item, idx) => {
-        if (item.type === "image") {
+        if (item.type === "IMAGE") {
           const {
             content: { url, resize },
             id,

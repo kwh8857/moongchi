@@ -110,6 +110,9 @@ function Blog() {
           const contac = pinarr.concat(arr);
           setdisplayList(contac);
           setOriginal(contac);
+        } else {
+          setdisplayList([]);
+          setOriginal([]);
         }
       });
     return () => {};
