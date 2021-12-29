@@ -17,7 +17,15 @@ const Card = styled.div`
   box-sizing: border-box;
   display: grid;
   row-gap: 23px;
+  position: relative;
   & > .input-wrapper {
+    & > .cancel {
+      position: absolute;
+      right: 15px;
+      top: 15px;
+      background-color: white;
+      cursor: pointer;
+    }
     & > .title {
       font-size: 13px;
       font-weight: bold;
@@ -45,12 +53,27 @@ const Card = styled.div`
     }
   }
 `;
-function Box({ data: { title, content, link, time }, __update, index }) {
+function Box({
+  data: { title, content, link, time },
+  __update,
+  index,
+  __remove,
+}) {
   return (
     <Card>
       {arr.map(({ tag, type, placeholder }, idx) => {
         return (
           <div key={idx} className="input-wrapper">
+            <button
+              className="cancel"
+              onClick={() => {
+                __remove(index);
+              }}
+            >
+              <figure>
+                <img src="/assets/question/cancel.svg" alt="" />
+              </figure>
+            </button>
             <div className="title">{tag}</div>
             {type !== "content" ? (
               <input

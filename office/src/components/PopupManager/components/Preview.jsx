@@ -32,6 +32,7 @@ const Wrapper = styled.div`
     top: 0;
   }
   & > .box {
+    box-shadow: 0 3px 20px 0 rgba(69, 71, 101, 0.16);
     text-align: center;
     animation: fadeIn 0.4s;
     width: 663px;

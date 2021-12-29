@@ -110,6 +110,14 @@ function PopupManager() {
     },
     [List]
   );
+  const __removeCard = useCallback(
+    (index) => {
+      let arr = List.slice();
+      arr.splice(index, 1);
+      setList(arr);
+    },
+    [List]
+  );
   const __addCard = useCallback(() => {
     let arr = List.slice();
     arr.unshift({
@@ -139,9 +147,7 @@ function PopupManager() {
   }, []);
 
   return (
-    <Wrapper
-    // isOn={title && content && link && time.length === 10}
-    >
+    <Wrapper>
       <div className="container">
         <Animation className="ani">
           <div className="top">
@@ -164,9 +170,7 @@ function PopupManager() {
               <button
                 className="save"
                 onClick={() => {
-                  // if (title && content && link && time.length === 10) {
                   __save();
-                  // }
                 }}
               >
                 저장하기
@@ -176,21 +180,18 @@ function PopupManager() {
           {List.map((item, idx) => {
             return (
               <Animation key={idx}>
-                <Box data={item} __update={__update} index={idx} />
+                <Box
+                  data={item}
+                  __update={__update}
+                  index={idx}
+                  __remove={__removeCard}
+                />
               </Animation>
             );
           })}
         </Animation>
       </div>
-      {isPopup ? (
-        <Preview
-          // title={title}
-          // content={content}
-          // link={link}
-          list={List}
-          __popup={__popup}
-        />
-      ) : undefined}
+      {isPopup ? <Preview list={List} __popup={__popup} /> : undefined}
     </Wrapper>
   );
 }

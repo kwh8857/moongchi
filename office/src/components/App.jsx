@@ -18,6 +18,8 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import firebaseApp from "./config/firebaseApp";
 const Fauth = firebaseApp.auth();
+// Id:moogchi
+// Pass:^jtbc~moogchi^
 function Navigation() {
   const dispatch = useDispatch();
   const isLogin = useSelector((state) => state.config.isLogin);
