@@ -14,7 +14,7 @@ const Wrapper = styled.div`
     }
   }
   z-index: 9500;
-  position: absolute;
+  position: fixed;
   width: 100%;
   height: 100%;
   left: 0;
@@ -121,6 +121,8 @@ const Wrapper = styled.div`
         font-size: 19px;
       }
       & > .content {
+        max-height: 250px;
+        overflow: scroll;
         width: 250px;
         font-size: 13px;
       }

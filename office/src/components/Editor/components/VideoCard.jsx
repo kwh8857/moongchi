@@ -105,10 +105,7 @@ function VideoCard({
       //이미 존재하는 이름의 비디오인지 확인
       Fstorage.ref(`${category}/${temKey}/${data.name}`)
         .getDownloadURL()
-        .then((res) => {
-          //이부분 토스트 메세지 추가 필요
-          console.log(res);
-        })
+        .then((res) => {})
         .catch((err) => {
           __withdrawThumbnail().then((result) => {
             __uploadVideo(result);

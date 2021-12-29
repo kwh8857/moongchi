@@ -122,7 +122,6 @@ function PopupManager() {
   const [time, setTime] = useState("");
 
   const __save = useCallback(() => {
-    console.log("돌고");
     Fstore.collection("config")
       .doc("popup")
       .set({

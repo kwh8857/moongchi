@@ -80,7 +80,6 @@ function Notice() {
       if (e.target.value) {
         const arr = original.slice();
         const filt = arr.filter(({ title }) => title.includes(e.target.value));
-        console.log(filt);
         setdisplayList(filt);
       } else {
         setdisplayList(original);

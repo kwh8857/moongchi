@@ -26,7 +26,6 @@ const Wrapper = styled.div`
   }
 `;
 function Answer({ data }) {
-  console.log(data);
   return (
     <Wrapper>
       <div className="title-wrapper">
