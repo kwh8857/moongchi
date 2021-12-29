@@ -1,6 +1,8 @@
 import React, { useCallback } from "react";
+import { useEffect } from "react";
 import { useState } from "react";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
+import Box from "./components/Box";
 
 const Wrapper = styled.div`
   @keyframes fadeIn {
@@ -32,10 +34,11 @@ const Wrapper = styled.div`
     top: 0;
   }
   & > .box {
+    box-shadow: 0 3px 20px 0 rgba(69, 71, 101, 0.16);
     text-align: center;
     animation: fadeIn 0.4s;
     width: 663px;
-    position: relative;
+    position: absolute;
     background-color: white;
     border-radius: 5px;
     padding-top: 49px;
@@ -132,71 +135,36 @@ const Wrapper = styled.div`
       }
     }
   }
-  ${(props) => {
-    return css`
-      & > .box {
-        & > .check {
-          & > button {
-            border: ${props.isCheck ? "unset" : "solid 1px #dbdbdb"};
-          }
-        }
-      }
-    `;
-  }}
 `;
-function FirstPopup({ data: { title, link, content }, cancel }) {
-  const [isCheck, setIsCheck] = useState(false);
-  const setDate = useCallback(() => {
-    const now = new Date();
-    now.setDate(now.getDate() + 1);
-    document.cookie = `popup=popup;expires=${now.toGMTString()}`;
-  }, []);
-
+function FirstPopup({ data, cancel }) {
+  const [List, setList] = useState([]);
+  const setDate = useCallback(
+    (id, isCheck, index) => {
+      if (isCheck) {
+        const now = new Date();
+        now.setDate(now.getDate() + 1);
+        document.cookie = `${id}=id;expires=${now.toGMTString()}`;
+      }
+      if (List.length > 1) {
+        let arr = List.slice();
+        arr.splice(index, 1);
+        setList(arr);
+      } else {
+        cancel(undefined);
+      }
+    },
+    [List, cancel]
+  );
+  useEffect(() => {
+    setList(data);
+    return () => {};
+  }, [data]);
   return (
-    <Wrapper isCheck={isCheck}>
+    <Wrapper>
       <div className="back" />
-      <div className="box">
-        <button
-          className="cancel"
-          onClick={() => {
-            if (isCheck) {
-              setDate();
-            }
-            cancel(undefined);
-          }}
-        >
-          <figure>
-            <img src="/assets/down/cancel.svg" alt="" />
-          </figure>
-        </button>
-        <div className="title">{title}</div>
-        <div className="content">{content}</div>
-        <a
-          href={link}
-          target={"_blank"}
-          rel="noreferrer"
-          onClick={() => {
-            if (isCheck) {
-              setDate();
-            }
-            cancel(undefined);
-          }}
-        >
-          자세히보기
-        </a>
-        <div className="check">
-          <button
-            onClick={() => {
-              setIsCheck(!isCheck);
-            }}
-          >
-            {isCheck ? (
-              <img src="/assets/main/blue-check.svg" alt="" />
-            ) : undefined}
-          </button>
-          <div className="check-title">오늘 하루동안 보지 않기</div>
-        </div>
-      </div>
+      {List.map((item, idx) => {
+        return <Box key={idx} data={item} index={idx} __setDate={setDate} />;
+      })}
     </Wrapper>
   );
 }

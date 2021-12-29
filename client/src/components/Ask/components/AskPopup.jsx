@@ -6,6 +6,7 @@ import styled, { css } from "styled-components";
 const Box = styled.div`
   & > form {
     & > input {
+      -webkit-text-security: disc;
       width: 310px;
       height: 50px;
       border-radius: 5px;
@@ -70,6 +71,7 @@ function AskPopup({ id, confirm }) {
   const [password, setPassword] = useState("");
 
   const __navDetail = useCallback(() => {
+    console.log("돌아감");
     if (parseInt(password) === confirm) {
       navigate(`/detail/ask/${id}`, {
         state: {
@@ -111,16 +113,17 @@ function AskPopup({ id, confirm }) {
         <img src="/assets/ask/blue-lock.svg" alt="" />
       </figure>
       <div className="title">게시글 암호 임력</div>
-      <form autoComplete="off">
+      <form autoComplete="off" onSubmit={__navDetail}>
         <input
-          type="password"
+          type="number"
           placeholder="암호 4자리 입력"
           maxLength={4}
-          autoComplete="new-password"
           value={password}
           onChange={(e) => {
             const number = e.target.value.replace(/[^0-9-]/gi, "");
-            setPassword(number);
+            if (number.length < 5) {
+              setPassword(number);
+            }
           }}
         />
       </form>

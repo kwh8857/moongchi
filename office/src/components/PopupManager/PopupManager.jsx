@@ -1,24 +1,22 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import firebaseApp from "../config/firebaseApp";
 import Preview from "./components/Preview";
 import { Animation } from "../styles/Animation";
+import { v4 as uuidv4 } from "uuid";
+import Box from "./components/Box";
 
-const arr = [
-  { tag: "제목", type: "title", placeholder: "제목 입력" },
-  { tag: "내용", type: "content", placeholder: "내용 입력" },
-  { tag: "링크", type: "link", placeholder: "링크 입력" },
-  { tag: "게시마감일", type: "time", placeholder: "YYYY-MM-DD" },
-];
 const Fstore = firebaseApp.firestore();
 
 const Wrapper = styled.main`
-  height: 100%;
+  min-height: 100%;
+  height: fit-content;
+  background-color: #f8f8f8;
   & > .container {
+    padding: 117px 0;
     height: 100%;
     display: flex;
-    justify-content: center;
     align-items: center;
     flex-direction: column;
     & > .ani {
@@ -35,8 +33,22 @@ const Wrapper = styled.main`
         & > .btn-wrapper {
           transform: translateY(10px);
           display: grid;
-          grid-template-columns: repeat(2, 153px);
+          grid-template-columns: repeat(3, 153px);
           column-gap: 17px;
+          & > .preview {
+            color: #434343;
+          }
+          & > .save {
+            background-color: #007fff;
+          }
+          & > .insert {
+            background-color: white;
+            color: black;
+            & > figure {
+              height: 20px;
+              margin-right: 5px;
+            }
+          }
           & > button {
             height: 44px;
             width: 100%;
@@ -52,83 +64,19 @@ const Wrapper = styled.main`
           }
         }
       }
-      & > .box {
-        height: 456px;
-        width: 100%;
-        background-color: white;
-        border-radius: 10px;
-        border: solid 1px #dbdbdb;
-        margin-top: 36px;
-        padding: 27px 25px;
-        box-sizing: border-box;
-        display: grid;
-        row-gap: 23px;
-        & > .input-wrapper {
-          & > .title {
-            font-size: 13px;
-            font-weight: bold;
-            margin-bottom: 6px;
-          }
-          & > input {
-            width: 100%;
-            height: 44px;
-            border-radius: 5px;
-            border: solid 1px #dbdbdb;
-            padding: 11px 13px;
-            box-sizing: border-box;
-            font-size: 15px;
-            font-weight: 500;
-          }
-          & > textarea {
-            font-size: 15px;
-            font-weight: 500;
-            height: 93px;
-            width: 100%;
-            border-radius: 5px;
-            border: solid 1px #dbdbdb;
-            padding: 12px 13px;
-            box-sizing: border-box;
-          }
-        }
-      }
     }
   }
-  ${(props) => {
-    return css`
-      & > .container {
-        & > .ani {
-          & > .top {
-            & > .btn-wrapper {
-              & > .preview {
-                color: ${props.isOn ? "#434343" : "wihte"};
-              }
-              & > .save {
-                background-color: ${props.isOn ? "#007fff" : "#dbdbdb;"};
-              }
-            }
-          }
-        }
-      }
-    `;
-  }}
 `;
 
 function PopupManager() {
   const dispatch = useDispatch();
   const [isPopup, setIsPopup] = useState(false);
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  const [link, setLink] = useState("");
-  const [time, setTime] = useState("");
-
+  const [List, setList] = useState([]);
   const __save = useCallback(() => {
     Fstore.collection("config")
       .doc("popup")
       .set({
-        title,
-        content,
-        link,
-        time,
+        list: List,
       })
       .then(() => {
         dispatch({
@@ -142,8 +90,37 @@ function PopupManager() {
       .catch((err) => {
         console.log(err);
       });
-  }, [title, content, link, time, dispatch]);
-
+  }, [List, dispatch]);
+  const __update = useCallback(
+    (val, type, idx) => {
+      let arr = List.slice();
+      if (type === "title") {
+        arr[idx].title = val;
+      }
+      if (type === "time") {
+        arr[idx].time = val;
+      }
+      if (type === "link") {
+        arr[idx].link = val;
+      }
+      if (type === "content") {
+        arr[idx].content = val;
+      }
+      setList(arr);
+    },
+    [List]
+  );
+  const __addCard = useCallback(() => {
+    let arr = List.slice();
+    arr.unshift({
+      link: "",
+      title: "",
+      time: "",
+      content: "",
+      id: uuidv4(),
+    });
+    setList(arr);
+  }, [List]);
   const __popup = useCallback((state) => {
     setIsPopup(state);
   }, []);
@@ -153,30 +130,33 @@ function PopupManager() {
       .doc("popup")
       .get()
       .then((res) => {
-        if (!res.emty) {
-          const { title, content, time, link } = res.data();
-          setTitle(title);
-          setContent(content);
-          setTime(time);
-          setLink(link);
+        if (res.exists) {
+          const list = res.data().list;
+          setList(list);
         }
       });
     return () => {};
   }, []);
 
   return (
-    <Wrapper isOn={title && content && link && time.length === 10}>
+    <Wrapper
+    // isOn={title && content && link && time.length === 10}
+    >
       <div className="container">
         <Animation className="ani">
           <div className="top">
             <div className="title">팝업 관리</div>
             <div className="btn-wrapper">
+              <button className="insert" onClick={__addCard}>
+                <figure>
+                  <img src="/assets/common/insert.svg" alt="" />
+                </figure>
+                추가하기
+              </button>
               <button
                 className="preview"
                 onClick={() => {
-                  if (title && content && link && time.length === 10) {
-                    __popup(true);
-                  }
+                  __popup(true);
                 }}
               >
                 미리보기
@@ -184,70 +164,30 @@ function PopupManager() {
               <button
                 className="save"
                 onClick={() => {
-                  if (title && content && link && time.length === 10) {
-                    __save();
-                  }
+                  // if (title && content && link && time.length === 10) {
+                  __save();
+                  // }
                 }}
               >
                 저장하기
               </button>
             </div>
           </div>
-          <div className="box">
-            {arr.map(({ tag, type, placeholder }, idx) => {
-              return (
-                <div key={idx} className="input-wrapper">
-                  <div className="title">{tag}</div>
-                  {type !== "content" ? (
-                    <input
-                      type="text"
-                      style={type === "time" ? { width: "211px" } : undefined}
-                      maxLength={type === "time" ? 10 : 100}
-                      value={
-                        type === "time" ? time : type === "title" ? title : link
-                      }
-                      onChange={(e) => {
-                        if (type === "time") {
-                          const number = e.target.value.replace(
-                            /[^0-9-]/gi,
-                            ""
-                          );
-                          const val = number.replace(
-                            /(\d{4})(\d{2})(\d{2})/,
-                            "$1-$2-$3"
-                          );
-                          setTime(val);
-                        }
-                        if (type === "title") {
-                          setTitle(e.target.value);
-                        }
-                        if (type === "link") {
-                          setLink(e.target.value);
-                        }
-                      }}
-                      placeholder={placeholder}
-                    />
-                  ) : (
-                    <textarea
-                      rows="3"
-                      value={content}
-                      placeholder={placeholder}
-                      onChange={(e) => {
-                        setContent(e.target.value);
-                      }}
-                    />
-                  )}
-                </div>
-              );
-            })}
-          </div>
+          {List.map((item, idx) => {
+            return (
+              <Animation key={idx}>
+                <Box data={item} __update={__update} index={idx} />
+              </Animation>
+            );
+          })}
         </Animation>
       </div>
       {isPopup ? (
         <Preview
-          title={title}
-          content={content}
-          link={link}
+          // title={title}
+          // content={content}
+          // link={link}
+          list={List}
           __popup={__popup}
         />
       ) : undefined}

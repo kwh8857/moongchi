@@ -31,35 +31,50 @@ function Main() {
   const getCookie = useCallback(() => {
     var cookie = document.cookie;
     if (document.cookie !== "") {
+      let arr = [];
       var cookie_array = cookie.split("; ");
       for (var index in cookie_array) {
         var cookie_name = cookie_array[index].split("=");
-        if (cookie_name[0] === "popup") {
-          return true;
+        if (cookie_name[1] === "id") {
+          arr.push(cookie_name[0]);
         }
       }
+      return arr;
     }
   }, []);
   useEffect(() => {
     const isCheck = getCookie();
-
-    if (!isCheck) {
-      firebaseApp
-        .firestore()
-        .collection("config")
-        .doc("popup")
-        .get()
-        .then((res) => {
-          if (res.exists) {
-            const value = res.data();
-            const time = new Date(value.time);
+    firebaseApp
+      .firestore()
+      .collection("config")
+      .doc("popup")
+      .get()
+      .then((res) => {
+        if (res.exists) {
+          const { list } = res.data();
+          const arr = list.filter((item, idx) => {
+            const time = new Date(item.time);
             time.setHours(0);
             if (Date.now() <= time.getTime()) {
-              setisFirst(res.data());
+              if (isCheck) {
+                if (isCheck.indexOf(item.id) < 0) {
+                  return true;
+                } else {
+                  return false;
+                }
+              } else {
+                return true;
+              }
+            } else {
+              return false;
             }
+          });
+          // arr.reverse()
+          if (arr.length > 0) {
+            setisFirst(arr);
           }
-        });
-    }
+        }
+      });
 
     return () => {};
   }, [getCookie]);

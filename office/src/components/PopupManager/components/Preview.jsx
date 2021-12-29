@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useCallback, useEffect } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 
 const Wrapper = styled.div`
@@ -34,7 +35,7 @@ const Wrapper = styled.div`
     text-align: center;
     animation: fadeIn 0.4s;
     width: 663px;
-    position: relative;
+    position: absolute;
     background-color: white;
     border-radius: 5px;
     padding-top: 49px;
@@ -83,25 +84,46 @@ const Wrapper = styled.div`
   }
 `;
 
-function Preview({ title, content, link, __popup }) {
+function Preview({ list, __popup }) {
+  const [popupList, setPopupList] = useState([]);
+  const __removePopup = useCallback(
+    (idx) => {
+      let arr = popupList.slice();
+      if (arr.length > 1) {
+        arr.splice(idx, 1);
+        setPopupList(arr);
+      } else {
+        __popup(false);
+      }
+    },
+    [popupList, __popup]
+  );
+  useEffect(() => {
+    setPopupList(list);
+    return () => {};
+  }, [list]);
   return (
     <Wrapper>
       <div className="back" />
-      <div className="box">
-        <figure
-          className="cancel"
-          onClick={() => {
-            __popup(false);
-          }}
-        >
-          <img src="/assets/popup/cancel.svg" alt="닫기" />
-        </figure>
-        <div className="title">{title}</div>
-        <div className="content">{content}</div>
-        <a href={link} target={"_blank"} rel="noreferrer">
-          자세히보기
-        </a>
-      </div>
+      {popupList.map(({ title, content, link }, idx) => {
+        return (
+          <div className="box" key={idx}>
+            <figure
+              className="cancel"
+              onClick={() => {
+                __removePopup(idx);
+              }}
+            >
+              <img src="/assets/popup/cancel.svg" alt="닫기" />
+            </figure>
+            <div className="title">{title}</div>
+            <div className="content">{content}</div>
+            <a href={link} target={"_blank"} rel="noreferrer">
+              자세히보기
+            </a>
+          </div>
+        );
+      })}
     </Wrapper>
   );
 }
