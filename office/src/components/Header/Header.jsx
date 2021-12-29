@@ -32,7 +32,7 @@ const Wrapper = styled.div`
   }
   .right {
     display: grid;
-    grid-template-columns: repeat(6, auto);
+    grid-template-columns: repeat(7, auto);
     column-gap: 50px;
     & > a {
       font-size: 13px;
@@ -56,6 +56,7 @@ function Header({ isLogin }) {
           <Link to="/notice">공지사항관리</Link>
           <Link to="/blog">블로그 관리</Link>
           <Link to="/popup">팝업 관리</Link>
+          <Link to="/install">설치프로그램관리</Link>
         </div>
       ) : undefined}
     </Wrapper>

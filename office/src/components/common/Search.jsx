@@ -154,7 +154,7 @@ function Search({
               미리보기
             </button>
             <button className="two" onClick={upload}>
-              저장히기
+              저장하기
             </button>
           </div>
         ) : (

@@ -17,6 +17,7 @@ import Preview from "./Look/components/Preview";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import firebaseApp from "./config/firebaseApp";
+import Install from "./Install/Install";
 const Fauth = firebaseApp.auth();
 // Id:moogchi
 // Pass:^jtbc~moogchi^
@@ -66,6 +67,7 @@ function Navigation() {
             <Route path="/notice" exact component={Notice} />
             <Route path="/blog" exact component={Blog} />
             <Route path="/editor" exact component={Editor} />
+            <Route path="/install" exact component={Install} />
           </>
         )}
       </Switch>

@@ -184,6 +184,38 @@ function Email({ useragent }) {
   const dispatch = useDispatch();
   const [isClear, setIsClear] = useState(false);
   const [success, setsuccess] = useState(false);
+  const [file, setfile] = useState(undefined);
+  useEffect(() => {
+    Fstore.collection("config")
+      .doc("pos")
+      .get()
+      .then((res) => {
+        if (res.exists) {
+          const val = res.data();
+          setfile(val);
+        }
+      });
+    return () => {};
+  }, []);
+  const __download = useCallback(() => {
+    if (file) {
+      var xhr = new XMLHttpRequest();
+      xhr.responseType = "blob";
+      xhr.onload = (event) => {
+        var blob = URL.createObjectURL(xhr.response);
+        var link = document.createElement("a");
+        link.href = blob;
+        link.download = file.name;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+      };
+      xhr.open("GET", file.url);
+      xhr.send();
+    } else {
+      alert("프로그램 불러오기 실패");
+    }
+  }, [file]);
   const __check = useCallback((email) => {
     if (re.test(email)) {
       setIsClear(true);
@@ -253,16 +285,7 @@ function Email({ useragent }) {
             <figure>
               <img src="/assets/down/logo.svg" alt="" />
             </figure>
-            <button
-              onClick={() => {
-                var link = document.createElement("a");
-                link.href = "/bigpos_setup_32.zip";
-                link.download = "moogchi_pos";
-                document.body.appendChild(link);
-                link.click();
-                link.remove();
-              }}
-            >
+            <button onClick={__download}>
               <figure>
                 <img src="/assets/header/download.svg" alt="" />
               </figure>
