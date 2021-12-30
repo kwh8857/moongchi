@@ -29,7 +29,9 @@ const Insert = styled.div`
         font-size: 16px;
         box-sizing: border-box;
         padding: 0 17px;
+        -webkit-text-security: ${props.type === "password" ? "disc" : "unset"};
       }
+
       @media screen and (max-width: 1024px) {
         & > input {
           width: 100%;
@@ -53,7 +55,7 @@ function Infoinsert({ type, title, placeholder, patcher }) {
       <div className="title">{title}</div>
       <input
         value={value}
-        type={type !== "password" ? "text" : "password"}
+        type={type !== "password" ? "text" : "number"}
         maxLength={type === "password" ? 4 : type === "tel" ? 13 : 70}
         placeholder={placeholder}
         onChange={(e) => {
@@ -63,7 +65,9 @@ function Infoinsert({ type, title, placeholder, patcher }) {
             setValue(val);
           } else if (type === "password") {
             const number = e.target.value.replace(/[^0-9-]/gi, "");
-            setValue(number);
+            if (number.length < 5) {
+              setValue(number);
+            }
           } else {
             setValue(e.target.value);
           }
