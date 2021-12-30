@@ -192,7 +192,7 @@ function Search({
             headers={csvHeaderProjects}
             data={CsvData ? CsvData : []}
           >
-            게이트키퍼 명단
+            엑셀다운로드
           </CSVLink>
         ) : undefined}
       </div>
