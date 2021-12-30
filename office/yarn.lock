@@ -9535,6 +9535,11 @@ react-beforeunload@^2.5.1:
     prop-types "^15.7.2"
     tiny-invariant "^1.1.0"
 
+react-csv@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/react-csv/-/react-csv-2.2.1.tgz#2ec723dd3ce8069269bffb3a95d968302fc87740"
+  integrity sha512-QdImVwsFQIUcOti2dJFTLnxZ8dW/q+DDpjTmD1m1UVBxh2OaEwIBg7PSGA71m7GQEEoz8M5BfvEc1rd7q8rgPw==
+
 react-dev-utils@^11.0.3:
   version "11.0.4"
   resolved "https://registry.yarnpkg.com/react-dev-utils/-/react-dev-utils-11.0.4.tgz#a7ccb60257a1ca2e0efe7a83e38e6700d17aa37a"

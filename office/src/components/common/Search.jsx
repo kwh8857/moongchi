@@ -1,6 +1,7 @@
 import React from "react";
 import styled, { css } from "styled-components";
-
+import { CSVLink } from "react-csv";
+const csvHeaderProjects = ["이메일", "인증날짜"];
 const Wrapper = styled.section`
   display: flex;
   align-items: center;
@@ -93,6 +94,19 @@ const Wrapper = styled.section`
         color: #a8a8a8;
       }
     }
+    & > .csv {
+      width: 153px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 6px;
+      background-color: #007fff;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      margin-left: 17px;
+    }
   }
   ${(props) => {
     return css`
@@ -122,6 +136,7 @@ function Search({
   upload,
   add,
   preview,
+  CsvData,
 }) {
   return (
     <Wrapper isfilter={isfilter} type={type}>
@@ -170,6 +185,16 @@ function Search({
             <img src="/assets/grey-search.svg" alt="검색" />
           </div>
         )}
+        {type === "down" ? (
+          <CSVLink
+            className="csv"
+            filename="뭉치 이메일.csv"
+            headers={csvHeaderProjects}
+            data={CsvData ? CsvData : []}
+          >
+            게이트키퍼 명단
+          </CSVLink>
+        ) : undefined}
       </div>
     </Wrapper>
   );
