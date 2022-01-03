@@ -59,6 +59,7 @@ const Wrapper = styled.div`
       font-size: 17px;
       line-height: 1.76;
       color: #443b31;
+      white-space: pre-line;
     }
     & > a {
       width: 153px;
