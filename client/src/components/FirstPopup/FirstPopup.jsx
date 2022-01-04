@@ -1,5 +1,4 @@
 import React, { useCallback } from "react";
-import { useEffect } from "react";
 import { useState } from "react";
 import styled from "styled-components";
 import Box from "./components/Box";
@@ -138,34 +137,27 @@ const Wrapper = styled.div`
   }
 `;
 function FirstPopup({ data, cancel }) {
-  const [List, setList] = useState([]);
+  const [nowidx, setNowidx] = useState(data.length - 1);
   const setDate = useCallback(
-    (id, isCheck, index) => {
+    (id, isCheck) => {
       if (isCheck) {
         const now = new Date();
         now.setDate(now.getDate() + 1);
         document.cookie = `${id}=id;expires=${now.toGMTString()}`;
       }
-      if (List.length > 1) {
-        let arr = List.slice();
-        arr.splice(index, 1);
-        setList(arr);
+      if (nowidx > 0) {
+        setNowidx(nowidx - 1);
       } else {
         cancel(undefined);
       }
     },
-    [List, cancel]
+    [cancel, nowidx]
   );
-  useEffect(() => {
-    setList(data);
-    return () => {};
-  }, [data]);
+
   return (
     <Wrapper>
       <div className="back" />
-      {List.map((item, idx) => {
-        return <Box key={idx} data={item} index={idx} __setDate={setDate} />;
-      })}
+      <Box data={data[nowidx]} index={nowidx} __setDate={setDate} />;
     </Wrapper>
   );
 }

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback } from "react";
 import { useState } from "react";
 import styled from "styled-components";
 
@@ -57,6 +57,7 @@ const Wrapper = styled.div`
       font-size: 17px;
       line-height: 1.76;
       color: #443b31;
+      white-space: pre-line;
     }
     & > a {
       width: 153px;
@@ -86,45 +87,29 @@ const Wrapper = styled.div`
 `;
 
 function Preview({ list, __popup }) {
-  const [popupList, setPopupList] = useState([]);
-  const __removePopup = useCallback(
-    (idx) => {
-      let arr = popupList.slice();
-      if (arr.length > 1) {
-        arr.splice(idx, 1);
-        setPopupList(arr);
-      } else {
-        __popup(false);
-      }
-    },
-    [popupList, __popup]
-  );
-  useEffect(() => {
-    setPopupList(list);
-    return () => {};
-  }, [list]);
+  const [nowidx, setNowidx] = useState(list.length - 1);
+  const __removePopup = useCallback(() => {
+    if (nowidx > 0) {
+      setNowidx(nowidx - 1);
+    } else {
+      __popup(false);
+    }
+  }, [__popup, nowidx]);
+
   return (
     <Wrapper>
       <div className="back" />
-      {popupList.map(({ title, content, link }, idx) => {
-        return (
-          <div className="box" key={idx}>
-            <figure
-              className="cancel"
-              onClick={() => {
-                __removePopup(idx);
-              }}
-            >
-              <img src="/assets/popup/cancel.svg" alt="닫기" />
-            </figure>
-            <div className="title">{title}</div>
-            <div className="content">{content}</div>
-            <a href={link} target={"_blank"} rel="noreferrer">
-              자세히보기
-            </a>
-          </div>
-        );
-      })}
+
+      <div className="box">
+        <figure className="cancel" onClick={__removePopup}>
+          <img src="/assets/popup/cancel.svg" alt="닫기" />
+        </figure>
+        <div className="title">{list[nowidx].title}</div>
+        <div className="content">{list[nowidx].content}</div>
+        <a href={list[nowidx].link} target={"_blank"} rel="noreferrer">
+          자세히보기
+        </a>
+      </div>
     </Wrapper>
   );
 }

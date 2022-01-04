@@ -8,7 +8,8 @@ function Box({ data: { title, content, link, id }, index, __setDate }) {
       <button
         className="cancel"
         onClick={() => {
-          __setDate(id, isCheck, index);
+          setIsCheck(false);
+          __setDate(id, isCheck);
         }}
       >
         <figure>
@@ -22,7 +23,8 @@ function Box({ data: { title, content, link, id }, index, __setDate }) {
         target={"_blank"}
         rel="noreferrer"
         onClick={() => {
-          __setDate(id, isCheck, index);
+          setIsCheck(false);
+          __setDate(id, isCheck);
         }}
       >
         자세히보기
