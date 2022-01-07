@@ -38,13 +38,17 @@ function Question() {
       .orderBy("timestamp", "desc")
       .get()
       .then((res) => {
-        let arr = [];
-        res.forEach((item) => {
-          arr.push(
-            Object.assign(item.data(), { index: arr.length, key: item.id })
-          );
-        });
-        setOriginal(arr);
+        if (!res.empty) {
+          let arr = [];
+          res.forEach((item) => {
+            arr.push(
+              Object.assign(item.data(), { index: arr.length, key: item.id })
+            );
+          });
+          setOriginal(arr);
+        } else {
+          setOriginal([]);
+        }
       });
   }, []);
   const __remove = useCallback(
@@ -55,7 +59,7 @@ function Question() {
           Fstorage.refFromURL(content.resize).delete();
         }
       });
-      if (answer) {
+      if (answer && answer.image.url !== "") {
         Fstorage.refFromURL(answer.image.url).delete();
         Fstorage.refFromURL(answer.image.resize).delete();
       }

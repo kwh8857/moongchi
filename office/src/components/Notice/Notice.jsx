@@ -100,7 +100,7 @@ function Notice() {
       .orderBy("timestamp", "desc")
       .get()
       .then((result) => {
-        if (result) {
+        if (!result.empty) {
           result.forEach((item) => {
             const value = item.data();
             arr.push(Object.assign(value, { id: item.id, index: arr.length }));
