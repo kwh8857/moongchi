@@ -9,6 +9,7 @@ const Wrapper = styled.section`
   padding-top: 145px;
   padding-bottom: 182px;
   box-sizing: border-box;
+  background-color: white;
   & > .container {
     display: flex;
     align-items: center;

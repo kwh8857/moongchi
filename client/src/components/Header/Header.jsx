@@ -87,19 +87,20 @@ const Wrapper = styled.header`
       }
       & > .mb-menu {
         z-index: -1;
-        transition: top 0.3s ease-in-out;
-        padding-top: 39px;
+        transition: 0.3s ease-in-out;
         box-sizing: border-box;
         width: 100%;
         position: fixed;
         left: 0;
         height: 357px;
+        overflow: hidden;
         background-color: white;
         border-bottom-left-radius: 30px;
         border-bottom-right-radius: 30px;
         display: flex;
         flex-direction: column;
         align-items: center;
+        top: 64px;
         & > .nav-wrapper {
           margin-bottom: 35px;
           display: grid;
@@ -116,7 +117,9 @@ const Wrapper = styled.header`
       return css`
         & > .right {
           & > .mb-menu {
-            top: ${props.isOpen ? "64px" : "-500px"};
+            /* top: ${props.isOpen ? "64px" : "-500px"}; */
+            height: ${props.isOpen ? "357px" : 0};
+            padding-top: ${props.isOpen ? "39px" : 0};
           }
         }
       `;

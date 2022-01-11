@@ -9,6 +9,7 @@ const Wrapper = styled.main`
   width: 100%;
   min-height: 100%;
   padding-top: 151px;
+  background-color: white;
   & > .container {
     & > .pager-wrapper {
       margin-top: 102px;

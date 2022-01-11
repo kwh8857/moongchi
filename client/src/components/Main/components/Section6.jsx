@@ -11,6 +11,7 @@ const Wrapper = styled.section`
     padding-top: 102px;
     box-sizing: border-box;
     padding-bottom: 160px;
+    background-color: white;
     & > .container {
       display: flex;
       align-items: center;

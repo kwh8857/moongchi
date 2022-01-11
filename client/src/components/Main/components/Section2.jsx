@@ -25,6 +25,7 @@ const Wrapper = styled.section`
   width: 100%;
   padding-top: 168px;
   box-sizing: border-box;
+  background-color: white;
   & > .container {
     text-align: center;
     & > .title {

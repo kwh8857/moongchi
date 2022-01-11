@@ -11,6 +11,7 @@ const Wrapper = styled.main`
   padding-top: 140px;
   padding-bottom: 166px;
   min-height: 100%;
+  background-color: white;
 `;
 
 const Fstore = firebaseApp.firestore();
