@@ -315,6 +315,9 @@
   margin: 20px 0;
   height: 100%;
   position: relative;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
 }
 
 #root .editor .editor-wrapper .editor-screen .template-img .remove-btn {
@@ -328,7 +331,6 @@
 
 #root .editor .editor-wrapper .editor-screen .template-img > img {
   max-width: 100%;
-  width: unset;
 }
 
 #root .editor .editor-wrapper .editor-screen .template-horizontal {

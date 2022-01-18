@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
-// const mbinner = window.innerHeight;
+const mbinner = window.innerHeight;
 const agent = navigator.userAgent;
 function TemplateTitle({ data, idx, provided, setFocus }) {
   const contentRef = useRef(null);
@@ -33,11 +33,14 @@ function TemplateTitle({ data, idx, provided, setFocus }) {
           suppressContentEditableWarning={true}
           onFocus={() => {
             if (agent.match(/iPhone/i)) {
-              // setTimeout(() => {
-              //   const ref = document.getElementsByClassName("edit-header");
-              //   ref[0].style.position = "fixed";
-              //   ref[0].style.top = `${mbinner + 50 - window.innerHeight}px`;
-              // }, 300);
+              setTimeout(() => {
+                document.getElementsByClassName(
+                  "HeaderWrapper"
+                )[0].style.display = "none";
+                const ref = document.getElementsByClassName("edit-header");
+                ref[0].style.position = "fixed";
+                ref[0].style.top = `${mbinner - window.innerHeight}px`;
+              }, 500);
             }
             if (agent.match(/Android/i)) {
               document.getElementsByClassName("HeaderWrapper")[0].style.top =
@@ -53,16 +56,18 @@ function TemplateTitle({ data, idx, provided, setFocus }) {
           }}
           onBlur={() => {
             if (agent.match(/iPhone/i)) {
-              // const ref = document.getElementsByClassName("edit-header");
-              // ref[0].style.position = "fixed";
-              // ref[0].style.top = "130px";
+              const ref = document.getElementsByClassName("edit-header");
+              ref[0].style.top = "53px";
+              document.getElementsByClassName(
+                "HeaderWrapper"
+              )[0].style.display = "flex";
             }
             if (agent.match(/Android/i)) {
               document.getElementsByClassName("HeaderWrapper")[0].style.top = 0;
               const edit = document.getElementsByClassName("edit-header");
-              edit[0].style.position = "sticky";
+              // edit[0].style.position = "sticky";
               // const screen = document.getElementsByClassName("editor-wrapper");
-              // edit[0].style.top = "130px";
+              edit[0].style.top = "56px";
               // screen[0].style.marginTop = "230px";
               // alert('안드로이드입니다');
             }

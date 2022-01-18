@@ -38,6 +38,7 @@ const Wrapper = styled.main`
   min-height: 1483px;
   padding-top: 117px;
   background-color: white;
+  position: relative;
   & > .container {
     & > .title-wrapper {
       display: flex;

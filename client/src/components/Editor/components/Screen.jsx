@@ -29,7 +29,7 @@ const Wrapper = styled.div`
     justify-content: center;
     width: 100%;
     margin: 20px 0;
-    height: 100%;
+    height: fit-content;
     position: relative;
     .remove-btn {
       width: 25px;
@@ -42,6 +42,7 @@ const Wrapper = styled.div`
     & > img {
       max-width: 100%;
       width: unset;
+      height: 100%;
     }
   }
   .focus {

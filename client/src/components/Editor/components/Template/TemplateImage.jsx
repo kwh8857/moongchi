@@ -1,5 +1,5 @@
-import React from 'react';
-import TemplateEmty from './TemplateEmty';
+import React from "react";
+import TemplateEmty from "./TemplateEmty";
 function TemplateImage({
   data: { resize, url },
   provided,
@@ -7,13 +7,13 @@ function TemplateImage({
   focusIdx,
   idx,
   template,
-  __remove
+  __remove,
 }) {
   return (
     <>
       {idx === 0 ? <TemplateEmty idx={idx} /> : undefined}
       <div
-        className={`template-img ${focusIdx === idx ? 'active-blue' : ''}`}
+        className={`template-img ${focusIdx === idx ? "active-blue" : ""}`}
         ref={provided.innerRef}
         {...provided.draggableProps}
         {...provided.dragHandleProps}
@@ -31,7 +31,7 @@ function TemplateImage({
         </div>
         <img src={url} alt="이미지" />
       </div>
-      {!template[idx + 1] || template[idx + 1].type !== 'TITLE' ? (
+      {!template[idx + 1] || template[idx + 1].type !== "TITLE" ? (
         <TemplateEmty idx={idx + 1} />
       ) : undefined}
     </>

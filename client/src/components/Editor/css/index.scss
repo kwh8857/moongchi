@@ -248,6 +248,7 @@ $grey6: #262626;
           margin: 20px 0;
           height: 100%;
           position: relative;
+          height: fit-content;
   .remove-btn{
                      width: 25px;
                      position: absolute;
@@ -258,7 +259,6 @@ $grey6: #262626;
                    }
           &>img {
             max-width: 100%;
-            width: unset;
           }
         }
 .template-horizontal {

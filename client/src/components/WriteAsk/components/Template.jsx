@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import EdiHeader from "../../Editor/components/EdiHeader";
 import Screen from "../../Editor/components/Screen";
-
 const Wrapper = styled.section`
   width: 100%;
   height: 737.6px;
@@ -13,7 +12,10 @@ const Wrapper = styled.section`
   overflow: hidden;
   overflow-y: scroll;
   @media screen and (max-width: 1024px) {
-    height: 737.6px;
+    position: unset;
+    height: fit-content;
+    min-height: 737.6px;
+    overflow-y: hidden;
   }
 `;
 function Template({ agent }) {

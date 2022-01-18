@@ -77,7 +77,7 @@ const Wrapper = styled.footer`
 function Footer() {
   const location = useLocation();
   const useragent = useSelector((state) => state.config.useragent);
-  return location.pathname === "/down" ? (
+  return location.pathname === "/down" || location.pathname === "/write" ? (
     <></>
   ) : (
     <Wrapper>
