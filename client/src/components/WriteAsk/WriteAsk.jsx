@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 import Loading from "../common/Loading";
@@ -72,6 +72,8 @@ const Wrapper = styled.main`
     }
   }
   @media screen and (max-width: 769px) {
+    padding-top: 93px;
+    padding-bottom: 263px;
     & > .container {
       & > .info-wrapper {
         grid-template-columns: unset;
@@ -81,29 +83,54 @@ const Wrapper = styled.main`
 `;
 function WriteAsk() {
   const useragent = useSelector((state) => state.config.useragent);
+  const [step, setStep] = useState(false);
   return (
-    <Wrapper>
-      <div className="container">
-        <div className="title-wrapper">
-          <div className="title">문의하기</div>
-          <InitBtn />
+    <Wrapper step={step}>
+      {useragent !== "mobile" ? (
+        <div className="container">
+          <div className="title-wrapper">
+            <div className="title">문의하기</div>
+            <InitBtn />
+          </div>
+          <div className="info-wrapper">
+            {arr.map(({ type, title, placeholder, patcher }, idx) => {
+              return (
+                <Infoinsert
+                  key={idx}
+                  type={type}
+                  title={title}
+                  placeholder={placeholder}
+                  patcher={patcher}
+                />
+              );
+            })}
+          </div>
+          <Template agent={useragent} />
         </div>
-        <div className="info-wrapper">
-          {arr.map(({ type, title, placeholder, patcher }, idx) => {
-            return (
-              <Infoinsert
-                key={idx}
-                type={type}
-                title={title}
-                placeholder={placeholder}
-                patcher={patcher}
-              />
-            );
-          })}
+      ) : step ? (
+        <Template agent={useragent} />
+      ) : (
+        <div className="container">
+          <div className="title-wrapper">
+            <div className="title">문의하기</div>
+          </div>
+          <div className="info-wrapper">
+            {arr.map(({ type, title, placeholder, patcher }, idx) => {
+              return (
+                <Infoinsert
+                  key={idx}
+                  type={type}
+                  title={title}
+                  placeholder={placeholder}
+                  patcher={patcher}
+                />
+              );
+            })}
+          </div>
+          <InitBtn useragent={useragent} setStep={setStep} />
         </div>
-        {useragent === "desktop" ? <Template agent={useragent} /> : undefined}
-      </div>
-      {useragent !== "desktop" ? <Template agent={useragent} /> : undefined}
+      )}
+
       <Loading />
     </Wrapper>
   );

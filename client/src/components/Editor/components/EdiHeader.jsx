@@ -179,6 +179,8 @@ const Wrapper = styled.div`
     top: 0px;
     transition: top 0.2s ease-in-out;
     z-index: 1000;
+    position: fixed;
+    top: 135px;
     .ftsize {
       .now-ft {
         width: 65.3px;

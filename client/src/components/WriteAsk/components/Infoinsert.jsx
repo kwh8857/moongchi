@@ -55,7 +55,7 @@ function Infoinsert({ type, title, placeholder, patcher }) {
       <div className="title">{title}</div>
       <input
         value={value}
-        type={type !== "password" ? "text" : "number"}
+        type={"text"}
         maxLength={type === "password" ? 4 : type === "tel" ? 13 : 70}
         placeholder={placeholder}
         onChange={(e) => {

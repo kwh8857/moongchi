@@ -34,6 +34,7 @@ function TemplateTitle({ data, idx, provided, setFocus }) {
           onFocus={() => {
             if (agent.match(/iPhone/i)) {
               setTimeout(() => {
+                alert(mbinner - window.innerHeight);
                 document.getElementsByClassName(
                   "HeaderWrapper"
                 )[0].style.display = "none";
@@ -57,7 +58,7 @@ function TemplateTitle({ data, idx, provided, setFocus }) {
           onBlur={() => {
             if (agent.match(/iPhone/i)) {
               const ref = document.getElementsByClassName("edit-header");
-              ref[0].style.top = "53px";
+              ref[0].style.top = "135px";
               document.getElementsByClassName(
                 "HeaderWrapper"
               )[0].style.display = "flex";
@@ -67,7 +68,7 @@ function TemplateTitle({ data, idx, provided, setFocus }) {
               const edit = document.getElementsByClassName("edit-header");
               // edit[0].style.position = "sticky";
               // const screen = document.getElementsByClassName("editor-wrapper");
-              edit[0].style.top = "56px";
+              edit[0].style.top = "135px";
               // screen[0].style.marginTop = "230px";
               // alert('안드로이드입니다');
             }

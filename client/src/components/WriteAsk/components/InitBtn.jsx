@@ -24,14 +24,34 @@ const Btn = styled.button`
     height: 36px;
     font-size: 14px;
   }
+  @media screen and (max-width: 769px) {
+    width: 320px;
+    height: 50px;
+    border-radius: 6px;
+    position: fixed;
+    bottom: 24px;
+    margin: 0 auto;
+  }
   ${(props) => {
+    console.log(props);
     return css`
       background-color: ${props.isOn ? "#007fff" : "#dbdbdb"};
     `;
   }}
 `;
 
-function InitBtn() {
+const Init = styled.button`
+  width: 96px;
+  height: 36px;
+  background-color: #007fff;
+  border-radius: 20px;
+  cursor: pointer;
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+`;
+
+function InitBtn({ useragent, setStep, isInit }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const screen = useSelector((state) => state.database.editor);
@@ -134,16 +154,30 @@ function InitBtn() {
     }
     return () => {};
   }, [title, name, password, tel]);
-  return (
-    <Btn
-      isOn={isOn}
+  return isInit ? (
+    <Init
       onClick={() => {
-        if (isOn) {
-          __updateAsk();
-        }
+        __updateAsk();
       }}
     >
       등록
+    </Init>
+  ) : (
+    <Btn
+      isOn={isOn}
+      isInit={isInit}
+      onClick={() => {
+        if (isOn) {
+          if (useragent !== "mobile") {
+            __updateAsk();
+          } else {
+            setStep(true);
+            document.getElementById("root").scrollTo(0, 0);
+          }
+        }
+      }}
+    >
+      {useragent === "mobile" ? "문의내용 작성하기" : "등록"}
     </Btn>
   );
 }

@@ -236,16 +236,13 @@ function Screen({
   return (
     <DragDropContext
       onDragEnd={handleOnDragEnd}
-      onDragStart={() => {
-        if (navigator.userAgent.match(/iPhone/i)) {
-          const ref = document.getElementsByClassName("edit-header");
-          const mbgrey = document.getElementsByClassName("mb-grey");
-          ref[0].style.position = "fixed";
-          mbgrey[0].style.top = "181px";
-          ref[0].style.top = "130px";
-          mbgrey[0].style.position = `fixed`;
-        }
-      }}
+      // onDragStart={() => {
+      //   if (navigator.userAgent.match(/iPhone/i)) {
+      //     const ref = document.getElementsByClassName("edit-header");
+      //     ref[0].style.position = "fixed";
+      //     ref[0].style.top = "130px";
+      //   }
+      // }}
     >
       <Droppable droppableId="tags" direction="vertical">
         {(provided) => (
