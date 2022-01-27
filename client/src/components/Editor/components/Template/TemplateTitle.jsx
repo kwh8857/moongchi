@@ -44,6 +44,8 @@ function TemplateTitle({ data, idx, provided, setFocus }) {
               }, 500);
             }
             if (agent.match(/Android/i)) {
+              document.getElementsByClassName("top-wrapper")[0].style.opacity =
+                "0";
               document.getElementsByClassName("HeaderWrapper")[0].style.top =
                 "-60px";
               const edit = document.getElementsByClassName("edit-header");
@@ -64,6 +66,8 @@ function TemplateTitle({ data, idx, provided, setFocus }) {
               )[0].style.display = "flex";
             }
             if (agent.match(/Android/i)) {
+              document.getElementsByClassName("top-wrapper")[0].style.opacity =
+                "1";
               document.getElementsByClassName("HeaderWrapper")[0].style.top = 0;
               const edit = document.getElementsByClassName("edit-header");
               // edit[0].style.position = "sticky";
